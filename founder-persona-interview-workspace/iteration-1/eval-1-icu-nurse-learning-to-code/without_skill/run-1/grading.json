@@ -1,0 +1,111 @@
+{
+  "summary": {
+    "pass_rate": 0.4,
+    "passed": 8,
+    "failed": 12,
+    "total": 20
+  },
+  "expectations": [
+    {
+      "text": "persona.json exists and is valid JSON",
+      "passed": true,
+      "evidence": "persona.json loaded"
+    },
+    {
+      "text": "persona.md exists",
+      "passed": true,
+      "evidence": "persona.md loaded (8351 chars)"
+    },
+    {
+      "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+      "passed": false,
+      "evidence": "schema_version=None"
+    },
+    {
+      "text": "edges.market.strength_1_to_10 >= 7 (SBAR, brain sheets, trauma-vs-cardiac ICU rounding are earned-edge arcana)",
+      "passed": false,
+      "evidence": "missing keys: ['archetype_primary', 'psychographic']"
+    },
+    {
+      "text": "edges.market.depth_probe_passed is true",
+      "passed": false,
+      "evidence": "archetype_mix keys {'weights', 'secondary', 'rationale', 'primary'} != {'hacker', 'hound', 'hustler', 'hipster'}"
+    },
+    {
+      "text": "edges.technical.strength_1_to_10 <= 2 (tutorial-following, no solo MVP capability)",
+      "passed": false,
+      "evidence": "pillar_scores keys: {'catalyst', 'skill_edge', 'market_edge', 'obsession', 'experience', 'composite_note', 'network', 'insight'}"
+    },
+    {
+      "text": "edges.technical.depth_probe_passed is false",
+      "passed": false,
+      "evidence": "market_strength=None"
+    },
+    {
+      "text": "archetype_primary is 'hustler' OR 'hound' (charge nurse pattern is coordination + unblocking, not building or design)",
+      "passed": false,
+      "evidence": "depth_probe_passed=None"
+    },
+    {
+      "text": "network.warm_intros has at least one entry marked cold_start: true (hospital buyers)",
+      "passed": true,
+      "evidence": "technical_strength=None"
+    },
+    {
+      "text": "network.insider_markers is an empty array or has <= 1 entries (Marcus explicitly has no markers)",
+      "passed": false,
+      "evidence": "technical depth_probe_passed=None"
+    },
+    {
+      "text": "psychographic.missionary_score >= 8 (the patient-death motivation is canonical mission framing)",
+      "passed": false,
+      "evidence": "archetype_primary=None"
+    },
+    {
+      "text": "psychographic.mercenary_score <= 4",
+      "passed": false,
+      "evidence": "no cold_start entry"
+    },
+    {
+      "text": "obsession_signals has at least one entry with specificity_score >= 4 (wireframes nightly + Joint Commission citation)",
+      "passed": true,
+      "evidence": "markers=[]"
+    },
+    {
+      "text": "pillar_scores.experience >= 7 (7 years ICU + charge nurse is substantial earned edge)",
+      "passed": false,
+      "evidence": "missionary=None"
+    },
+    {
+      "text": "pillar_scores.network <= 5 (he explicitly has no buyer-network)",
+      "passed": false,
+      "evidence": "mercenary=None"
+    },
+    {
+      "text": "pillar_scores.skill_edge <= 3",
+      "passed": false,
+      "evidence": "0 of 2 signals meet specificity>=4"
+    },
+    {
+      "text": "credibility_flags has >= 1 entry",
+      "passed": true,
+      "evidence": "experience=9"
+    },
+    {
+      "text": "At least one credibility_flag has dimension 'skill_edge' (technical over-claim) OR 'network' (nurse-vs-buyer distinction)",
+      "passed": true,
+      "evidence": "network_pillar=3"
+    },
+    {
+      "text": "persona.md contains at least one of the domain arcana strings: 'SBAR', 'handoff', 'ICU', or 'vasopressor'",
+      "passed": true,
+      "evidence": "skill_edge=2"
+    },
+    {
+      "text": "persona.md does NOT describe Marcus as having a strong network for purchasing decisions (no claims like 'strong hospital network')",
+      "passed": true,
+      "evidence": "flag_count=6"
+    }
+  ],
+  "load_errors": []
+}

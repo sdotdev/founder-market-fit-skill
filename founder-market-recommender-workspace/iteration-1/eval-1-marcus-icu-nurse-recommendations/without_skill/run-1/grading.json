@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 12,
+    "failed": 0,
+    "total": 12
+  },
+  "expectations": [
+    {
+      "text": "Output report exists as markdown",
+      "passed": true,
+      "evidence": "14322 chars"
+    },
+    {
+      "text": "Output has top-markets and avoid sections",
+      "passed": true,
+      "evidence": "h2=6, h3=9, numbered=3"
+    },
+    {
+      "text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)",
+      "passed": true,
+      "evidence": "matched: ['avoid', 'poor fit', 'cold-start', 'no warm intro']"
+    },
+    {
+      "text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint",
+      "passed": true,
+      "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'brain-sheet', 'Joint Commission']"
+    },
+    {
+      "text": "Output names the regulated or clinical market-dynamics class at least once",
+      "passed": true,
+      "evidence": "matched: ['cold-start', 'no warm intro']"
+    },
+    {
+      "text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor",
+      "passed": true,
+      "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"
+    },
+    {
+      "text": "Output names a business model per recommendation",
+      "passed": true,
+      "evidence": "matched: ['patient', 'missionary', 'handoff miss']"
+    },
+    {
+      "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+      "passed": true,
+      "evidence": "matched: ['subscription', 'saas', 'marketplace', 'hybrid', 'services']"
+    },
+    {
+      "text": "Output does not invent hospital or health-system customer names that are not in the persona",
+      "passed": true,
+      "evidence": "no uncaveated market-size/TAM/CAGR claims"
+    },
+    {
+      "text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)",
+      "passed": true,
+      "evidence": "competitor-invention check deferred to human review"
+    },
+    {
+      "text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'",
+      "passed": true,
+      "evidence": "matched: ['technical gap', 'co-founder', 'no-code']"
+    },
+    {
+      "text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)",
+      "passed": true,
+      "evidence": "evidence hits found"
+    }
+  ],
+  "load_errors": []
+}

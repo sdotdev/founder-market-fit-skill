@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "founder_name": "Daniela Reyes",
+  "interview_date": "2026-04-22",
+
+  "archetype_primary": "hustler",
+  "archetype_secondary": "hound",
+  "archetype_mix": {
+    "hustler": 0.50,
+    "hacker": 0.10,
+    "hipster": 0.10,
+    "hound": 0.30
+  },
+
+  "edges": {
+    "technical": {
+      "claim": "Not a production engineer; built a Retool + SQL internal tool at Stripe for chargeback triage in ~3 weeks; can read React but would need help shipping a real MVP",
+      "evidence": [
+        "Retool + SQL internal chargeback-triage tool at Stripe, shipped in ~3 weeks",
+        "Self-calibrated explicitly: 'I'm not a production engineer' and 'I can read React but I'd need help shipping a real MVP'"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 3
+    },
+    "market": {
+      "claim": "5 years on Stripe's SMB payments team, last two as senior PM leading Stripe Tax SMB launch; deep arcane knowledge of chargeback economics, SMB KYC drop-off, and interchange mechanics",
+      "evidence": [
+        "Named arcane: Visa Monitoring Program threshold at 0.9% chargeback ratio; VDMP threshold at 1.8% with $25K/month in fees",
+        "Named arcane: SMB KYC drop-off ~38% on payment onboarding, concentrated on the ownership-percentage field for co-owned LLCs",
+        "Named arcane: Visa interchange reimbursement fees on card-present vs card-not-present for same MCC differ 15-40bps, exploitable via hybrid POS arbitrage",
+        "Led launch of Stripe Tax to SMBs across 40+ states; 0-to-1 pilot with 40 merchants across Shopify, Amazon, WooCommerce",
+        "Co-authored Stripe's internal chargeback-ops playbook",
+        "Quoted in Stripe's 2024 SMB report"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 9,
+      "entrenchment_risk": false
+    },
+    "catalyst": {
+      "claim": "Ran a 7-person launch team for Stripe Tax, closed enterprise referral deals with partner banks, unblocked legal/compliance across 40+ states",
+      "evidence": [
+        "Led 7-person Stripe Tax launch team, drove 0-to-1 pilot with 40 merchants to $30M ARR",
+        "Closed enterprise referral deals with partner banks as day-to-day PM work",
+        "Unblocked legal/compliance on state tax filings across 40+ states",
+        "Spoke at Money 20/20 twice; moderates Stripe alumni Slack #payments channel"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 7
+    }
+  },
+
+  "network": {
+    "communities": [
+      { "name": "Stripe alumni Slack #payments channel", "venue": "online", "embeddedness": "moderate" },
+      { "name": "Money 20/20", "venue": "offline", "embeddedness": "speak" }
+    ],
+    "warm_intros": [
+      {
+        "vertical": "SMB payments",
+        "named_contacts": [
+          "Priya Nair (head of payments, Earnest)",
+          "Tom DiFranco (founder, LedgerLift)",
+          "Sarah Okwu (CFO, Rhombus)"
+        ]
+      },
+      {
+        "vertical": "embedded finance",
+        "named_contacts": [],
+        "cold_start": true
+      }
+    ],
+    "insider_markers": [
+      "Spoke at Money 20/20 twice",
+      "Moderator of Stripe alumni Slack #payments channel",
+      "Co-author of Stripe's internal chargeback-ops playbook",
+      "Quoted in Stripe's 2024 SMB report"
+    ]
+  },
+
+  "psychographic": {
+    "missionary_score": 5,
+    "mercenary_score": 7,
+    "evidence": [
+      "Self-stated: 'I'd build this for 3 years unpaid only if the problem was right — I'm not a save-the-world type' — calibrated, conditional mission framing",
+      "Self-stated: 'I want a 5-7 year exit window, probably $200M-1B range' — explicit outcome shape, bounded timeline",
+      "Substack + M&A spreadsheet maintained unpaid for 9+ months suggests above-baseline mission signal within the domain"
+    ]
+  },
+
+  "obsession_signals": [
+    {
+      "signal": "Writing a personal Substack on SMB chargeback disputes for 9 months, unprompted",
+      "specificity_score": 5
+    },
+    {
+      "signal": "Maintains a spreadsheet tracking every SMB fintech M&A deal since 2022, unprompted",
+      "specificity_score": 5
+    }
+  ],
+
+  "stage_preference": "0_to_1",
+  "stage_evidence": "Self-stated: 'I hated the week-to-week operator phase after Tax hit $30M ARR and we were optimising funnels. I loved the 0-to-1 chaos before that — the pre-launch pilot with 40 merchants across Shopify, Amazon, and WooCommerce.'",
+
+  "constraints": {
+    "time_per_week_hours": 50,
+    "runway_months": 14,
+    "geography": "SF Bay Area",
+    "family": "partner + 1 kid under 5",
+    "regulatory": "18-month non-solicit on Stripe customers",
+    "other": []
+  },
+
+  "pillar_scores": {
+    "experience": 9,
+    "insight": 8,
+    "skill_edge": 4,
+    "network": 8,
+    "obsession": 9
+  },
+
+  "credibility_flags": [
+    {
+      "claim": "18-month non-solicit on Stripe customers bounds the most obvious wedge (selling to Stripe's SMB book)",
+      "why_flagged": "Not a probe failure — but a hard legal constraint that must be propagated to downstream skills. A market recommendation that routes through Stripe's current SMB customers would be mis-fit for ~18 months regardless of edge fit.",
+      "dimension": "experience"
+    }
+  ],
+
+  "incomplete_sections": []
+}

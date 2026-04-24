@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 12,
+    "failed": 0,
+    "total": 12
+  },
+  "expectations": [
+    {
+      "text": "Output report exists as markdown",
+      "passed": true,
+      "evidence": "17101 chars"
+    },
+    {
+      "text": "Output has top-markets and avoid sections",
+      "passed": true,
+      "evidence": "h2=4, h3=8, numbered=3"
+    },
+    {
+      "text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)",
+      "passed": true,
+      "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"
+    },
+    {
+      "text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)",
+      "passed": true,
+      "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer']"
+    },
+    {
+      "text": "Output explicitly flags any non-dev vertical recommendations as cold-start",
+      "passed": true,
+      "evidence": "matched: ['developer', 'dev tool', 'dev infra', 'dev-tools', 'open-source', 'usage-based', 'API', 'OSS', 'developer-as-buyer', 'infrastructure']"
+    },
+    {
+      "text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge",
+      "passed": true,
+      "evidence": "matched: ['cold-start', 'cold_start']"
+    },
+    {
+      "text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor",
+      "passed": true,
+      "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"
+    },
+    {
+      "text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)",
+      "passed": true,
+      "evidence": "matched: ['missionary', 'love forever', 'people love']"
+    },
+    {
+      "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+      "passed": true,
+      "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'take-rate', 'hybrid', 'open-core', 'open-core']"
+    },
+    {
+      "text": "Output does not invent specific competitor company names not mentioned in the persona",
+      "passed": true,
+      "evidence": "no uncaveated market-size/TAM/CAGR claims"
+    },
+    {
+      "text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'",
+      "passed": true,
+      "evidence": "competitor-invention check deferred to human review"
+    },
+    {
+      "text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation",
+      "passed": true,
+      "evidence": "evidence hits found"
+    }
+  ],
+  "load_errors": []
+}

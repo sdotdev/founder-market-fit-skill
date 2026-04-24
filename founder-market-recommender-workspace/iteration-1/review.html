@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "founder-market-recommender", "runs": [{"id": "eval-0-daniela-fintech-recommendations-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "recommendations.md", "type": "text", "content": "# Market recommendations for Daniela Reyes\n\n*Grounded in `persona.json` dated 2026-04-22. Every recommendation below cites specific persona evidence \u00e2\u20ac\u201d remove the named evidence and the recommendation should no longer fit you.*\n\n---\n\n## Top 4 markets to research\n\n### 1. SMB chargeback-dispute automation (Visa VMP / VDMP compliance tooling for merchants approaching threshold)\n\n- **Why this fits you specifically:** Your 9-month unpaid Substack is literally on SMB chargeback disputes \u00e2\u20ac\u201d that's the strongest possible obsession signal for this exact wedge. You name the arcana without hedging: Visa Monitoring Program kicks in at 0.9%, VDMP at 1.8% with $25K/month in fees. You co-authored Stripe's internal chargeback-ops playbook, which is insider-marker grounding no other fintech founder could replicate. Tom DiFranco (founder, LedgerLift) traded notes with you on this last week per your persona \u00e2\u20ac\u201d that's a design-partner conversation already in motion.\n- **Market dynamics class:** Regulated / high-compliance (card-network rules, issuer relationships) with a SaaS delivery layer on top. Your 9/10 Market Edge plus 7/10 Catalyst Edge is exactly the mix this class rewards; the entrenchment-risk flag is off, so your five years inside Stripe reads as \"knows the arcane pain and still believes it's solvable.\"\n- **Suggested business model:** Subscription SaaS with a success-fee component tied to chargeback-ratio reduction. The SaaS base matches your 0-to-1 preference (predictable early-stage ARR to demo to investors); the performance leg matches how SMB merchants actually feel the pain (dollar fees, not seat licences). Don't let the culturally-available \"pure subscription\" default win here if the economics want a hybrid.\n- **First-customer path:** Tom DiFranco (LedgerLift) is the most direct design partner given the recent note-trading. Sarah Okwu (CFO, Rhombus) is the second call \u00e2\u20ac\u201d CFOs own dispute P&L and can sign a pilot. Both are non-Stripe customers, so clear of your 18-month non-solicit. Priya Nair (Earnest) is slower-burn \u00e2\u20ac\u201d Earnest is lending-heavy, but chargebacks still bite on the payment leg.\n- **Strongest pillars for this market:** Experience 9/10, Insight 8/10, Obsession 9/10, Network 8/10 \u00e2\u20ac\u201d the four highest pillars align on exactly this wedge.\n- **Known risks:** Skill-Edge 4/10 \u00e2\u20ac\u201d you flagged explicitly that you can't ship a production MVP alone. A technical co-founder conversation belongs on the critical path before you pitch. Also: your non-solicit blocks the single most obvious distribution channel (Stripe's SMB book), so you'll be selling into non-Stripe processors (Adyen, Braintree, Fiserv merchants) for 18 months \u00e2\u20ac\u201d plan your wedge merchants accordingly.\n\n---\n\n### 2. SMB KYC / onboarding abandonment tooling (focused on the ownership-percentage field for co-owned LLCs)\n\n- **Why this fits you specifically:** You named the exact failure mode without prompting \u00e2\u20ac\u201d \"SMB KYC drop-off on payment onboarding hovers around 38%, most of it on the ownership-percentage field where co-owned LLCs get confused.\" That is specificity-5 domain arcana, not a generic fintech observation. Your Stripe Tax SMB launch crossed 40+ states of legal/compliance unblocking \u00e2\u20ac\u201d that's the same muscle this market demands.\n- **Market dynamics class:** Regulated (BSA/AML, beneficial-ownership rules under FinCEN's CTA) with SaaS delivery. Fits your archetype mix: Hustler 50% navigates the compliance-sales motion, Hound 30% interprets the drop-off data as a wedge. This is the archetype-to-class sweet spot the reference doc calls out for regulated markets.\n- **Suggested business model:** Subscription SaaS priced per completed verification, with a contract/enterprise lane for larger platforms. Transaction-adjacent pricing matches how payment processors already buy KYC \u00e2\u20ac\u201d you know this language from the Stripe side. Pure subscription would misprice; pure per-event would under-capture enterprise.\n- **First-customer path:** Priya Nair (head of payments, Earnest) \u00e2\u20ac\u201d lending products are where KYC friction is most painful and most financially measurable. Sarah Okwu (Rhombus) as a CFO-side reference. The Stripe alumni Slack #payments channel (where you moderate) is a credible second-order distribution surface for early feedback, not for sales.\n- **Strongest pillars for this market:** Experience 9/10, Insight 8/10, Network 8/10. Your Catalyst 7/10 helps with the multi-state regulatory-coordination component.\n- **Known risks:** Crowded incumbent space at the enterprise end (you'll know this better than any recommendation can tell you). Your obsession signals point at chargebacks, not KYC \u00e2\u20ac\u201d evidence is narrower here than in recommendation #1, so this is a research-worthy adjacent market, not necessarily the wedge. Skill-Edge 4/10 applies: identity/KYC tooling has technical depth you'd need a co-founder to carry.\n\n---\n\n### 3. Interchange-optimisation / hybrid-POS routing for SMBs with mixed card-present + card-not-present volume\n\n- **Why this fits you specifically:** Your third arcane edge case \u00e2\u20ac\u201d \"Visa interchange reimbursement fees on card-present vs card-not-present for the same MCC differ by 15-40bps, arbitrageable via hybrid POS\" \u00e2\u20ac\u201d is effectively a product thesis, not a piece of trivia. That level of specificity about interchange economics is why your Insight pillar is 8/10 and why this wedge would be generic from anyone else and non-generic from you. Your M&A tracker (SMB fintech deals since 2022) means you know which acquirers and POS vendors are already consolidating this space.\n- **Market dynamics class:** Transactional / usage-based. The value is per-swipe bps captured, not per-seat. Hustler 50% with a Hound 30% analytical layer fits \u00e2\u20ac\u201d this is a sales-led motion wrapped around a data-driven routing engine. Your stated Mercenary 7/10 also fits: transactional markets reward exploitation plays with faster commercial arcs, which aligns with your explicit 5-7 year, $200M\u00e2\u20ac\u201c1B exit window.\n- **Suggested business model:** Usage-based (bps share on optimised transactions) with an optional platform/subscription tier for reporting. This is the model that matches how merchants already feel the value \u00e2\u20ac\u201d they recognise bps savings on a statement \u00e2\u20ac\u201d and where a Hustler's \"professional language\" of gross margin and volume fits naturally.\n- **First-customer path:** Sarah Okwu (CFO, Rhombus) is the highest-value first call \u00e2\u20ac\u201d CFOs own processor spend and can sponsor a bps-saving pilot without a long procurement cycle. Tom DiFranco (LedgerLift) adjacent. Note: some of your strongest design partners might technically run on Stripe \u00e2\u20ac\u201d you'll need to verify each intro is non-solicit-compliant before engaging commercially.\n- **Strongest pillars for this market:** Experience 9/10, Insight 8/10. Obsession 9/10 applies weakly (the Substack is on disputes, not interchange), so don't lean on obsession as a selling point here.\n- **Known risks:** Card-network relationships are slow and political. You'd be routing around Stripe and competing with established acquirers' own optimisation products \u00e2\u20ac\u201d doable, but plan 9-12 months to a referenceable pilot, and expect to answer \"why now\" crisply. Skill-Edge 4/10: the routing engine is technical depth you can't ship alone; this recommendation assumes a co-founder.\n\n---\n\n### 4. SMB fintech M&A intelligence / post-close integration tooling\n\n- **Why this fits you specifically:** You voluntarily maintain a spreadsheet tracking every SMB fintech M&A deal since 2022 \u00e2\u20ac\u201d unprompted, for 2+ years. That is the single strongest obsession signal toward a market that isn't the chargeback one, and it's the only market where your Hound 30% archetype gets a dedicated wedge rather than a supporting role. Your Money 20/20 speaking slots and Stripe alumni Slack moderation are distribution surfaces where corp-dev and fintech operators already overlap.\n- **Market dynamics class:** Split \u00e2\u20ac\u201d either a SaaS/data-subscription product (deal intelligence for SMB-fintech corp-dev teams and investors) or operations-intensive services (post-close integration playbooks) depending on wedge choice. Your Catalyst 7/10 argues for the post-close integration variant; your Hound 30% argues for the data-product variant.\n- **Suggested business model:** Subscription data product (tiered by seats/data depth) for the intelligence play, or contract/services for the integration play. Avoid the services variant if you want the $200M\u00e2\u20ac\u201c1B outcome you priced \u00e2\u20ac\u201d services businesses rarely hit that band. Lean data-product.\n- **First-customer path:** **Cold-start on the buyer side.** Your persona's warm intros (Priya, Tom, Sarah) are payments operators, not corp-dev or PE. You'd be earning credibility from scratch with buyer-side fintech M&A teams \u00e2\u20ac\u201d add 6-9 months to first customer per the cold-start heuristic. Your Money 20/20 presence and the M&A tracker itself (if you published it) would be the distribution engine; treat the tracker as the top-of-funnel asset.\n- **Strongest pillars for this market:** Obsession 9/10 (the tracker), Insight 8/10. Network pillar is 8/10 overall but does not transfer cleanly to this buyer class \u00e2\u20ac\u201d treat network as a 4-5/10 for this market specifically.\n- **Known risks:** Weakest recommendation in this report for first-customer path (cold-start on buyers). Only keep researching if you can credibly identify 5-10 non-warm buyer conversations within 30 days \u00e2\u20ac\u201d otherwise drop in favour of #1\u00e2\u20ac\u201c#3. Also: 0-to-1 stage preference may fight the data-product category's slow compounding nature; honest fit check.\n\n---\n\n## Markets to avoid (or treat with caution)\n\n### Embedded finance (BaaS for non-fintech verticals \u00e2\u20ac\u201d retail-embedded credit, vertical-SaaS BaaS modules) \u00e2\u20ac\u201d cold-start and obsession mismatch\n\nYour persona flags embedded finance explicitly as `cold_start: true` \u00e2\u20ac\u201d you know the terrain academically but have zero warm intros listed. Your obsession signals (chargeback Substack, M&A tracker) are tightly coupled to SMB payments specifically, not to the broader BaaS/embedded-finance thesis. Recommending this would fail the generic-suggestion test \u00e2\u20ac\u201d it could apply to any ex-Stripe PM, and your persona.md explicitly notes the interview surfaced zero evidence you'd survive the 5-year slog here. Revisit only after you've added warm intros or produced an artefact in this space.\n\n### Pure developer tooling / dev-first payments SDKs \u00e2\u20ac\u201d archetype and Skill-Edge mismatch\n\nSkill-Edge 4/10 and your own self-calibration (\"I'm not a production engineer; can read React but would need help shipping a real MVP\") make a developer-as-buyer market a structural mis-fit. The archetype-to-market-dynamics heuristic is direct here: usage-based dev tooling wants Technical Edge \u00e2\u2030\u00a58 and dev-community insider markers; you have neither. Your insider markers are in payments-operator venues (Money 20/20, Stripe alumni #payments), not in dev communities. Your Mercenary 7/10 + 5-7 year exit window also fights this class, which typically rewards longer, technical compounding.\n\n### Category-creating / frontier fintech with 7-10 year timelines (novel rails, new regulatory categories, crypto-native instruments) \u00e2\u20ac\u201d psychographic mismatch\n\nYour own self-statement \u00e2\u20ac\u201d \"I'd build this for 3 years unpaid only if the problem was right \u00e2\u20ac\u201d I'm not a save-the-world type\" \u00e2\u20ac\u201d explicitly prices out missionary-timeline markets. Frontier work requires specificity-5 obsession on the frontier itself, and your specificity-5 obsessions are on SMB chargeback disputes and SMB fintech M&A \u00e2\u20ac\u201d both inside the existing commercial SMB-payments frame, not beyond it. The 5-7 year, $200M-1B exit window you named is incompatible with category-creation economics where the Missionary \u00e2\u2030\u00a58 threshold does the heavy lifting. A strong opportunity-cost avoid.\n\n---\n\n## Hard constraint propagated from the persona (applies across all recommendations)\n\nYour 18-month non-solicit on Stripe customers (`credibility_flags`, dimension: experience) rules out routing any of the four recommendations above through Stripe's current SMB customer book for ~18 months. Design-partner sourcing for all four should prioritise non-Stripe processors (Adyen, Braintree, Fiserv, Worldpay merchants) and independent SMB operators in your warm-intro graph (Earnest, LedgerLift, Rhombus) rather than Stripe-hosted merchants. Verify non-solicit compliance with counsel for each first-customer conversation.\n\n---\n\n## Grounding audit (for your review)\n\n- Priya Nair, Tom DiFranco, Sarah Okwu named as first-customer paths where their vertical matches (recommendations 1\u00e2\u20ac\u201c3).\n- Arcane domain terms surfaced: Visa VMP (0.9%) / VDMP (1.8%, $25K/month), KYC ownership-percentage drop-off (38%), interchange 15-40bps card-present vs CNP.\n- Market-dynamics class named on every recommendation: regulated, regulated, transactional/usage, SaaS-or-services split.\n- Business model named on every recommendation: subscription+success-fee hybrid, subscription with per-event pricing, usage-based, subscription data product.\n- Cold-start marked explicitly on recommendation #4 (M&A intelligence \u00e2\u20ac\u201d buyer network does not transfer) and on the embedded-finance avoid.\n- No TAM dollar figures, no growth percentages, no unverified competitor names introduced. Companies named (Earnest, LedgerLift, Rhombus, Stripe, Visa, Adyen, Braintree, Fiserv, Worldpay, Money 20/20) appear only where they are already in your persona or are a documented processor/network reference.\n\n---\n\n## Next step \u00e2\u20ac\u201d handoff\n\nWhen you've picked a direction from this shortlist (or you want to audit an idea that's adjacent to one of these), run `founder-idea-audit`. It reads the same `persona.json` and scores a specific idea against the 1-100 scorecard, so you can pressure-test a wedge before committing to it. The likely gap it will surface first is Skill-Edge 4/10 \u00e2\u20ac\u201d so any idea that requires production engineering from day one will need a co-founder plan to score well. Don't invoke it automatically; pick a direction first, then bring the specific idea.\n"}], "grading": {"summary": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "13962 chars"}, {"text": "Output has a top-markets section with recommendations numbered or clearly separated", "passed": true, "evidence": "h2=5, h3=7, numbered=0"}, {"text": "Output has an avoid/cold-start markets section", "passed": true, "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold-start', 'cold_start']"}, {"text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)", "passed": true, "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"}, {"text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)", "passed": true, "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"}, {"text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)", "passed": true, "evidence": "matched: ['regulated', 'saas', 'operations-intensive', 'transactional', 'usage-based', 'category-creating']"}, {"text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"}, {"text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging", "passed": true, "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output does not invent specific competitor company names that are not mentioned in the persona", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')", "passed": true, "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Stripe Tax', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit']"}, {"text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)", "passed": true, "evidence": "matched: ['founder-idea-audit', 'idea-audit']"}], "load_errors": []}}, {"id": "eval-0-daniela-fintech-recommendations-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "recommendations.md", "type": "text", "content": "# Market Recommendations \u00e2\u20ac\u201d Daniela Reyes\n\n*Generated: 2026-04-22*\n*Source persona: `eval-0-ex-stripe-pm-fintech-depth/with_skill/run-1/outputs/persona.json`*\n\n---\n\n## How I read the persona (one-paragraph synthesis)\n\nDaniela is a Hustler/Hound with a 9/10 Market Edge in SMB payments, 7/10 Catalyst, and a calibrated 3-4/10 Technical Edge. She is a 0-to-1 stage preference with a 14-month runway, a 5-7 year exit shape ($200M-1B), and \u00e2\u20ac\u201d crucially \u00e2\u20ac\u201d an 18-month non-solicit on Stripe's SMB customer book. Warm-intro graph has three named SMB-payments contacts (Priya Nair / Tom DiFranco / Sarah Okwu), and embedded finance is explicitly cold-start. Obsessions (9-month SMB chargeback Substack, SMB fintech M&A spreadsheet) are convergent with her Market Edge, not scattered. This narrows the recommendable surface: SMB-payments adjacencies that (a) do not route through Stripe's current book, (b) exploit arcane Market Edge like chargebacks / KYC / interchange, (c) have a buyer reachable via the three warm intros, and (d) tolerate a non-production-engineer founder.\n\n---\n\n## Top market recommendations\n\n### 1. Chargeback dispute automation for high-volume SMB card-not-present merchants\n\n**Why this market, for Daniela specifically.** She co-authored Stripe's internal chargeback-ops playbook, writes an unprompted Substack on SMB chargeback disputes (9 months running), and recalls without hedging that Visa VMP triggers at 0.9% and VDMP at 1.8% with $25K/month in fees. That is not generic \"fintech experience\" \u00e2\u20ac\u201d it is exactly the arcane pain she has lived in and still thinks about for free. Buyer profile is sub-enterprise merchants getting crushed by VDMP penalties or skating toward VMP \u00e2\u20ac\u201d a buyer she understands viscerally.\n\n**Warm-intro path.** Tom DiFranco (founder, LedgerLift) is the most natural first customer or design partner if LedgerLift or his adjacent network has SMBs with chargeback volume; Priya Nair (head of payments, Earnest) is a second-ring buyer if Earnest has any merchant-facing SMB book. At minimum they are first conversations, not cold calls.\n\n**Market-dynamics class.** Transactional / regulated-adjacent SaaS. The product touches card-network rules (regulated surface) but the buyer motion is a SaaS subscription with usage-flavoured pricing.\n\n**Business model.** Hybrid: flat SaaS base + usage component (per dispute filed, or per $ recovered). Usage alignment matters because the value metric is dispute win-rate and the buyer wants incentive alignment.\n\n**Non-solicit check.** Safe *if* she targets merchants she did not own at Stripe. The non-solicit binds customer solicitation, not category re-entry. Design-partner pool must be sourced through non-Stripe channels (Money 20/20 roster, alumni Slack inbound, LedgerLift-style referrals).\n\n**Risks.** Technical Edge gap \u00e2\u20ac\u201d a production dispute-filing system touches card networks, evidence ingestion, and potentially PCI scope. She needs a technical co-founder or a heavy no-code/Retool-plus-services wedge for the first 10 customers.\n\n---\n\n### 2. SMB KYC / onboarding drop-off remediation (co-owned LLC specialist)\n\n**Why this market, for Daniela specifically.** She named \u00e2\u20ac\u201d without prompt \u00e2\u20ac\u201d a 38% KYC drop-off on SMB payment onboarding, concentrated on the ownership-percentage field for co-owned LLCs. That is a named arcane edge case, not \"KYC is hard.\" The wedge is a thin-layer product that sits in front of a PSP or bank's onboarding flow and specifically fixes the co-owned-LLC ownership-field failure mode (guided capture, inferred percentages from Secretary of State filings, doc re-use).\n\n**Warm-intro path.** Sarah Okwu (CFO, Rhombus) is the natural early-design-partner conversation \u00e2\u20ac\u201d a CFO running onboarding against multiple providers is exactly the person whose pain this addresses. Tom DiFranco again as a second-ring node.\n\n**Market-dynamics class.** Regulated SaaS. KYC rules (BSA, FinCEN CDD) are federal, and the product must not break compliance posture \u00e2\u20ac\u201d it augments it.\n\n**Business model.** Subscription (seat- or flow-based) with a per-onboarding-attempt usage rider. Straight SaaS works because the buyer is a fintech/SMB-services ops leader who already budgets for KYC tooling.\n\n**Non-solicit check.** Clean \u00e2\u20ac\u201d the buyer is a fintech platform or neobank, not Stripe's SMB merchants.\n\n**Risks.** KYC is a crowded category at the incumbent layer; the wedge must be *the ownership-field failure*, not \"better KYC generally.\" If it broadens, she loses the arcane-edge moat. Also: regulated class means longer sales cycles \u00e2\u20ac\u201d mercenary score 7 and 14-month runway are okay but tight; plan for a seed round at month 9.\n\n---\n\n### 3. Interchange-arbitrage tooling for hybrid-POS SMBs\n\n**Why this market, for Daniela specifically.** Arcane edge: she can rattle off that Visa interchange reimbursement fees differ 15-40bps between card-present and card-not-present for the same MCC, and that this is exploitable via hybrid POS. Most founders in payments do not know this at her level of specificity. The product is a decisioning layer that routes transactions through the optimal acceptance rail (or configures POS/e-com flows to capture the lower-interchange variant) for SMBs with both physical and e-com channels \u00e2\u20ac\u201d restaurants-with-delivery, retail-with-Shopify, etc.\n\n**Warm-intro path.** Priya Nair (Earnest) for a partner-bank angle if Earnest has merchant-acquiring adjacency; Tom DiFranco (LedgerLift) for SMB-finance-adjacent referrals. The Stripe alumni #payments Slack (she moderates) is a viable secondary distribution channel.\n\n**Market-dynamics class.** Transactional / usage-based. Value is measured in bps saved per transaction \u00e2\u20ac\u201d naturally usage-priced.\n\n**Business model.** Usage \u00e2\u20ac\u201d a share of interchange savings (gainshare) or flat bps on routed volume. Subscription does not align incentives here; buyers will not pay a flat SaaS fee for a benefit that scales with their volume.\n\n**Non-solicit check.** Safe provided initial merchants are not Stripe's current SMB customers. Hybrid-POS SMBs often use Square, Toast, Clover, Lightspeed etc. \u00e2\u20ac\u201d a cleaner target pool anyway.\n\n**Risks.** Proving savings requires real transaction data \u00e2\u20ac\u201d a chicken-and-egg integration problem. Pilot design must be aggressive: \"we'll work for free until you see X bps saved, then we take Y% of that.\" Also: 0-to-1 preference is well-matched here (pilot-heavy design-partner phase).\n\n---\n\n### 4. SMB fintech M&A advisory / diligence-infrastructure micro-software (exploratory)\n\n**Why this market, for Daniela specifically.** She maintains an unprompted spreadsheet tracking every SMB fintech M&A deal since 2022. That is not a throwaway signal \u00e2\u20ac\u201d it is a 2+ year obsession that overlaps with her Hound archetype. A product here could be either (a) a productised diligence tool for acquirers/operators evaluating SMB-payments targets, or (b) a data/research subscription for PE and strategics in the space.\n\n**Warm-intro path.** Weaker than #1-3. Sarah Okwu (CFO) is a plausible early buyer if Rhombus does corp-dev. Money 20/20 speaker status opens warm conversations with strategics. Still partially cold-start on the buyer side (acquirers, not operators).\n\n**Market-dynamics class.** SaaS (if productised as a research tool) or services-with-software (if advisory-first). Lean toward SaaS for outcome-shape fit with her 5-7 year exit target.\n\n**Business model.** Subscription (annual research seats) \u00e2\u20ac\u201d possibly a hybrid with a per-deal usage component. Not a fit for usage-only pricing because buyer cadence is lumpy.\n\n**Non-solicit check.** Clean \u00e2\u20ac\u201d the buyer is an acquirer or strategic, not a Stripe merchant.\n\n**Risks.** This is the weakest-warm-intro recommendation of the four. It exploits Obsession and Hound but does not use her Hustler deal-closing muscle as directly. Flag as exploratory \u00e2\u20ac\u201d confirm buyer pull via 5-10 discovery calls before committing to a stage-1 build.\n\n---\n\n## Markets to avoid or treat as cold-start\n\n### Embedded finance (BaaS, embedded lending, embedded insurance)\n**Why flagged.** The persona is explicit \u00e2\u20ac\u201d embedded finance warm-intro list is empty, labelled `cold_start: true`. She knows the terrain academically but has no named contact who can be a first design partner. Combined with her modest Technical Edge (these products tend to be infra-heavy) and her 14-month runway, this would be a 6+ month network-building detour before the first customer conversation \u00e2\u20ac\u201d expensive time for a 0-to-1 mercenary-leaning founder. Treat as cold-start; revisit after she has seeded 5-10 warm intros in the space.\n\n### Anything sold into Stripe's current SMB customer base\n**Why flagged.** 18-month non-solicit. This is a hard legal constraint, not a strategic one \u00e2\u20ac\u201d it binds independent of market fit. It removes a huge chunk of the most obvious ICP and must be respected in design-partner sourcing for any of the four recommendations above.\n\n### Consumer fintech (neobanks, budgeting apps, investing for retail)\n**Why flagged.** Consumer market-dynamics class \u00e2\u20ac\u201d acquisition is performance-marketing and brand, not the warm-intro / deal-closing / partner-bank motion Daniela has. Her Hustler edge is B2B deal-closing; her Hipster score is 10% (no brand/craft signal). Missionary score 5 with explicit \"not a save-the-world type\" framing further disqualifies the missionary energy consumer fintech typically demands. Avoid.\n\n### Crypto / DeFi / stablecoin rails (unless explicitly re-scoped)\n**Why flagged.** No persona evidence of edge here \u00e2\u20ac\u201d not named in arcane callouts, not in the M&A tracker focus, not in the Substack. Regulatory posture is adversarial right now in the US, which extends sales cycles for a 14-month-runway founder. Avoid unless she surfaces a specific wedge.\n\n### Ops-intensive verticals she has no network in (healthcare fintech, construction fintech, legal fintech)\n**Why flagged.** \"SMB payments\" is a real, narrow edge \u00e2\u20ac\u201d \"vertical fintech for X industry\" is a different network game and would require cold-building domain access in the vertical. Her obsessions are tightly coupled to SMB-payments-specifically, not SMB-broadly. Do not cross-vertical without a co-founder who brings the vertical Market Edge.\n\n---\n\n## Cross-cutting risks and mitigations\n\n- **Technical Edge gap (3-4/10).** All four top recommendations assume either (a) a technical co-founder, or (b) a services-heavy MVP wedge where Retool + humans handle what software eventually will. This must be resolved before committing to stage-1 build. Her Catalyst Edge (running a 7-person launch team) supports recruiting a technical co-founder.\n- **Non-solicit propagation.** Any pilot-customer pipeline must be audited \u00e2\u20ac\u201d if she finds herself calling a former Stripe SMB contact, she has to re-route through a non-Stripe introduction (alumni Slack with a third-party intermediary, Money 20/20 floor, etc.).\n- **Runway vs regulated-class sales cycles.** Recommendations 1, 2, and 3 all touch regulated surfaces. Plan the seed-raise timing for month 8-9, not month 12-13.\n- **Mercenary-leaning psychographic (7 merc, 5 miss).** She will walk from a problem that does not show a 5-7 year arc. Do not recommend category-creation plays without a clear commercial trigger in year 1-2.\n\n---\n\n## TAM note\n\nI have not put dollar-sized TAM figures on any of the four markets. Public TAM numbers in SMB payments adjacencies are heavily contested and would be *(unverified)* in this context; Daniela's own M&A tracker is a better ground-truth source than an analyst report for deal comps. Any specific TAM should be validated against her spreadsheet plus 5-10 buyer discovery calls before being cited in a pitch.\n\n---\n\n## Recommended next step\n\nHand this persona + recommendations to **`founder-idea-audit`** next. Before committing to a stage-1 build on any of markets #1-#4 above, audit the specific idea formulation against the 1-100 scorecard \u00e2\u20ac\u201d Technical Edge will be the likely scoring gap and should be resolved (co-founder signed, or services-wedge scoped) before resources are committed.\n\nSuggested order of operations:\n1. `founder-idea-audit` on market #1 (chargeback automation) \u00e2\u20ac\u201d highest evidence density.\n2. 5-10 buyer discovery calls via Priya / Tom / Sarah on whichever of #1-#3 scores highest.\n3. Technical co-founder search in parallel \u00e2\u20ac\u201d 60-day target.\n4. Re-run `founder-persona-interview` when non-solicit expires or a technical co-founder signs, to refresh the downstream recommendation surface.\n"}], "grading": {"summary": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "12417 chars"}, {"text": "Output has a top-markets section with recommendations numbered or clearly separated", "passed": true, "evidence": "h2=6, h3=9, numbered=4"}, {"text": "Output has an avoid/cold-start markets section", "passed": true, "evidence": "matched: ['avoid', 'do not recommend', 'cold-start', 'cold_start']"}, {"text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)", "passed": true, "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"}, {"text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)", "passed": true, "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"}, {"text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)", "passed": true, "evidence": "matched: ['regulated', 'saas', 'ops-intensive', 'transactional', 'usage-based', 'consumer']"}, {"text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"}, {"text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging", "passed": true, "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output does not invent specific competitor company names that are not mentioned in the persona", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')", "passed": true, "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit', 'Retool']"}, {"text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)", "passed": true, "evidence": "matched: ['founder-idea-audit', 'idea-audit']"}], "load_errors": []}}, {"id": "eval-1-marcus-icu-nurse-recommendations-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "recommendations.md", "type": "text", "content": "# Market recommendations for Marcus Abel\n\n*Grounded in `persona.json` from the ICU-nurse-learning-to-code interview, 2026-04-22.*\n\nBefore the list: a frame that governs every recommendation below.\n\nMarcus's persona has one unusually strong asset (Market Edge 9/10 in ICU handoff workflow arcana, Obsession 10/10 anchored to a named 2022 patient-death origin event, Missionary 10/Mercenary 2), one hard constraint (every buyer-side `warm_intros` entry is `cold_start: true` \u00e2\u20ac\u201d hospital IT, hospital administration, healthcare investors, and healthtech operators are all cold), and one structural gap (Skill-Edge 2/10, self-assessed as unable to ship a 72-hour MVP solo). This shape dictates: recommend markets where Marcus's ICU handoff arcana is the wedge, treat every buyer-side GTM as cold-start, and flag the technical-co-founder dependency on every recommendation rather than papering over it.\n\n---\n\n## Top 4 markets to research\n\n### 1. ICU-specific shift-change handoff tooling (nurse-first, SBAR-native)\n\n- **Why this fits you specifically:** This is the one market where your arcana is table stakes rather than a nice-to-have \u00e2\u20ac\u201d you can name why SBAR runs 20 minutes instead of 5 (EHR surfaces vitals but not last vasopressor change, ventilator evolution, family communication status), you know that nurses throw away paper \"brain sheets\" at end of shift because Epic Rover doesn't capture narrative context, and you've lived the problem coordinating 30+ COVID handoffs as charge nurse. Your 4-month nightly wireframing habit and the 2022 handoff-miss patient-death origin event are both pointed directly at this specific market, not at healthcare broadly.\n- **Market dynamics class:** Regulated / high-compliance clinical. Long procurement cycles, risk-averse buyers, Joint Commission oversight (the 60-70% adverse-event communication-failure statistic you cited is literally the regulatory language a CNIO will recognise). Your Hound 50% / Hustler 30% mix fits the research-and-coordinate pattern this class demands; the Hacker 5% is exactly why you need a technical co-founder before pitching this.\n- **Suggested business model:** Subscription SaaS, per-unit-per-month (per ICU bed or per nursing unit), with a nurse-first free tier to drive bottom-up adoption before a unit-level contract. Subscription aligns with the \"continuous product improvement prevents churn\" posture that suits your Hound obsession pattern, and per-unit pricing matches how hospital finance already thinks about nursing tools.\n- **First-customer path:** Cold start on the economic-buyer side. Your persona shows zero named warm intros to CNIOs, CMIOs, hospital IT, or administration \u00e2\u20ac\u201d every buyer vertical is `cold_start: true`. Your ~200-person ex-ICU nurse Slack presence (lurk-level only, per your own credibility flag) plus live UCSF floor relationships are a user-research and champion panel, not a buyer path. Realistic first move: recruit 5\u00e2\u20ac\u201c10 nurse design partners from Slack + UCSF floor, use them to get warm intros to their unit managers and CNIOs, then earn the buyer relationship. Budget 6\u00e2\u20ac\u201c9 months before first paid pilot.\n- **Strongest pillars for this market:** Experience (9), Insight (8), Obsession (10).\n- **Known risks:** (a) Your Skill-Edge is 2/10 \u00e2\u20ac\u201d tutorial-level React/Flask won't ship this; the market requires a technical co-founder or contract dev before design-partner conversations begin, and your 6-month runway makes that recruit urgent. (b) Network is 3/10 with zero warm intros into any buying vertical \u00e2\u20ac\u201d credibility-theatre risk if you pitch a CNIO cold as a non-shipping nurse. (c) Missionary 10/Mercenary 2 sustains the 5-year build but makes you vulnerable to financial forcing-function before traction given 6 months of runway.\n\n### 2. ICU-to-stepdown (and ICU-to-floor) transfer handoff tools\n\n- **Why this fits you specifically:** This is the adjacent cut of your same arcana. Your persona cites subtype politics explicitly \u00e2\u20ac\u201d trauma ICU runs single-provider rounding, cardiac ICU runs multidisciplinary with cardiothoracic surgery + cardiology + ICU fellow with \"nasty politics around extubation decisions.\" Transfer-of-care out of the ICU is where those politics collide with downstream nursing teams who don't have the ICU context, and it is a high-sentinel-event zone (maps directly to the Joint Commission communication-failure statistic you cited). Your charge-nurse coordination pattern \u00e2\u20ac\u201d bed control + pharmacy relationships during COVID surge \u00e2\u20ac\u201d is exactly the cross-functional muscle this workflow needs.\n- **Market dynamics class:** Regulated / high-compliance clinical, with stronger multi-stakeholder coordination than intra-ICU shift-change (ICU + stepdown + bed control + case management). Slightly more Catalyst-flavoured than recommendation 1.\n- **Suggested business model:** Subscription SaaS at the service-line or hospital level (transfer handoff spans units, so per-bed pricing fits less cleanly than in rec 1); hybrid with a light services component for implementation given the multi-unit rollout.\n- **First-customer path:** Cold start. Same constraint as rec 1 \u00e2\u20ac\u201d no named warm intros on the buyer side. One modest advantage: your bed-control and pharmacy relationships from UCSF charge-nurse work are a plausible \"internal champion\" starting point for a UCSF-first pilot, if you can get UCSF to entertain an external vendor conversation with a former employee. Treat that as a hypothesis, not a done deal.\n- **Strongest pillars for this market:** Experience (9), Insight (8), Obsession (10) \u00e2\u20ac\u201d with the caveat that your obsession is named around handoff specifically, which does cover this cut.\n- **Known risks:** (a) Multi-stakeholder sales cycle is longer than rec 1 and harder for a solo missionary founder with 6 months runway and no Hustler co-founder. (b) Your obsession evidence is \"handoff,\" which covers this, but your wireframing is nurse-shift-focused per the persona \u00e2\u20ac\u201d a pivot into transfer-of-care means redoing the design work. (c) Same Skill-Edge and Network gaps as rec 1.\n\n### 3. Nurse-facing clinical-communication tooling (family communication status, care-team messaging, shift continuity beyond SBAR)\n\n- **Why this fits you specifically:** Your arcana includes a specific named gap \u00e2\u20ac\u201d \"family communication status\" is one of the three things you flagged as missing from EHR handoff capture, alongside last vasopressor change and ventilator evolution. That's an obsession signal pointing beyond pure clinical data into the care-team-plus-family communication layer that nurses own and hospitals consistently underinvest in. Your Hound 50% archetype (analytical obsession with messy operational data) plus Hipster 15% (wireframing habit) fits the \"messaging + status + structured narrative\" product shape more than a pure data-integration play would.\n- **Market dynamics class:** Regulated clinical, but nearer the \"ops-intensive + SaaS\" edge than rec 1 because a lot of the value is workflow orchestration, not compliance reporting. Multi-role users (nurses, physicians, families) raise design complexity.\n- **Suggested business model:** Subscription SaaS per seat or per unit; potentially a hybrid with a patient-facing free tier for families if the product design goes that way. Keep the economic contract on the hospital side \u00e2\u20ac\u201d do not try to monetise families directly.\n- **First-customer path:** Cold start on the buyer side. Your ex-ICU nurse Slack groups (lurk-level) are a better fit as a design-partner pool for this recommendation than for rec 1, because care-team communication is something floor nurses feel daily and can articulate \u00e2\u20ac\u201d use them for problem discovery, not closing.\n- **Strongest pillars for this market:** Insight (8), Obsession (10). Experience (9) partially applies \u00e2\u20ac\u201d your edge is handoff-specific; broader nurse-communication tooling stretches the edge.\n- **Known risks:** (a) Scope creep risk \u00e2\u20ac\u201d \"clinical communication\" is broader than your specific obsession signal, and a Missionary 10 founder with narrow obsession should be cautious about markets where the obsession doesn't cover the whole product. (b) Design complexity across three user types (nurse, physician, family) with Skill-Edge 2/10 and no technical co-founder makes MVP shape hard. (c) Same cold-start buyer constraint as rec 1 and 2.\n\n### 4. Structured handoff content + nursing-education / onboarding tooling for new-grad ICU nurses\n\n- **Why this fits you specifically:** Adjacent market that converts your charge-nurse mediation work (you mediated physician-nurse conflict and coordinated 30+ COVID handoffs) into a teachable asset. The ICU-subtype politics you named (trauma single-provider vs cardiac multidisciplinary) is insider knowledge that new ICU nurses learn painfully; structured handoff playbooks + simulation + onboarding content is a real wedge for nursing education vendors and hospital nursing-education departments. Your lurk-level ex-ICU nurse Slack (200 people) is closer to a distribution channel for this market than for the other three, because nurses share education resources peer-to-peer in a way they don't share enterprise tooling.\n- **Market dynamics class:** Regulated-adjacent clinical education. Lower procurement friction than clinical software (nursing-education budgets are smaller and less IT-gated), closer to a prosumer-plus-institution hybrid than to classic clinical SaaS.\n- **Suggested business model:** Hybrid \u00e2\u20ac\u201d individual subscription (new-grad ICU nurse self-pay or preceptor-pay at $10\u00e2\u20ac\u201c30/month as a wedge) plus hospital nursing-education departmental contracts as the expansion motion. This hybrid suits your Missionary-dominant, short-runway profile: the individual subscription can produce design-partner revenue fast, which matters given 6 months of runway.\n- **First-customer path:** Partially warm on the user side \u00e2\u20ac\u201d the ex-ICU nurse Slack groups are a plausible seed for individual subscribers, and your lurk status is a softer constraint for self-serve adoption than for enterprise selling. Cold on the institutional side. This is the only one of the four recommendations where your existing network meaningfully reduces cold-start friction on day one.\n- **Strongest pillars for this market:** Experience (9), Obsession (10) \u00e2\u20ac\u201d though note your obsession evidence is build-focused (wireframing a tool, buying the domain) not education-focused, which stretches the fit.\n- **Known risks:** (a) This is further from your primary obsession signal than recs 1\u00e2\u20ac\u201c3; Missionary founders who pivot away from their origin event can lose the motivational engine that justifies the 5-year timeline \u00e2\u20ac\u201d if the 2022 patient-death memory doesn't stay live in this market, reconsider. (b) Prosumer-flavoured business model requires distribution and content muscle (Hipster + Hustler) and your Hipster is 15% / Hacker is 5% \u00e2\u20ac\u201d content production + self-serve UX without a technical co-founder is hard. (c) Monetising nursing education peer-to-peer has a cultural-friction layer Slack lurk-level presence won't solve.\n\n---\n\n## Markets to avoid (or treat with caution)\n\n### Physician-facing EHR tools or direct hospital-IT procurement plays \u00e2\u20ac\u201d credibility gap, network gap\n\nYour persona's credibility flags are explicit: zero named warm intros to CMIOs, CNIOs, hospital IT decision-makers, or health-system administrators. Direct EHR competition or any product whose first sale is a hospital IT procurement contract will spend you against the two pillars you are weakest in (Network 3, Skill-Edge 2) while not drawing on your two strongest (Experience in nursing workflow, Obsession in handoff). Your Market Edge is nurse-floor arcana, not physician-workflow arcana \u00e2\u20ac\u201d the credibility gap in a CMIO-first sale is real, not imagined.\n\n### Broad healthtech / non-clinical healthcare SaaS (payer tech, RCM, health-insurance tooling, care-navigation for employer groups)\n\nThe persona shows obsession specifically around inpatient ICU handoff and communication failures causing sentinel events. Your evidence list contains no signal for payer, RCM, insurance, or employer-benefits workflow \u00e2\u20ac\u201d this would be a Missionary 10 founder working in a market where the origin event doesn't live, which historically doesn't survive the 5-year slog. Additionally, these markets demand Hustler-heavy enterprise selling and healthcare-investor networks; both your Hustler score (30%) and your buyer-network pillar (3/10 with every relevant vertical cold-start) make this the wrong mix.\n\n### Consumer digital health / patient-facing apps / wellness (DTC, patient wellness, consumer mental-health apps)\n\nYour Hipster score is 15%, your archetype is Hound-dominant (analytical, paper-reading, arcana-focused), and your obsession signal is inpatient clinical-communication breakdown \u00e2\u20ac\u201d not consumer behaviour change. Consumer digital health is Hustler + Hipster weighted with marketing-driven distribution economics, which inverts every strength in your profile. Additionally, your existing network (ex-ICU nurses, UCSF floor) provides no distribution advantage into consumer.\n\n---\n\n## Next step\n\nWhen you pick a direction from the above, run `founder-idea-audit` to score a specific idea within the chosen market against the same persona \u00e2\u20ac\u201d it uses the main.md 1\u00e2\u20ac\u201c100 scorecard and will re-surface the Network and Skill-Edge drag as explicit mitigation requirements (co-founder recruit, design-partner revenue before month 5, warm-intro construction plan).\n"}], "grading": {"summary": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "13422 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=3, h3=7, numbered=0"}, {"text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)", "passed": true, "evidence": "matched: ['avoid', 'caution', 'cold start', 'cold-start', 'cold_start']"}, {"text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint", "passed": true, "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'Joint Commission']"}, {"text": "Output names the regulated or clinical market-dynamics class at least once", "passed": true, "evidence": "matched: ['cold start', 'cold-start', 'cold_start']"}, {"text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor", "passed": true, "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"}, {"text": "Output names a business model per recommendation", "passed": true, "evidence": "matched: ['patient', 'missionary']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'hybrid', 'services']"}, {"text": "Output does not invent hospital or health-system customer names that are not in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'", "passed": true, "evidence": "matched: ['co-founder', 'solo']"}, {"text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)", "passed": true, "evidence": "evidence hits found"}], "load_errors": []}}, {"id": "eval-1-marcus-icu-nurse-recommendations-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "recommendations.md", "type": "text", "content": "# Market Recommendations \u00e2\u20ac\u201d Marcus Abel\n\n*Generated: 2026-04-22*\n*Source persona: `eval-1-icu-nurse-learning-to-code/with_skill/run-1/outputs/persona.json`*\n\n---\n\n## Reading the persona before reading the list\n\nBefore the recommendations, the three facts that shape every item below:\n\n1. **Market edge is concentrated and deep, not broad.** Marcus's 9/10 Market score is specifically in ICU shift-change handoff workflow \u00e2\u20ac\u201d SBAR running 20 minutes instead of 5, Epic Rover vs. paper brain sheets, trauma-ICU single-provider rounding vs. cardiac-ICU multidisciplinary politics around extubation, Joint Commission sentinel-event data on communication failure. The obsession does not generalize past inpatient clinical communication. Recommendations outside that lane burn the one edge he has.\n2. **Network is cold-start for every economic buyer.** He knows ~200 ex-ICU nurses (lurk-level Slack) and UCSF floor relationships. He has zero named warm intros to CMIOs, CNIOs, hospital IT, healthcare investors, or clinical-software operators. \"I know nurses\" is a user/champion network, not a buyer network. Every vertical that requires selling into a hospital is cold-start on the buyer side, even where the user side is warm.\n3. **Technical gap is the operational bottleneck.** 6 months of Codecademy and a tutorial-follow React/Flask to-do is not shipping capability. Anything that requires independent prototyping in the first 90 days is blocked unless he finds a technical co-founder or contracts a build. The 6-month runway makes this urgent.\n\nMissionary score 10/10 with a specific origin event (2022 patient death from a handoff miss) is the sustaining factor \u00e2\u20ac\u201d he will outlast a long slog in the handoff/clinical-communication lane. He will not outlast a slog in a market he only picked because it seemed buyable.\n\n---\n\n## Top market recommendations\n\n### 1. Nurse-first ICU handoff / SBAR tooling (design-partner stage)\n\n**What it is:** A structured handoff tool that replaces the paper brain-sheet + 20-minute SBAR with a shift-persistent, narrative-aware artifact \u00e2\u20ac\u201d capturing the things the EHR doesn't surface (last vasopressor change, ventilator evolution, family communication status, pending decisions). Built for the nurse first, not the IT buyer.\n\n**Market-dynamics class:** Regulated / clinical \u00e2\u20ac\u201d HIPAA, hospital security review, and eventual Joint Commission-alignment claims all apply. This is not a fast-moving SaaS category; it is a slow-sell, high-trust category where the product has to survive procurement and infosec.\n\n**Business model:** SaaS subscription, per-unit or per-bed pricing, with a design-partner / contract-services phase at the start (pilot agreements funded against a clinical quality metric \u00e2\u20ac\u201d e.g. reduction in reported handoff-related near-misses). Realistic v1 is paid design partnership, not self-serve SaaS.\n\n**Why this fits Marcus specifically:**\n- The wireframing-nightly-for-4-months habit is directly in this product's surface area.\n- SBAR and brain-sheet arcana came out in depth-probe-passed specificity \u00e2\u20ac\u201d this is a market where he can design credibly from week one without market research.\n- The trauma-vs-cardiac subtype politics he named (multidisciplinary extubation conflict) is exactly the kind of insider nuance that differentiates a nurse-built tool from an EHR module.\n- Missionary psychographic is grounded here: the 2022 handoff-miss patient death is the concrete image \u00e2\u20ac\u201d he will sustain through a multi-year enterprise-clinical sales cycle that would break a mercenary founder.\n\n**Cold-start flags:**\n- **Buyer cold-start (critical).** Nurses are the users and champions; the buyer is a CNIO, CMIO, or Chief Quality Officer, and Marcus has zero warm intros to any of them. First 90 days should be spent converting floor-nurse access into champion-led meetings, not pitching IT procurement directly.\n- **Technical cold-start.** Needs a technical co-founder or a paid contract build before anything ships.\n\n**Risks / mitigations:**\n- *Technical gap:* Mitigate by targeting a clinical co-founder search inside UCSF/Bay Area health-tech circles in parallel with customer-discovery interviews; do not try to self-ship.\n- *EHR integration politics:* Epic integration will come up fast; v1 should avoid integration and run as a standalone web/mobile artifact the nurse uses alongside Epic, then earn integration once a quality signal exists.\n- *Credential-as-buyer-blocker:* A non-technical ex-nurse pitching directly to a hospital IT procurement director is a losing opening move. Route through a nurse-executive (CNIO) or Chief Quality Officer who has a quality-metric motivation, not a procurement motivation.\n\n---\n\n### 2. Clinical communication for specific ICU subtypes (cardiac / trauma / neuro)\n\n**What it is:** A narrower wedge than general handoff \u00e2\u20ac\u201d a decision-log / conflict-resolution tool for the multidisciplinary ICU rounding problem Marcus named (e.g. cardiac ICU with CT surgery, cardiology, and ICU fellow disagreeing on extubation). Captures disagreements, decisions, and the rationale across a shift-change so the incoming team knows *why* something is or isn't being done.\n\n**Market-dynamics class:** Regulated / clinical, with a narrower TAM than #1 (intentional \u00e2\u20ac\u201d this is a beachhead, not a market). Ops-intensive on the customer-discovery side because rounding workflows are subtype-specific.\n\n**Business model:** SaaS subscription, likely per-service-line rather than per-bed; possibly hybrid with contract-services during the initial pilot where Marcus or a clinical partner sits in on rounds to tune the tool. Contract-services revenue is a reasonable runway bridge for month 3\u00e2\u20ac\u201c6.\n\n**Why this fits Marcus specifically:**\n- The subtype-politics arcana (single-provider trauma vs. multidisciplinary cardiac) is insider knowledge he can convert into a sharper product than a general \"clinical comms\" SaaS.\n- Beachhead strategy matches 0-to-1 stage preference \u00e2\u20ac\u201d narrow enough to ship an MVP a co-founder can build.\n- Nurse network is usable as a user-research panel for refinement even though it doesn't solve the buyer problem.\n\n**Cold-start flags:**\n- **Buyer cold-start.** Service-line medical directors are the buyer (or the CMIO). Cold.\n- **Technical cold-start** (same as #1).\n- **Champion risk:** Attending physicians rather than nurses may be the primary user here, and Marcus's credibility with the physician user class is untested \u00e2\u20ac\u201d \"I know nurses\" does not automatically extend to rounding attendings.\n\n**Risks / mitigations:**\n- *Champion transfer:* Use the ex-ICU nurse Slack panel to generate introductions to fellowship-trained intensivists; physician champion access is the gating path.\n- Same technical and procurement mitigations as #1.\n\n---\n\n### 3. Nurse-facing clinical knowledge / onboarding / competency tooling\n\n**What it is:** A tool that addresses what new-to-unit ICU nurses actually need \u00e2\u20ac\u201d unit-specific protocols, bedside decision aids, and the kind of tacit knowledge that today lives in the paper brain sheet and in the charge nurse's head. Not a handoff tool; an orientation / competency / in-the-moment-reference tool.\n\n**Market-dynamics class:** Regulated / clinical (less regulated than handoff \u00e2\u20ac\u201d this is more training/content than clinical documentation) with a SaaS shape. Buyer is more often the nurse-education department or the CNO's office, which is a different and sometimes easier procurement path than IT.\n\n**Business model:** SaaS subscription, per-unit or per-nurse, with a content-heavy initial lift (contract-services flavored in year one while the library is built).\n\n**Why this fits Marcus specifically:**\n- Charge-nurse experience is directly the \"tacit knowledge holder\" role \u00e2\u20ac\u201d 3 years of being the person new nurses ask.\n- Uses the ex-ICU nurse Slack panel as both a user-research pool *and* a potential content-contributor/affiliate channel, which is the only case in this recommendation set where the nurse network converts into something resembling distribution.\n- Lower technical bar than #1 or #2 \u00e2\u20ac\u201d content plus a thin app \u00e2\u20ac\u201d so more survivable on a short runway with a lighter-weight technical partner.\n\n**Cold-start flags:**\n- **Buyer cold-start, but lighter.** Nurse-education and CNO offices are easier to cold-reach than IT procurement; still no warm intros in the persona.\n- **Obsession mismatch caveat.** This is the recommendation Marcus is *least* missionary about \u00e2\u20ac\u201d the obsession signals (wireframes, Joint Commission papers, 2022 death memory) all point at handoff, not at competency/education. If he picks this path, be honest that the missionary fuel is weaker and the work will feel more like a business than a mission.\n\n**Risks / mitigations:**\n- *Mission-fit check:* Before committing, run a 2-week customer-discovery sprint against both #1 and #3 and compare energy levels. This is the recommendation most at risk of being picked because it looks easier, not because it's right.\n- *Content moat:* Without a proprietary content angle (e.g. a UCSF-backed protocol library, a specific peer-reviewed partnership), this category has low defensibility.\n\n---\n\n## Avoid / cold-start-with-high-friction markets\n\n### Hospital IT procurement tooling (any flavor \u00e2\u20ac\u201d scheduling, credentialing, IT-ops, revenue cycle)\n\n**Why avoid:** The buyer is hospital IT / CIO directly, the user is IT staff (not nurses), and Marcus has neither the buyer network nor the user-side credibility. The credibility-flag note that \"nurses are not economic buyers\" means selling *to* hospital IT is a cold-outreach slog with no usable edge. Zero of the obsession signals land here.\n\n### General healthcare analytics / population health / claims\n\n**Why avoid:** Payer-side or health-system-analytics markets require insider fluency with payer contracts, claims data, and finance workflows \u00e2\u20ac\u201d none of which show up in the persona. Market edge (9/10 on ICU clinical floor) does not transfer. This is a market where \"healthcare experience\" sounds close but is functionally a different industry.\n\n### Consumer health / patient-facing apps\n\n**Why avoid:** Consumer market-dynamics class (CAC-driven, app-store distribution, brand) has zero overlap with Marcus's charge-nurse catalyst experience. Missionary fuel would not translate \u00e2\u20ac\u201d the origin event is about a clinician coordination failure, not a patient self-management failure. This is a pivot, not an extension.\n\n### Embedded finance / fintech / payments (any)\n\n**Why avoid:** Cold-start on every pillar \u00e2\u20ac\u201d no domain arcana, no network, no obsession signal. Flagging explicitly because \"healthcare billing / RCM\" can look like an adjacent bridge from a clinical background and it is not; it is a finance-ops market with a healthcare label.\n\n### Hospital staffing marketplaces / nurse-gig platforms\n\n**Why avoid:** Marketplace dynamics (two-sided cold-start, liquidity chicken-and-egg) are a poor fit for a short runway and a 0-to-1 single-wedge preference. Nurse network would give a supply-side head start but the demand-side (hospital ops / nurse managers as buyers) is cold, and the obsession signals don't fire \u00e2\u20ac\u201d none of the wireframes or Joint Commission reading is about staffing.\n\n### Anything requiring independent technical shipping in the first 90 days\n\n**Why avoid:** Hard constraint from the credibility flag on skill_edge. Until there is a technical co-founder or contractor in place, any recommendation that depends on Marcus personally prototyping is gated. This isn't a market to avoid \u00e2\u20ac\u201d it's a *shape of market entry* to avoid.\n\n---\n\n## Risks that apply across the top three\n\n- **Technical gap is the #1 execution risk.** Without a technical co-founder or a paid contract build, all three top recommendations stall. Mitigation options, in priority order: (a) find a co-founder via Bay Area health-tech communities (SF Health Tech Slack / On Deck Healthcare / YC healthtech-founder cohorts \u00e2\u20ac\u201d relationships to build in the next 30 days), (b) hire a contractor against design-partner revenue, (c) no-code MVP only for the first design-partner pilot (e.g. Airtable + Tally + Zapier glue) and buy time to solve the co-founder problem in parallel.\n- **Buyer network is the #2 execution risk.** Every hospital sale is a cold outreach until Marcus has converted at least 3 floor-nurse relationships into champion-led meetings with a CNIO, CMIO, or Chief Quality Officer. Treat the first 60 days as network construction, not product build.\n- **Runway is the forcing function.** 6 months of runway against a clinical-enterprise sales cycle means design-partner *revenue* inside 90\u00e2\u20ac\u201c120 days is the only viable runway extension that doesn't require fundraising (which is itself a cold-start problem \u00e2\u20ac\u201d zero warm healthcare-investor intros).\n\n---\n\n## Sustaining factors (why the top three will survive a long slog)\n\n- **Missionary psychographic 10/2 with a named origin event** \u00e2\u20ac\u201d the 2022 patient death from a handoff miss is a concrete, recurring image, not an abstraction. Founders with this profile survive clinical-enterprise sales cycles that break mercenary founders. Recommendations #1 and #2 are directly downstream of the origin event. #3 is weaker on this axis and should be chosen only if the 2-week discovery sprint shows comparable pull.\n- **Depth-probe-passed market arcana** \u00e2\u20ac\u201d SBAR timing, Epic Rover vs. paper brain sheets, subtype rounding politics, Joint Commission sentinel-event data. The design sense and the credibility with floor nurses are both real and paid-for by 7 years of ICU work.\n- **Stage fit.** 0-to-1 preference and charge-nurse surge-coordination pattern both line up with early design-partner work, not with a mature/scale-stage market.\n\n---\n\n## Recommended next step\n\nRun `founder-idea-audit` against the specific idea Marcus is already wireframing (ICU handoff / SBAR tool \u00e2\u20ac\u201d recommendation #1) to score it against the full scorecard. The audit will stress the same Network and Skill-Edge flags surfaced here and will force a concrete first-90-days plan covering (a) technical co-founder search, (b) 3 named hospital-champion warm intros, and (c) a design-partner pilot scoped to fit the 6-month runway.\n\n---\n\n*Notes on numbers: this report contains no specific TAM dollar figures or growth percentages. Any such number should be treated as (unverified) until independently sourced; this recommender does not make them up.*\n"}], "grading": {"summary": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "14322 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=6, h3=9, numbered=3"}, {"text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)", "passed": true, "evidence": "matched: ['avoid', 'poor fit', 'cold-start', 'no warm intro']"}, {"text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint", "passed": true, "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'brain-sheet', 'Joint Commission']"}, {"text": "Output names the regulated or clinical market-dynamics class at least once", "passed": true, "evidence": "matched: ['cold-start', 'no warm intro']"}, {"text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor", "passed": true, "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"}, {"text": "Output names a business model per recommendation", "passed": true, "evidence": "matched: ['patient', 'missionary', 'handoff miss']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'marketplace', 'hybrid', 'services']"}, {"text": "Output does not invent hospital or health-system customer names that are not in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'", "passed": true, "evidence": "matched: ['technical gap', 'co-founder', 'no-code']"}, {"text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)", "passed": true, "evidence": "evidence hits found"}], "load_errors": []}}, {"id": "eval-2-jamie-dev-tools-recommendations-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "recommendations.md", "type": "text", "content": "# Market recommendations for Jamie Chen\n\n*Generated 2026-04-22 from persona.json (schema v1.0). Grounded per the founder-market-recommender skill's persona-grounding, business-model-alignment, and hallucination-guardrail rules.*\n\n---\n\n## Framing note (read first)\n\nJamie's persona carries one structural fact that shapes every recommendation below: **his warm-intro graph is cold-start in every externally-facing vertical (healthcare, finance, legal, manufacturing).** The one exception is developer tools / solo-dev infrastructure, where his 2K-member infra Discord, 3K-star OSS maintainership, the KubeCon meetup talk, the HN #1 distributed-systems-debugging post, and the ongoing \"Solo Stack\" essay series provide an audience surface in place of named contacts. Combined with a 9/10 Skill-Edge, 10/10 Obsession on \"open-source infrastructure that makes individual developers feel powerful,\" and a 10/10 missionary score (\"I don't want an exit\u00e2\u20ac\u00a6 build something people love forever\"), the persona has effectively pre-selected its market class: **developer-as-buyer**, where Jamie is the user.\n\nEvery recommendation below takes that seriously. Verticals where he would have to earn insider credibility from scratch are flagged cold-start with high friction, per the persona's explicit credibility flag on `dimension: network`.\n\nOne more constraint runs through the recommendations: the self-disclosed **\"never stuck with any one thing\"** pattern \u00e2\u20ac\u201d Jamie disengages when a project \"needs sales or polish or operations.\" The persona flags this as a 0-to-1 \u00e2\u2020\u2019 1-to-10 feasibility risk, not a legal one. That makes long-sales-cycle, enterprise-GTM, and regulated markets structurally unsuitable regardless of other fit. Markets that reach first revenue through developer-community distribution (the one motion he has actually executed) are the only ones that route around this failure mode.\n\n---\n\n## Top 4 markets to research\n\n### 1. Solo-dev production infrastructure (deploy/ops for the one-person company)\n\n- **Why this fits you specifically:** Your obsession-signal 1 (the year-long *Solo Stack* essay series) and obsession-signal 2 (the named CLI tool for solo-dev production deploys, active and unpaid) both literally name this market. You are the user \u00e2\u20ac\u201d the Market-Edge credibility gap from the persona's `experience` flag does not apply here, because your user-self IS the market insight (persona.md explicitly carves out this exception). The 3K-star OSS maintainership and the self-hosted Kubernetes cluster are the kind of insider markers that buyers in this segment actually look at.\n- **Market dynamics class:** **usage-based / consumption infrastructure** (per `archetype-to-market-dynamics.md` \u00c2\u00a75). This class is the one where \"strong Technical Edge alone can carry the founder, provided there's a dev-community network.\" Your archetype mix (Hacker 0.60, Hound 0.20) matches the Hacker-Hound reading the reference calls out, and your Technical Edge 9 clears the \u00e2\u2030\u00a58 cross-check bar.\n- **Suggested business model:** **usage-based with open-core core.** Free CLI + OSS components (maps to your maintainer identity and the missionary \"build something people love forever\" thesis); priced tier by deploy minutes / managed-service usage. `business-model-alignment.md` \u00c2\u00a7Usage-based names \"Technical founders with differentiated expertise\" and \"dev-community insider markers required if the buyer is developers\" as the exact fit \u00e2\u20ac\u201d you clear both.\n- **First-customer path:** the 2K-member infra-engineer Discord and the 3K-star OSS repo's existing contributor/user base. **Named first-three contacts are absent** \u00e2\u20ac\u201d per persona.json, warm_intros for \"developer tools / solo-dev infra\" is `cold_start: false` *but* notes \"no named individuals surfaced.\" Treat this as *audience-surface-yes, named-pipeline-no*. First action before an idea-audit: convert three Discord or OSS-user anonymous handles into three named, role-tagged contacts. Until that happens, the pipeline is community-surface, not warm-intro.\n- **Strongest pillars for this market:** Skill-Edge 9 (Raft-from-paper, K8s, toy compiler \u00e2\u20ac\u201d research-grade builder signal), Obsession 10 (two specificity-5 obsession signals both pointing here), Network 5 (moderate in the exact community that buys).\n- **Known risks:** (a) The `obsession` credibility flag \u00e2\u20ac\u201d \"never stuck with any one thing\" \u00e2\u20ac\u201d bites here because turning a CLI tool into a priced product requires a 12+ month grind through pricing, onboarding, and support. Mitigation: the convergent obsession signals (essay series + CLI + K8s homelab all pointing one direction) are *unusually* narrow for this founder; this is the single market where his focus pattern is most likely to hold. (b) Distribution risk is low here; monetisation risk is medium \u00e2\u20ac\u201d missionary purity (\"I don't want an exit\") can drag toward under-pricing free tiers.\n\n---\n\n### 2. Developer-first distributed-systems / reliability tooling (debugger, tracer, chaos, or Raft-shaped runtime for app developers)\n\n- **Why this fits you specifically:** Your HN #1 post (two years ago) was specifically on distributed-systems debugging \u00e2\u20ac\u201d that is the topic the internet has already ratified you on. The Raft-from-paper implementation and the MapReduce read are exactly the credentials this segment's buyers filter on. Your persona's `archetype_secondary: hound` (0.20) \u00e2\u20ac\u201d the \"interpreting messy technical domains\" read \u00e2\u20ac\u201d is load-bearing here: debugging/tracing/chaos tooling rewards the Hound's comfort with ambiguous systems-level signals.\n- **Market dynamics class:** **usage-based / consumption infrastructure** (same \u00c2\u00a75 as above, distinct market). The buyer is technical; unit of value is runs / spans / chaos-experiments. Dev-community marketing is the GTM. Your KubeCon meetup speaker slot is directly relevant distribution for this space.\n- **Suggested business model:** **usage-based** (spans/events/runs per month) or **open-core** (OSS core runtime + paid SaaS control plane). Explicitly *not* seat-licensed subscription \u00e2\u20ac\u201d the persona's Hacker-dominant (0.60) archetype and `business-model-alignment.md` \u00c2\u00a7Subscription misfit note (\"pure sales-led Hustlers who optimise for deal size\" \u00e2\u20ac\u201d inverse applies: pure Hacker without distribution instinct can under-invest in deal motions). Usage-based matches the pricing model dev-tools buyers expect in this segment.\n- **First-customer path:** the infra-engineer Discord + the 3K-star OSS repo + re-activation of the HN post's audience. Still **cold-start on named contacts** (no person listed in `warm_intros`); Discord audience gives reach without a pipeline. First action before an idea-audit: ship a minimal benchmark or repro tool tied to the debugger thesis and post it in the same channels that made the HN post land.\n- **Strongest pillars for this market:** Skill-Edge 9, Obsession 10 (Raft-for-fun is the specificity-4 signal that maps here), the KubeCon speak-level embeddedness, the HN #1 post as social proof.\n- **Known risks:** (a) The `insight` credibility flag \u00e2\u20ac\u201d \"Could ship a prototype of basically any B2B SaaS idea in 72 hours\" was flagged because \"shipping speed is being used as a substitute for market selection.\" Mitigation: run the `founder-idea-audit` before committing code \u00e2\u20ac\u201d your velocity is so high that the risk is choosing the wrong point-product within this space, not failing to ship. (b) This segment has well-known established vendors (not naming specific companies \u00e2\u20ac\u201d the persona doesn't list any, and naming them would violate Rule 2 of the hallucination-guardrails). Wedge selection matters more than category selection.\n\n---\n\n### 3. OSS-monetisation / commercial-OSS tooling (the platform Jamie would have used as an OSS maintainer)\n\n- **Why this fits you specifically:** You are literally a maintainer on a 3K-star OSS project \u00e2\u20ac\u201d your `network.insider_markers` lists this directly. You have run the coordination problem (maintainer coordinates contributors), the funding problem (the persona is explicit there is no capital raised), and the \"how do I keep doing this\" problem that every OSS-monetisation buyer faces. The *Solo Stack* essay series positions you as a named voice on \"infrastructure for individual developers\" \u00e2\u20ac\u201d which is a near-neighbour of \"infrastructure for individual OSS maintainers.\"\n- **Market dynamics class:** **pure B2B SaaS / developer tools** (`archetype-to-market-dynamics.md` \u00c2\u00a72) blended with usage-based for the payments/sponsorship leg. The buyer is a maintainer or a small OSS org; sales cycles are short; PLG is the norm. The reference's \"Hacker-heavy\" fit applies directly to your 0.60 Hacker mix.\n- **Suggested business model:** **hybrid \u00e2\u20ac\u201d subscription for the maintainer-facing dashboard + take-rate on sponsorship/commercial flows.** The take-rate leg means you'll want to check `business-model-alignment.md` \u00c2\u00a7Marketplace misfit note (\"pure-technical founders \u00e2\u20ac\u201d marketplace is 80% operations and 20% product\"). Your Catalyst Edge is 4 \u00e2\u20ac\u201d not marketplace-grade. Mitigation: keep the take-rate leg minimal (payment pass-through, not an active two-sided market) or bring in a Catalyst/Hustler co-founder for the marketplace motion. Persona.md's \"Shape read\" explicitly names \"a co-founder with domain depth\" as a well-suited path; a Catalyst-leaning co-founder is the same idea applied to this market.\n- **First-customer path:** the OSS project itself (you already coordinate its contributors) + the infra-engineer Discord + `contribute`-level Dev Twitter embeddedness. **Named contacts absent** (cold-start by persona.json definition, though community-surface rich). First action: survey the contributor base of your own 3K-star repo to ground the pain in specifics.\n- **Strongest pillars for this market:** Skill-Edge 9, Obsession 10, Network 5 (the `speak` at KubeCon + `moderate` in Discord + OSS maintainer role all feed this market's GTM).\n- **Known risks:** (a) Missionary purity (\"I don't want an exit\") can be a liability here: OSS-monetisation buyers need to believe you'll charge them enough to keep the lights on. Mitigation: let your pricing stance be proudly sustainable \u00e2\u20ac\u201d the persona's psychographic doesn't oppose charging, only exits. (b) The Catalyst 4/10 means the take-rate leg is the weakest part; keep this market's first wedge subscription-only and defer the marketplace/payments complexity until after product-market fit.\n\n---\n\n### 4. Dev-community-facing AI-for-developers tools (code-gen, agent infra, local-LLM dev tooling) \u00e2\u20ac\u201d **developer-as-buyer only**\n\n- **Why this fits you specifically:** Your persona's archetype-secondary is Hound (0.20) with the \"systems-level analysis\" read (Raft, MapReduce, HN post on distributed-systems debugging) \u00e2\u20ac\u201d the AI-for-developers segment rewards exactly that mix when the product is runtime/agent infra rather than chat UX. Your self-hosted K8s cluster is the kind of insider marker that credibility-screens you with this segment's buyers. The HN audience and KubeCon meetup circuit are where launches in this subspace actually land.\n- **Market dynamics class:** **usage-based / consumption infrastructure** with a trailing edge of **pure SaaS** (`archetype-to-market-dynamics.md` \u00c2\u00a7\u00c2\u00a75 and 2). Technical-founder-with-dev-community-network is the exact profile the reference names as viable without a Hustler co-founder in this class.\n- **Suggested business model:** **usage-based** (tokens / agent-runs / compute), potentially with a subscription floor for the control plane. Not pure subscription \u00e2\u20ac\u201d subscription alone would mispositioned against the unit of value (which is per-call cost alignment, per `business-model-alignment.md` \u00c2\u00a7Usage-based).\n- **First-customer path:** the same audience surface as the other three \u00e2\u20ac\u201d infra Discord, OSS contributors, HN readership. **Cold-start on named contacts** per the persona. First action: publish one *Solo Stack* essay specifically on the AI-for-solo-devs wedge; use reader response as the named-contact surfacing mechanism.\n- **Strongest pillars for this market:** Skill-Edge 9, Obsession 10 (specificity-4 Raft-for-fun obsession maps directly \u00e2\u20ac\u201d agent-runtime work is distributed-systems work in disguise).\n- **Known risks:** (a) This segment moves fast; the \"never stuck with any one thing\" credibility flag is most acute here, because the field re-resets every quarter. Mitigation: pick a wedge anchored in your distributed-systems identity (agent reliability, multi-agent coordination, or local-first inference plumbing) rather than the surface-level chat layer \u00e2\u20ac\u201d the anchored wedge gives the persona a reason to stay. (b) Frontier-tech dynamics (cat \u00c2\u00a76) could creep in \u00e2\u20ac\u201d if the market shifts that way, the 5-year commitment bar from the reference becomes real. Your 10/10 missionary score clears the Missionary \u00e2\u2030\u00a58 threshold from \u00c2\u00a76's cross-check, but the specificity-5 obsession needs to be on *this* subspace, not inherited from the Solo Stack generalisation. Revisit obsession specificity if this is the chosen direction.\n\n---\n\n## Markets to avoid (or treat with caution)\n\n### Regulated verticals \u00e2\u20ac\u201d healthcare clinical, fintech infra, legaltech, govtech \u00e2\u20ac\u201d **do not recommend**\n\nPer the persona, `warm_intros` for healthcare, finance, and legal are **explicitly `cold_start: true`**, and the persona's `credibility_flags` include a `dimension: network` flag stating \"I don't know anyone in any specific industry \u00e2\u20ac\u201d zero warm intros in healthcare, finance, legal, or manufacturing.\" `archetype-to-market-dynamics.md` \u00c2\u00a71 requires Market Edge \u00e2\u2030\u00a57 for regulated markets; your Market Edge is 2 (persona evidence: \"honestly I don't have a domain\u00e2\u20ac\u00a6 I can't name a single arcane pain point in any of them that insiders would recognise\"). These markets' 6\u00e2\u20ac\u201c18-month procurement cycles also collide directly with the `obsession` credibility flag (\"never stuck with any one thing\u00e2\u20ac\u00a6 always had a new idea by the time the current one needed sales\"). This is the trap persona.md's Shape read names: *\"picking a vertical cold and trying to learn it.\"* Don't.\n\n### Operations-intensive B2B marketplaces (construction, trucking, wholesale logistics) \u00e2\u20ac\u201d **do not recommend**\n\n`archetype-to-market-dynamics.md` \u00c2\u00a73 calls for Catalyst Edge \u00e2\u2030\u00a56 or a proven Hustler track record; your Catalyst is 4 (evidence: \"no capital raised, no from-zero team hire, no closed enterprise deal\") and Hustler mix is 0.10. `business-model-alignment.md` \u00c2\u00a7Marketplace is explicit: \"pure-technical founders \u00e2\u20ac\u201d marketplace is 80% operations and 20% product.\" Manufacturing is also on the cold-start list in `warm_intros`. Two-sided liquidity problems are exactly the 12+ month grind that the `obsession` credibility flag warns against.\n\n### Consumer / D2C / creator-economy apps \u00e2\u20ac\u201d **do not recommend**\n\nYour archetype mix is Hipster 0.10 and Hustler 0.10 \u00e2\u20ac\u201d `archetype-to-market-dynamics.md` \u00c2\u00a74 names Hustler or Hipster-heavy as the fit, and `business-model-alignment.md` \u00c2\u00a7Transactional names \"brand/taste\" and \"distribution mastery\" as the strategic requirement. The persona has no taste/brand signal in `obsession_signals` and the constraint line notes he has \"never polished a consumer surface.\" This is a clean archetype-to-market mismatch before even getting to the network gap.\n\n### Traditional enterprise B2B SaaS (buyer = CIO / VP in a non-dev function) \u00e2\u20ac\u201d **caution, cold-start with high friction**\n\nDistinct from the \"developer-as-buyer\" markets above. This includes HR tech, CRM for non-dev functions, procurement tooling, vertical SaaS for non-technical buyers. Per `archetype-to-market-dynamics.md` cross-check, pure SaaS in this sub-class wants \"Hipster archetype + product taste\" \u00e2\u20ac\u201d which isn't the persona's signal \u00e2\u20ac\u201d and the GTM is enterprise-sales, which hits the `obsession` flag and the Hustler 0.10 mix directly. If a specific non-dev enterprise idea surfaces later, treat it as cold-start with high friction and route it through `founder-idea-audit` before building \u00e2\u20ac\u201d don't enter directly from this recommender.\n\n---\n\n## What to do next\n\n1. The four top markets above are **research targets, not ideas**. Pick one or two, then bring specific product ideas back through `founder-idea-audit`, which audits specific ideas within any of these markets against the same persona (1\u00e2\u20ac\u201c100 scorecard per `main.md`). That's the downstream skill designed to handle the idea-selection risk your `insight` credibility flag surfaced (\"shipping speed substituting for market selection\").\n2. **Before the audit**, the single highest-leverage action on this persona is to **convert three anonymous Discord/OSS-contributor handles into three named, role-tagged contacts** in the \"developer tools / solo-dev infra\" vertical. The persona explicitly flags the absence of named first-three contacts as the blocker \u00e2\u20ac\u201d closing that gap upgrades this whole recommendation class from audience-surface to warm-intro pipeline.\n3. **Revisit persona** if you pick the AI-for-developers direction specifically \u00e2\u20ac\u201d the obsession signals currently resolve to \"solo developer empowerment,\" not \"AI agent infra.\" If your focus shifts, re-run `founder-persona-interview` so the obsession specificity tracks the new direction before you commit 18 months of runway.\n"}], "grading": {"summary": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "17101 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=4, h3=8, numbered=3"}, {"text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)", "passed": true, "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"}, {"text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)", "passed": true, "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer']"}, {"text": "Output explicitly flags any non-dev vertical recommendations as cold-start", "passed": true, "evidence": "matched: ['developer', 'dev tool', 'dev infra', 'dev-tools', 'open-source', 'usage-based', 'API', 'OSS', 'developer-as-buyer', 'infrastructure']"}, {"text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge", "passed": true, "evidence": "matched: ['cold-start', 'cold_start']"}, {"text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor", "passed": true, "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"}, {"text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)", "passed": true, "evidence": "matched: ['missionary', 'love forever', 'people love']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'take-rate', 'hybrid', 'open-core', 'open-core']"}, {"text": "Output does not invent specific competitor company names not mentioned in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation", "passed": true, "evidence": "evidence hits found"}], "load_errors": []}}, {"id": "eval-2-jamie-dev-tools-recommendations-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "recommendations.md", "type": "text", "content": "# Market Recommendations: Jamie Chen\n\n*Generated: 2026-04-22*\n*Source persona: `eval-2-generalist-hacker-missionary-unfocused/with_skill/run-1/outputs/persona.json`*\n\n---\n\n## Executive read\n\nJamie is a 9/10 technical Hacker with a 10/10 missionary drive, zero Market Edge outside his own user segment, and an admitted \"never stuck with any one thing\" pattern at the 0-to-1 -> 1-to-10 boundary. His entire usable network is in **developer-tools / solo-dev infrastructure** \u00e2\u20ac\u201d Kubernetes, OSS maintainership, a 2K-member infra Discord, a KubeCon meetup talk, a HN #1 distributed-systems post, and the year-long \"Solo Stack\" essay series. Every non-dev vertical is a literal cold start by the founder's own admission.\n\nThe rule this implies is strict:\n- **Recommend only markets where the buyer is a developer and Jamie's existing distribution surfaces reach them.**\n- **Flag any non-dev vertical as cold-start with high friction.**\n- **Prefer business models that match his 0-to-1 temperament (usage-based, open-core, bottom-up self-serve) and penalise motions that require a 12+ month enterprise grind, regulated customer workflows, or insider warm intros.**\n\n---\n\n## Top market recommendations\n\n### 1. Solo-dev / small-team production infrastructure (the \"Solo Stack\" thesis, productised)\n\n- **Why this market (persona evidence):** Jamie's obsession signals converge here \u00e2\u20ac\u201d the named \"Solo Stack\" essay series (running a full year, unpaid), the named CLI tool for solo devs deploying production services without a DevOps team, the self-hosted Kubernetes cluster for his own side projects, the Raft-from-paper depth. He is already the user. The 3K-star OSS project and 2K-member infra Discord are the distribution surface, not a hypothetical.\n- **Market-dynamics class:** Developer-tools / infrastructure (transactional + usage-based). Bottom-up, individual-developer-led adoption; cloud-resources-proxy pricing is the norm.\n- **Business model:** **Usage-based with an open-core anchor.** Free OSS CLI / SDK \u00e2\u20ac\u201d which he already has a credible reason to maintain \u00e2\u20ac\u201d plus a managed tier (hosted control plane, team collaboration, or paid compute) billed on deployments, builds, or resource-minutes. This matches missionary temperament: the free tier is the gift, the paid tier is the sustainability layer.\n- **First-customer path:** The Solo Stack subscriber list, the OSS project's active users, the Discord's 2K members. He posts, they try, a fraction convert. Zero insider warm intros required.\n- **Psychographic fit:** Directly draws on the \"build something people love forever\" missionary evidence. A perpetual-OSS-with-commercial-edge company can credibly be run with no-exit framing.\n- **Persistence risk mitigation:** The 1-to-10 grind here is *still building* (more features, deeper integrations, better docs) rather than *sales*. His abandonment pattern triggers at \"sales / polish / operations\" \u00e2\u20ac\u201d open-core with self-serve usage billing minimises all three.\n\n### 2. Developer-facing observability / debugging tools for distributed systems\n\n- **Why this market (persona evidence):** His HN #1 post was specifically on distributed-systems debugging. He implemented Raft from the paper. The KubeCon meetup talk and Kubernetes cluster operation put him in the same pain as the buyer. This is the rare space where \"read the paper, build the thing, explain it on HN\" *is* the market-insight loop.\n- **Market-dynamics class:** Developer-tools / infrastructure (usage-based, transactional). Adjacent to the dev-infra buying patterns above but a distinct category \u00e2\u20ac\u201d buyers here are SREs, platform engineers, and senior backend engineers with the authority to swipe a credit card on a team tier.\n- **Business model:** **Usage-based (ingest-volume or trace-volume) with a free tier generous enough to pass the Hacker-News-comment sniff test.** Optionally a team subscription for retention / seats. Avoid enterprise-sales-led pricing \u00e2\u20ac\u201d that is squarely inside his abandonment zone.\n- **First-customer path:** Same surfaces \u00e2\u20ac\u201d Solo Stack essays, Discord, OSS repo, Dev Twitter. A well-written debugging-focused essay series is a distribution weapon for this exact segment.\n- **Psychographic fit:** The missionary \"make individual developers feel powerful\" quote maps cleanly to the \"give me back my sanity when a distributed system is on fire\" buyer need.\n- **Persistence risk mitigation:** Same as above \u00e2\u20ac\u201d bottom-up, self-serve, build-heavy. No need to run a multi-quarter enterprise evaluation cycle.\n\n### 3. OSS-monetisation / developer-experience tooling aimed at OSS maintainers themselves\n\n- **Why this market (persona evidence):** He *is* a 3K-star OSS maintainer. He coordinates contributors. He runs a Discord. This is not a market he has to learn \u00e2\u20ac\u201d the arcane pain points (triage load, contributor CLAs, sponsorship plumbing, release automation, abuse handling, sustainability) are things he experiences weekly. This is the most literal \"founder-is-the-user\" fit in the persona.\n- **Market-dynamics class:** Developer-tools / SaaS (subscription or usage-based). Small but highly identifiable buyer population; the top few thousand maintainers move the needle.\n- **Business model:** **Subscription (per-maintainer or per-repo) or hybrid open-core.** Could also be transactional on top of a sponsorship flow.\n- **First-customer path:** Direct peers in the OSS maintainer community \u00e2\u20ac\u201d KubeCon meetup circuit, Dev Twitter, other maintainers in his existing Discord. Warm surfaces exist, and this is the one vertical where cold-emailing a maintainer with \"hey, I maintain X, I hit the same problem, here's what I built\" reads as peer contact, not sales.\n- **Psychographic fit:** Perfect alignment with the \"open-source infrastructure that makes individual developers feel powerful\" missionary statement \u00e2\u20ac\u201d here the powered-up developer is specifically the maintainer.\n- **Persistence risk mitigation:** Smallness of the buyer population is an asset here \u00e2\u20ac\u201d it's a finite, knowable set, so the non-building phases can be short and high-signal rather than an open-ended enterprise grind.\n\n### 4. Developer-productivity tooling for AI-assisted coding workflows (dev-infra interpretation only)\n\n- **Why this market (persona evidence):** The Hound secondary archetype (comfort with systems-level analysis, MapReduce / Raft / distributed-systems-debugging lineage) combines with the \"idea over coffee to prototype in a weekend with auth, billing, and a passable UI\" self-report. Jamie is literally living the AI-assisted-prototype workflow. The skill-edge, the infra depth, and the OSS maintainer surface all transfer to \"tooling that sits between the developer and the AI\" \u00e2\u20ac\u201d eval harnesses for agents, local inference infra for solo devs, CI plumbing for AI-generated code, etc.\n- **Market-dynamics class:** Developer-tools / infrastructure (usage-based, often compute-proxied). Adjacent to #1 but worth calling out separately because it's the fastest-moving dev-buyer segment right now and matches his \"on the boundary of what's possible for a solo builder\" self-claim.\n- **Business model:** **Usage-based (compute or tokens proxied) with optional open-core.**\n- **First-customer path:** Solo Stack subscribers, Dev Twitter, OSS repo users.\n- **Psychographic fit:** Missionary framing holds \u00e2\u20ac\u201d \"making the solo dev as productive as a team\" is the same thesis as the CLI tool, just one layer up.\n- **Persistence risk mitigation:** *Caveat* \u00e2\u20ac\u201d this segment is crowded and moves fast, which cuts both ways. Fast moves reward Jamie's weekend-prototype cadence; the crowd means differentiation has to come from his unique depth (Raft, K8s, distributed-systems debugging), not from shipping-speed alone. His flagged \"shipping speed as substitute for market selection\" risk applies sharply here. Only pursue if he can name the *specific* sub-pain he has first-hand experience with \u00e2\u20ac\u201d otherwise this turns into generic AI-wrapper territory, which is exactly the \"build anything\" trap.\n\n---\n\n## Cold-start / avoid / caution\n\n### Explicit cold-start flags (do not pursue without a domain co-founder or an extended insider-learning stage first)\n\n- **Healthcare verticals of any kind** \u00e2\u20ac\u201d cold-start by persona's own declaration. Regulated market-dynamics class; 12+ month enterprise cycles; requires clinical-insider credibility he does not have. Direct contradiction with the \"never stuck with one thing\" flag.\n- **Fintech / finance verticals** \u00e2\u20ac\u201d cold-start. Even though he's \"dabbled in crypto,\" the persona explicitly records he cannot name an arcane pain that an insider would recognise. Regulated class; sales cycles and compliance grind are exactly the non-building phases he abandons.\n- **Legal tech** \u00e2\u20ac\u201d cold-start. Regulated buyer, narrow insider network, zero warm intros.\n- **Manufacturing / industrial** \u00e2\u20ac\u201d cold-start. Ops-intensive class; field-sales norm; no community capital here.\n- **Consumer / social apps** \u00e2\u20ac\u201d cold-start-in-disguise. He's \"dabbled,\" but the Hipster score is 10% and he has never polished a consumer surface. Consumer markets require taste and distribution types (paid, influencer, viral-loop optimisation) outside his toolkit. Missionary temperament can work in consumer but only with a product-design partner; flag as high-friction.\n\n### Markets where the dynamics class is a direct mis-fit regardless of vertical\n\n- **Enterprise B2B SaaS with 6\u00e2\u20ac\u201c12 month procurement cycles** \u00e2\u20ac\u201d the market-dynamics class is ops-intensive / relationship-sold, which directly collides with the \"disengages when the current one needs sales or operations\" pattern. Even inside developer tools, **avoid selling top-down to platform / SRE VPs at Fortune 500s as the primary motion.** Bottom-up only.\n- **Content / SEO / creator-economy plays** \u00e2\u20ac\u201d consumer-adjacent, taste-led, multi-year content-moat grind. Mis-fit to 0-to-1 temperament.\n- **Marketplace businesses (two-sided liquidity)** \u00e2\u20ac\u201d marketplace dynamics class requires a multi-quarter both-sides-of-the-market grind and operator-grade relationship sales. Mis-fit to archetype, temperament, and obsession direction.\n\n### Cold-start warning on anything adjacent-but-not-developer\n\n- If a future idea is in dev-adjacent territory (e.g., **designers** as buyers, **data analysts** as buyers, **ML researchers** as buyers) \u00e2\u20ac\u201d treat it as **cold-start with moderate friction**. These buyers are one network-hop away from his Discord but are *not* the same buying population. His community capital partially transfers; his Market Edge does not. Require at least one named insider contact per adjacent buyer-class before recommending.\n\n---\n\n## Sustaining factors worth naming\n\n- **Missionary psychographic (10/10).** Direct quotes: *\"I don't want an exit. I want to build something that people love forever\"* and *\"If I sold I'd start something new the next day anyway.\"* This is the single biggest sustaining factor for an open-core / OSS-adjacent dev-tools business \u00e2\u20ac\u201d the model rewards patience with a community, and Jamie's mission-state survives the non-monetising early years better than a mercenary founder's would.\n- **Obsession convergence.** The \"Solo Stack\" essay series + named CLI tool + Raft/compiler artefacts all point at the *same* thesis: empower the solo developer. Obsession has already pre-selected the market even though Market Edge scored 2/10 on paper. The recommendations above lean on this convergence.\n- **Distribution primitives already exist.** 3K-star OSS repo, 2K-member Discord, HN #1 history, KubeCon speaking, year-long essay series. None of the top recommendations require building a net-new audience \u00e2\u20ac\u201d they require pointing existing audiences at a paid surface.\n\n---\n\n## Risks / mitigations to carry into `founder-idea-audit`\n\n- **Focus / persistence flag (\"never stuck with any one thing\").** All recommended markets are bottom-up, build-heavy, and compatible with shipping in public. This minimises the non-building phases that trigger abandonment. Still \u00e2\u20ac\u201d the founder-idea-audit should stress-test any specific idea against \"what's the 1-to-10 phase look like, and does it require non-building stamina?\" If yes, recommend a co-founder search *before* commitment.\n- **Market-Edge-is-zero-outside-dev flag.** Every recommendation above is explicitly inside the one vertical where he *is* the user. Do not let a future idea-audit recommend anything outside this perimeter without a domain co-founder.\n- **Shipping-speed-as-substitute-for-selection flag.** His 72-hour-prototype capability is a weapon but also a temptation. The idea-audit should require a named first-three-customer list (not a theoretical segment) before greenlighting any of these markets concretely. Community capital is real but the *named-individual* layer is still missing even in dev-tools \u00e2\u20ac\u201d flag this and require naming three specific real users from the Discord / OSS repo before capital-deployment.\n- **Absence of commercial Catalyst (4/10).** He can rally developers around free work; he has not yet rallied investors or closed a paying customer against resistance. Mitigation: start with the business models above (usage-based, open-core, self-serve subscription) that have the lowest \"close against resistance\" surface area.\n\n---\n\n## Business-model summary table\n\n| Market | Dynamics class | Business model | First-customer surface |\n|---|---|---|---|\n| Solo-dev production infra | Dev-tools / infrastructure | Open-core + usage-based | Solo Stack + OSS repo + Discord |\n| Distributed-systems observability / debugging | Dev-tools / infrastructure | Usage-based (ingest/trace) + team tier | HN + Discord + Dev Twitter + KubeCon |\n| OSS-maintainer tooling | Dev-tools / SaaS | Subscription or hybrid open-core | Peer maintainers (Dev Twitter, KubeCon, Discord) |\n| AI-coding dev infra (conditional) | Dev-tools / infrastructure | Usage-based + optional open-core | Solo Stack + OSS repo (if named sub-pain exists) |\n\n---\n\n## No unverified TAM / growth claims\n\nEvery market above is described by buyer type, distribution path, and business model rather than by dollar figures. Any TAM or growth-rate numbers brought into the next step should carry an **(unverified)** caveat unless the founder-idea-audit surfaces a primary source.\n\n---\n\n## Next step\n\nHand this off to **`founder-idea-audit`** with one of the top-three markets + a specific named idea from Jamie. The idea-audit should:\n1. Demand three named first-customer contacts from within the Discord / OSS / Solo Stack audience before scoring.\n2. Stress-test the 1-to-10 phase against the \"never stuck with one thing\" flag.\n3. Score Experience / Insight conservatively outside developer infra, regardless of how compelling the idea sounds.\n\nThe `founder-idea-audit` handoff is the gate between \"this market class fits\" (what this document establishes) and \"this specific idea is worth 18 months of runway\" (what the audit decides).\n"}], "grading": {"summary": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "14836 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=8, h3=7, numbered=3"}, {"text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)", "passed": true, "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold start', 'cold-start']"}, {"text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)", "passed": true, "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer', 'distributed systems']"}, {"text": "Output explicitly flags any non-dev vertical recommendations as cold-start", "passed": true, "evidence": "matched: ['developer', 'dev infra', 'dev-tools', 'dev-infra', 'open-source', 'usage-based', 'API', 'OSS', 'DevOps', 'infrastructure']"}, {"text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge", "passed": true, "evidence": "matched: ['cold start', 'cold-start']"}, {"text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor", "passed": true, "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold start', 'cold-start']"}, {"text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)", "passed": true, "evidence": "matched: ['missionary', 'no-exit', 'love forever', 'people love']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'hybrid', 'services', 'open-core', 'ads', 'open-core']"}, {"text": "Output does not invent specific competitor company names not mentioned in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation", "passed": true, "evidence": "evidence hits found"}], "load_errors": []}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "founder-market-recommender", "skill_path": "C:/Users/Public/_sites/2026/2026.11/skills/founder-market-recommender", "executor_model": "<model-name>", "analyzer_model": "<model-name>", "timestamp": "2026-04-23T22:01:24Z", "evals_run": [0, 1, 2], "runs_per_configuration": 3}, "runs": [{"eval_id": 0, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12, "time_seconds": 165.9, "tokens": 54979, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "13962 chars"}, {"text": "Output has a top-markets section with recommendations numbered or clearly separated", "passed": true, "evidence": "h2=5, h3=7, numbered=0"}, {"text": "Output has an avoid/cold-start markets section", "passed": true, "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold-start', 'cold_start']"}, {"text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)", "passed": true, "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"}, {"text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)", "passed": true, "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"}, {"text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)", "passed": true, "evidence": "matched: ['regulated', 'saas', 'operations-intensive', 'transactional', 'usage-based', 'category-creating']"}, {"text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"}, {"text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging", "passed": true, "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output does not invent specific competitor company names that are not mentioned in the persona", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')", "passed": true, "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Stripe Tax', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit']"}, {"text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)", "passed": true, "evidence": "matched: ['founder-idea-audit', 'idea-audit']"}], "notes": []}, {"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12, "time_seconds": 151.3, "tokens": 54488, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "13422 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=3, h3=7, numbered=0"}, {"text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)", "passed": true, "evidence": "matched: ['avoid', 'caution', 'cold start', 'cold-start', 'cold_start']"}, {"text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint", "passed": true, "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'Joint Commission']"}, {"text": "Output names the regulated or clinical market-dynamics class at least once", "passed": true, "evidence": "matched: ['cold start', 'cold-start', 'cold_start']"}, {"text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor", "passed": true, "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"}, {"text": "Output names a business model per recommendation", "passed": true, "evidence": "matched: ['patient', 'missionary']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'hybrid', 'services']"}, {"text": "Output does not invent hospital or health-system customer names that are not in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'", "passed": true, "evidence": "matched: ['co-founder', 'solo']"}, {"text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)", "passed": true, "evidence": "evidence hits found"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12, "time_seconds": 201.5, "tokens": 57088, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "17101 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=4, h3=8, numbered=3"}, {"text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)", "passed": true, "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"}, {"text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)", "passed": true, "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer']"}, {"text": "Output explicitly flags any non-dev vertical recommendations as cold-start", "passed": true, "evidence": "matched: ['developer', 'dev tool', 'dev infra', 'dev-tools', 'open-source', 'usage-based', 'API', 'OSS', 'developer-as-buyer', 'infrastructure']"}, {"text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge", "passed": true, "evidence": "matched: ['cold-start', 'cold_start']"}, {"text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor", "passed": true, "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"}, {"text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)", "passed": true, "evidence": "matched: ['missionary', 'love forever', 'people love']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'take-rate', 'hybrid', 'open-core', 'open-core']"}, {"text": "Output does not invent specific competitor company names not mentioned in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation", "passed": true, "evidence": "evidence hits found"}], "notes": []}, {"eval_id": 0, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12, "time_seconds": 130.8, "tokens": 41691, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "12417 chars"}, {"text": "Output has a top-markets section with recommendations numbered or clearly separated", "passed": true, "evidence": "h2=6, h3=9, numbered=4"}, {"text": "Output has an avoid/cold-start markets section", "passed": true, "evidence": "matched: ['avoid', 'do not recommend', 'cold-start', 'cold_start']"}, {"text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)", "passed": true, "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"}, {"text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)", "passed": true, "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"}, {"text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)", "passed": true, "evidence": "matched: ['regulated', 'saas', 'ops-intensive', 'transactional', 'usage-based', 'consumer']"}, {"text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"}, {"text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging", "passed": true, "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output does not invent specific competitor company names that are not mentioned in the persona", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')", "passed": true, "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit', 'Retool']"}, {"text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)", "passed": true, "evidence": "matched: ['founder-idea-audit', 'idea-audit']"}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12, "time_seconds": 153.6, "tokens": 43075, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "14322 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=6, h3=9, numbered=3"}, {"text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)", "passed": true, "evidence": "matched: ['avoid', 'poor fit', 'cold-start', 'no warm intro']"}, {"text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint", "passed": true, "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'brain-sheet', 'Joint Commission']"}, {"text": "Output names the regulated or clinical market-dynamics class at least once", "passed": true, "evidence": "matched: ['cold-start', 'no warm intro']"}, {"text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor", "passed": true, "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"}, {"text": "Output names a business model per recommendation", "passed": true, "evidence": "matched: ['patient', 'missionary', 'handoff miss']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'marketplace', 'hybrid', 'services']"}, {"text": "Output does not invent hospital or health-system customer names that are not in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'", "passed": true, "evidence": "matched: ['technical gap', 'co-founder', 'no-code']"}, {"text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)", "passed": true, "evidence": "evidence hits found"}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 12, "failed": 0, "total": 12, "time_seconds": 150.1, "tokens": 43954, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Output report exists as markdown", "passed": true, "evidence": "14836 chars"}, {"text": "Output has top-markets and avoid sections", "passed": true, "evidence": "h2=8, h3=7, numbered=3"}, {"text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)", "passed": true, "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold start', 'cold-start']"}, {"text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)", "passed": true, "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer', 'distributed systems']"}, {"text": "Output explicitly flags any non-dev vertical recommendations as cold-start", "passed": true, "evidence": "matched: ['developer', 'dev infra', 'dev-tools', 'dev-infra', 'open-source', 'usage-based', 'API', 'OSS', 'DevOps', 'infrastructure']"}, {"text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge", "passed": true, "evidence": "matched: ['cold start', 'cold-start']"}, {"text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor", "passed": true, "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold start', 'cold-start']"}, {"text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)", "passed": true, "evidence": "matched: ['missionary', 'no-exit', 'love forever', 'people love']"}, {"text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat", "passed": true, "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'hybrid', 'services', 'open-core', 'ads', 'open-core']"}, {"text": "Output does not invent specific competitor company names not mentioned in the persona", "passed": true, "evidence": "no uncaveated market-size/TAM/CAGR claims"}, {"text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'", "passed": true, "evidence": "competitor-invention check deferred to human review"}, {"text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation", "passed": true, "evidence": "evidence hits found"}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 172.9, "stddev": 25.8217, "min": 151.3, "max": 201.5}, "tokens": {"mean": 55518.3333, "stddev": 1381.3618, "min": 54488, "max": 57088}}, "without_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 144.8333, "stddev": 12.2786, "min": 130.8, "max": 153.6}, "tokens": {"mean": 42906.6667, "stddev": 1140.8525, "min": 41691, "max": 43954}}, "delta": {"pass_rate": "+0.00", "time_seconds": "+28.1", "tokens": "+12612"}}, "notes": []}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

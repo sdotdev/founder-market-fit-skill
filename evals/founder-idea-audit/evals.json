@@ -1,0 +1,139 @@
+{
+  "skill_name": "founder-idea-audit",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "daniela-aligned-chargeback-automation",
+      "prompt": "I want to audit an idea against my persona using the founder-idea-audit skill.\n\nMy persona.json is at `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-0-ex-stripe-pm-fintech-depth/with_skill/run-1/outputs/persona.json`.\n\n**The idea:** SMB chargeback-dispute automation — a SaaS product that files and wins chargeback disputes for small merchants approaching Visa VMP (0.9%) and VDMP (1.8%) thresholds. Target buyer: SMB merchants processing $1-10M ARR across Shopify / Amazon / WooCommerce / independent POS channels. Wedge: LLM-driven evidence-compiling lowers per-dispute cost to SMB economics for the first time. Business model: subscription SaaS base + success-fee share on recovered disputes.\n\n**Idea maze:** prior attempts: (1) legacy processor tools at Verifi and Chargebacks911 optimised for enterprise reps and priced SMBs out; (2) Chargeback (acquired by Sift) tried to productise the flow but couldn't distribute below enterprise; (3) Stripe's internal build never got prioritised against newer SKUs. What's changed: (a) card-network penalty escalation made VDMP 40% more expensive than 2018, (b) SMB awareness from TikTok dispute-shop content, (c) LLM evidence-compiling economics for the first time.\n\nPlease produce the audit.",
+      "expected_output": "Score in the 75-100 (Strong Alignment) band. Per-pillar table with exact weights 25/20/20/15/20. High Experience, high Insight (idea maze answered well), moderate Skill-Edge (with co-founder note), high Network (named intros), high Obsession. Red flag likely technical-gap (R3 or E4). Investor-ready narrative present. No pivot suggestion.",
+      "files": [],
+      "assertions": [
+        "Output exists as markdown",
+        "Output contains an overall score as a number out of 100 (e.g. 'Score: N/100' or 'N/100')",
+        "Overall score is in the 75-100 band",
+        "Output names the band as 'Strong Alignment' or 'Strong' verbatim",
+        "Output contains a per-pillar breakdown with all 5 dimensions named (Experience Alignment, Non-Obvious Insight, Technical/Skill Edge, Network Density, Obsession/Stamina)",
+        "Per-pillar breakdown references the weights 25%, 20%, 20%, 15%, 20% (or equivalently 2.5, 2.0, 2.0, 1.5, 2.0 multipliers)",
+        "Output references at least one named persona warm-intro (Priya Nair, Tom DiFranco, or Sarah Okwu)",
+        "Output cites the idea-maze answer quality in the Insight row (mentions the 3 prior attempts or their failure modes)",
+        "Output contains a Top 3 red flags section with at least 3 distinct flags",
+        "At least one red flag uses catalogue IDs from the skill's red-flags catalogue (E1-E5, C1-C5, T1-T5, or R1-R5)",
+        "Output contains a gap-mitigation plan naming at least one co-founder archetype (Hacker, Hustler, Hipster, or Hound)",
+        "Output contains an investor-ready narrative paragraph",
+        "Output does NOT contain a pivot suggestion section (score is >= 40)",
+        "Output references the founder's substack, M&A tracker, or chargeback-specific obsession signal"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "daniela-misaligned-quantum-computing",
+      "prompt": "Audit this idea against my persona. Persona: `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-0-ex-stripe-pm-fintech-depth/with_skill/run-1/outputs/persona.json`.\n\n**The idea:** A quantum-computing research-infrastructure platform for academic labs and deep-tech startups. Target buyer: research directors at top-20 universities and Series-A-funded quantum startups. Wedge: a shared tooling layer that abstracts over IBM, Google, and IonQ back-ends. Business model: usage-based + enterprise annual contracts.\n\nNo idea-maze context provided (I haven't researched prior attempts in this space).",
+      "expected_output": "Score <40 (Pre-PMF / High Risk). Experience 1-2 (no quantum background). Insight 1-3 (idea maze not answered, no specifics). Skill-Edge 1-3 (her 3/10 technical + wrong domain). Network 1-2 (zero warm intros to quantum). Obsession 1-3 (no signal in this space). Pivot suggestion present. Investor narrative says 'does not yet hold'.",
+      "files": [],
+      "assertions": [
+        "Output exists as markdown",
+        "Output contains an overall score out of 100",
+        "Overall score is <40",
+        "Output names the band as 'Pre-PMF', 'High Risk', or similar band verbatim",
+        "Output contains per-pillar breakdown with all 5 dimensions",
+        "Experience and Network scores are both 3/10 or lower in the per-pillar table",
+        "Obsession score is 3/10 or lower",
+        "Output flags the missing idea-maze answer as a gap OR scores Insight <=5 with that as a reason",
+        "Output contains a pivot suggestion section (because score <40)",
+        "Output's investor-ready narrative section says the narrative 'does not yet hold' or equivalent honest-framing (NOT a confident investor pitch)",
+        "Output contains at least 3 red flags",
+        "Output does not invent false warm intros or insider markers in quantum computing",
+        "Output cites the mismatch between persona's fintech domain and the quantum idea explicitly"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "marcus-aligned-icu-handoff-tool",
+      "prompt": "Please audit this idea. My persona: `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-1-icu-nurse-learning-to-code/with_skill/run-1/outputs/persona.json`.\n\n**The idea:** A nurse-facing ICU shift-change handoff tool that replaces paper brain-sheets. Target initial buyer: charge nurses and unit directors at academic medical centres. Wedge: SBAR workflow optimised for ICU vasopressor / ventilator / family-communication context, imports from Epic Rover and persists structured narrative. Business model: per-unit subscription SaaS, sold through clinical operations leadership.\n\n**Idea maze:** I know the space. Prior attempts: (1) Epic's own handoff module is tacked-on and nurses ignore it; (2) several startups (Handoff Health, SBAR Plus) hit walls because they sold to IT and not clinical ops; (3) PatientSafe Solutions got acquired but their product never solved the 'last-vasopressor-change' surfacing problem. What's changed: (a) Joint Commission 2023 sentinel-event data pushing hospitals to measure communication failures, (b) Epic opening more of its Rover API, (c) nurse shortage giving clinical ops budget.",
+      "expected_output": "Score in the 40-74 range (Promising but Fragmented) — strong on Experience / Insight / Obsession but capped on Skill-Edge (Marcus can't build alone, credibility flag applies) and Network (no buyer warm-intros, credibility flag applies). Gap mitigation names specific co-founder need (Hacker archetype). Red flags on Network (T3) and Skill-Edge (R3).",
+      "files": [],
+      "assertions": [
+        "Output exists as markdown",
+        "Output contains an overall score out of 100",
+        "Overall score is in the 40-74 band (Promising but Fragmented) OR >=65 (allowing for some generosity)",
+        "Output names the band verbatim (Promising but Fragmented, or Strong Alignment if scored 75+)",
+        "Output contains per-pillar breakdown with all 5 dimensions",
+        "Experience score is >=7 (Marcus's ICU domain is strong and rehabilitated by the specific ICU wedge)",
+        "Obsession score is >=8 (specificity-5 obsession signals on handoffs)",
+        "Skill-Edge score is <=4 (credibility cap applied per the skill)",
+        "Network score is <=5 (no buyer warm-intros per persona)",
+        "Output references ICU / SBAR / handoff / brain-sheet / vasopressor domain terms from the persona",
+        "Output cites the idea-maze answer quality (names the 3 prior attempts mentioned)",
+        "Output names 'Hacker' archetype (or equivalent technical co-founder) in gap-mitigation",
+        "Output contains at least 3 red flags with catalogue IDs OR substantive mitigation text",
+        "Output does NOT contain a pivot suggestion (score >=40)",
+        "Output's investor-ready narrative honestly surfaces the technical and network gaps rather than papering over them"
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "marcus-misaligned-ai-crypto-trading",
+      "prompt": "Audit this against my persona at `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-1-icu-nurse-learning-to-code/with_skill/run-1/outputs/persona.json`.\n\n**The idea:** An AI-powered crypto-derivatives trading bot for retail traders. Target buyer: retail crypto traders with $5K-$500K portfolios. Wedge: LLM-based sentiment signals combined with options-flow analysis for BTC/ETH perpetuals. Business model: subscription + performance fee.",
+      "expected_output": "Score <40 (Pre-PMF / High Risk). Experience 1 (zero crypto background). Insight 1-2 (no idea maze). Skill-Edge 1 (already flagged, and wrong domain). Network 1 (zero). Obsession 1-2 (no signal). Pivot suggestion present, probably directing back to healthcare. Investor narrative does not yet hold.",
+      "files": [],
+      "assertions": [
+        "Output exists as markdown",
+        "Output contains an overall score out of 100",
+        "Overall score is <40",
+        "Output names the band as 'Pre-PMF' or 'High Risk' verbatim",
+        "Output contains per-pillar breakdown",
+        "Experience, Insight, Skill-Edge, Network, Obsession scores are all 3/10 or lower",
+        "Output contains a pivot suggestion",
+        "Pivot suggestion directs back toward healthcare / ICU or other persona-aligned direction",
+        "Output's investor-ready narrative says 'does not yet hold' or equivalent",
+        "Output cites the persona's skill_edge credibility flag (technical gap) as a compounding issue",
+        "Output flags the absence of persona obsession signal in this space",
+        "Output does not fabricate crypto-world warm intros or insider markers",
+        "Output contains at least 3 red flags"
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "jamie-aligned-solo-dev-infra",
+      "prompt": "Run founder-idea-audit on this idea. My persona: `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-2-generalist-hacker-missionary-unfocused/with_skill/run-1/outputs/persona.json`.\n\n**The idea:** An open-core CLI tool + cloud runtime for solo developers to deploy production-grade services without a DevOps team. The CLI is the one I've been building for my 'Solo Stack' essay series. Target buyer: solo / 1-3 person startups and indie developers paying $20-$100/month. Wedge: one-command deploy to production with observability, auth, and payments baked in, where the OSS core is free and the runtime is paid.\n\n**Idea maze:** prior attempts: (1) Heroku addressed this but pivoted to enterprise post-Salesforce; (2) Render and Railway got close but aren't opinionated enough about the full stack; (3) Vercel nailed frontend but left infra gaps for solo devs. What's changed: (a) 2024-2026 AI-coded solo developers are producing more deployable software per person, (b) cheap compute lets solo devs run real products at tiny scale, (c) the OSS-to-runtime monetisation model is now proven by Supabase and PostHog.",
+      "expected_output": "Score 75+ (Strong Alignment). Technical Edge high, Insight high (idea maze answered), Obsession maxed (Solo Stack + CLI are literally the idea), Network strong in dev community, Experience moderate (no market-as-industry but developer-as-buyer is the 'market'). Investor narrative present. No pivot. Focus/persistence red flag surfaces.",
+      "files": [],
+      "assertions": [
+        "Output exists as markdown",
+        "Output contains an overall score out of 100",
+        "Overall score is in the 75-100 band",
+        "Output names the band as 'Strong Alignment' or 'Strong' verbatim",
+        "Output contains per-pillar breakdown with all 5 dimensions",
+        "Skill-Edge score is 8 or higher (Jamie's technical edge matches the dev-infra idea directly)",
+        "Obsession score is 9 or higher (Solo Stack + CLI)",
+        "Network score reflects the dev community (OSS maintainer, KubeCon, HN) — at least 6",
+        "Output references 'Solo Stack', CLI, Kubernetes, Raft, KubeCon, HN, or similar persona-specific technical artefacts",
+        "Output cites the idea-maze answer quality (names Heroku, Render, Railway, or Vercel)",
+        "Output contains at least 3 red flags, and at least one references Jamie's focus/persistence pattern (never-stuck-with-one-thing)",
+        "Output does NOT contain a pivot suggestion (score >=40)",
+        "Output's investor-ready narrative is present and cites specific technical + community signals"
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "jamie-misaligned-consumer-vitamins",
+      "prompt": "Audit: My persona is `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-2-generalist-hacker-missionary-unfocused/with_skill/run-1/outputs/persona.json`.\n\n**The idea:** A consumer direct-to-consumer personalised-vitamins brand. Quiz-based personalisation. Subscription model, $45/month. Target buyer: health-conscious women aged 25-45.",
+      "expected_output": "Score <40 (Pre-PMF / High Risk). Experience 1 (zero consumer/CPG domain). Insight 1-2 (no idea maze, no consumer-specific insight). Skill-Edge 2-3 (his technical edge doesn't transfer to CPG supply chain / D2C marketing). Network 1 (dev network doesn't transfer to consumer). Obsession 1 (Solo Stack is specifically developer-facing infra, not CPG). Pivot suggestion back to dev tools.",
+      "files": [],
+      "assertions": [
+        "Output exists as markdown",
+        "Output contains an overall score out of 100",
+        "Overall score is <40",
+        "Output names the band as 'Pre-PMF' or 'High Risk' verbatim",
+        "Output contains per-pillar breakdown",
+        "Experience, Insight, Network, Obsession scores are all <=3",
+        "Output contains a pivot suggestion directing back to dev tools / developer-as-buyer",
+        "Output's investor-ready narrative says 'does not yet hold' or equivalent",
+        "Output flags the Hipster-archetype mismatch (Jamie's mix is Hacker-heavy, not Hipster) for a taste-driven consumer market",
+        "Output flags the Missionary mismatch OR notes that his missionary framing is in developer empowerment, not consumer health",
+        "Output contains at least 3 red flags",
+        "Output does not fabricate CPG warm intros or consumer marketing insider markers"
+      ]
+    }
+  ]
+}

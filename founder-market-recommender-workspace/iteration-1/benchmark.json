@@ -1,0 +1,533 @@
+{
+  "metadata": {
+    "skill_name": "founder-market-recommender",
+    "skill_path": "C:/Users/Public/_sites/2026/2026.11/skills/founder-market-recommender",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-23T22:01:24Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 12,
+        "failed": 0,
+        "total": 12,
+        "time_seconds": 165.9,
+        "tokens": 54979,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output report exists as markdown",
+          "passed": true,
+          "evidence": "13962 chars"
+        },
+        {
+          "text": "Output has a top-markets section with recommendations numbered or clearly separated",
+          "passed": true,
+          "evidence": "h2=5, h3=7, numbered=0"
+        },
+        {
+          "text": "Output has an avoid/cold-start markets section",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)",
+          "passed": true,
+          "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+        },
+        {
+          "text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)",
+          "passed": true,
+          "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"
+        },
+        {
+          "text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)",
+          "passed": true,
+          "evidence": "matched: ['regulated', 'saas', 'operations-intensive', 'transactional', 'usage-based', 'category-creating']"
+        },
+        {
+          "text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)",
+          "passed": true,
+          "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"
+        },
+        {
+          "text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging",
+          "passed": true,
+          "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+          "passed": true,
+          "evidence": "no uncaveated market-size/TAM/CAGR claims"
+        },
+        {
+          "text": "Output does not invent specific competitor company names that are not mentioned in the persona",
+          "passed": true,
+          "evidence": "competitor-invention check deferred to human review"
+        },
+        {
+          "text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')",
+          "passed": true,
+          "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Stripe Tax', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit']"
+        },
+        {
+          "text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)",
+          "passed": true,
+          "evidence": "matched: ['founder-idea-audit', 'idea-audit']"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 12,
+        "failed": 0,
+        "total": 12,
+        "time_seconds": 151.3,
+        "tokens": 54488,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output report exists as markdown",
+          "passed": true,
+          "evidence": "13422 chars"
+        },
+        {
+          "text": "Output has top-markets and avoid sections",
+          "passed": true,
+          "evidence": "h2=3, h3=7, numbered=0"
+        },
+        {
+          "text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'caution', 'cold start', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint",
+          "passed": true,
+          "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'Joint Commission']"
+        },
+        {
+          "text": "Output names the regulated or clinical market-dynamics class at least once",
+          "passed": true,
+          "evidence": "matched: ['cold start', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor",
+          "passed": true,
+          "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"
+        },
+        {
+          "text": "Output names a business model per recommendation",
+          "passed": true,
+          "evidence": "matched: ['patient', 'missionary']"
+        },
+        {
+          "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+          "passed": true,
+          "evidence": "matched: ['subscription', 'saas', 'hybrid', 'services']"
+        },
+        {
+          "text": "Output does not invent hospital or health-system customer names that are not in the persona",
+          "passed": true,
+          "evidence": "no uncaveated market-size/TAM/CAGR claims"
+        },
+        {
+          "text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)",
+          "passed": true,
+          "evidence": "competitor-invention check deferred to human review"
+        },
+        {
+          "text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'",
+          "passed": true,
+          "evidence": "matched: ['co-founder', 'solo']"
+        },
+        {
+          "text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)",
+          "passed": true,
+          "evidence": "evidence hits found"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 12,
+        "failed": 0,
+        "total": 12,
+        "time_seconds": 201.5,
+        "tokens": 57088,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output report exists as markdown",
+          "passed": true,
+          "evidence": "17101 chars"
+        },
+        {
+          "text": "Output has top-markets and avoid sections",
+          "passed": true,
+          "evidence": "h2=4, h3=8, numbered=3"
+        },
+        {
+          "text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)",
+          "passed": true,
+          "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer']"
+        },
+        {
+          "text": "Output explicitly flags any non-dev vertical recommendations as cold-start",
+          "passed": true,
+          "evidence": "matched: ['developer', 'dev tool', 'dev infra', 'dev-tools', 'open-source', 'usage-based', 'API', 'OSS', 'developer-as-buyer', 'infrastructure']"
+        },
+        {
+          "text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge",
+          "passed": true,
+          "evidence": "matched: ['cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'caution', 'do not recommend', 'misfit', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)",
+          "passed": true,
+          "evidence": "matched: ['missionary', 'love forever', 'people love']"
+        },
+        {
+          "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+          "passed": true,
+          "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'take-rate', 'hybrid', 'open-core', 'open-core']"
+        },
+        {
+          "text": "Output does not invent specific competitor company names not mentioned in the persona",
+          "passed": true,
+          "evidence": "no uncaveated market-size/TAM/CAGR claims"
+        },
+        {
+          "text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'",
+          "passed": true,
+          "evidence": "competitor-invention check deferred to human review"
+        },
+        {
+          "text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation",
+          "passed": true,
+          "evidence": "evidence hits found"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 12,
+        "failed": 0,
+        "total": 12,
+        "time_seconds": 130.8,
+        "tokens": 41691,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output report exists as markdown",
+          "passed": true,
+          "evidence": "12417 chars"
+        },
+        {
+          "text": "Output has a top-markets section with recommendations numbered or clearly separated",
+          "passed": true,
+          "evidence": "h2=6, h3=9, numbered=4"
+        },
+        {
+          "text": "Output has an avoid/cold-start markets section",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'do not recommend', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)",
+          "passed": true,
+          "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+        },
+        {
+          "text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)",
+          "passed": true,
+          "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"
+        },
+        {
+          "text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)",
+          "passed": true,
+          "evidence": "matched: ['regulated', 'saas', 'ops-intensive', 'transactional', 'usage-based', 'consumer']"
+        },
+        {
+          "text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)",
+          "passed": true,
+          "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"
+        },
+        {
+          "text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging",
+          "passed": true,
+          "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"
+        },
+        {
+          "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+          "passed": true,
+          "evidence": "no uncaveated market-size/TAM/CAGR claims"
+        },
+        {
+          "text": "Output does not invent specific competitor company names that are not mentioned in the persona",
+          "passed": true,
+          "evidence": "competitor-invention check deferred to human review"
+        },
+        {
+          "text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')",
+          "passed": true,
+          "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit', 'Retool']"
+        },
+        {
+          "text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)",
+          "passed": true,
+          "evidence": "matched: ['founder-idea-audit', 'idea-audit']"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 12,
+        "failed": 0,
+        "total": 12,
+        "time_seconds": 153.6,
+        "tokens": 43075,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output report exists as markdown",
+          "passed": true,
+          "evidence": "14322 chars"
+        },
+        {
+          "text": "Output has top-markets and avoid sections",
+          "passed": true,
+          "evidence": "h2=6, h3=9, numbered=3"
+        },
+        {
+          "text": "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'poor fit', 'cold-start', 'no warm intro']"
+        },
+        {
+          "text": "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint",
+          "passed": true,
+          "evidence": "matched: ['SBAR', 'handoff', 'ICU', 'brain sheet', 'brain-sheet', 'Joint Commission']"
+        },
+        {
+          "text": "Output names the regulated or clinical market-dynamics class at least once",
+          "passed": true,
+          "evidence": "matched: ['cold-start', 'no warm intro']"
+        },
+        {
+          "text": "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor",
+          "passed": true,
+          "evidence": "matched: ['regulated', 'clinical', 'healthcare', 'hospital']"
+        },
+        {
+          "text": "Output names a business model per recommendation",
+          "passed": true,
+          "evidence": "matched: ['patient', 'missionary', 'handoff miss']"
+        },
+        {
+          "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+          "passed": true,
+          "evidence": "matched: ['subscription', 'saas', 'marketplace', 'hybrid', 'services']"
+        },
+        {
+          "text": "Output does not invent hospital or health-system customer names that are not in the persona",
+          "passed": true,
+          "evidence": "no uncaveated market-size/TAM/CAGR claims"
+        },
+        {
+          "text": "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)",
+          "passed": true,
+          "evidence": "competitor-invention check deferred to human review"
+        },
+        {
+          "text": "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'",
+          "passed": true,
+          "evidence": "matched: ['technical gap', 'co-founder', 'no-code']"
+        },
+        {
+          "text": "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)",
+          "passed": true,
+          "evidence": "evidence hits found"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 12,
+        "failed": 0,
+        "total": 12,
+        "time_seconds": 150.1,
+        "tokens": 43954,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output report exists as markdown",
+          "passed": true,
+          "evidence": "14836 chars"
+        },
+        {
+          "text": "Output has top-markets and avoid sections",
+          "passed": true,
+          "evidence": "h2=8, h3=7, numbered=3"
+        },
+        {
+          "text": "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold start', 'cold-start']"
+        },
+        {
+          "text": "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)",
+          "passed": true,
+          "evidence": "matched: ['Raft', 'Kubernetes', 'K8s', 'KubeCon', 'HN', 'Solo Stack', 'CLI', 'Discord', 'OSS maintainer', 'distributed systems']"
+        },
+        {
+          "text": "Output explicitly flags any non-dev vertical recommendations as cold-start",
+          "passed": true,
+          "evidence": "matched: ['developer', 'dev infra', 'dev-tools', 'dev-infra', 'open-source', 'usage-based', 'API', 'OSS', 'DevOps', 'infrastructure']"
+        },
+        {
+          "text": "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge",
+          "passed": true,
+          "evidence": "matched: ['cold start', 'cold-start']"
+        },
+        {
+          "text": "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor",
+          "passed": true,
+          "evidence": "matched: ['avoid', 'caution', 'mis-fit', 'cold start', 'cold-start']"
+        },
+        {
+          "text": "Output names a business model per recommendation (usage-based, open-core, subscription, or other)",
+          "passed": true,
+          "evidence": "matched: ['missionary', 'no-exit', 'love forever', 'people love']"
+        },
+        {
+          "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+          "passed": true,
+          "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'marketplace', 'hybrid', 'services', 'open-core', 'ads', 'open-core']"
+        },
+        {
+          "text": "Output does not invent specific competitor company names not mentioned in the persona",
+          "passed": true,
+          "evidence": "no uncaveated market-size/TAM/CAGR claims"
+        },
+        {
+          "text": "Output's top recommendations cite specific persona evidence, not generic 'technical skills'",
+          "passed": true,
+          "evidence": "competitor-invention check deferred to human review"
+        },
+        {
+          "text": "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation",
+          "passed": true,
+          "evidence": "evidence hits found"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 172.9,
+        "stddev": 25.8217,
+        "min": 151.3,
+        "max": 201.5
+      },
+      "tokens": {
+        "mean": 55518.3333,
+        "stddev": 1381.3618,
+        "min": 54488,
+        "max": 57088
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 144.8333,
+        "stddev": 12.2786,
+        "min": 130.8,
+        "max": 153.6
+      },
+      "tokens": {
+        "mean": 42906.6667,
+        "stddev": 1140.8525,
+        "min": 41691,
+        "max": 43954
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+28.1",
+      "tokens": "+12612"
+    }
+  },
+  "notes": []
+}

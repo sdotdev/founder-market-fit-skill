@@ -1,0 +1,68 @@
+{
+  "skill_name": "founder-market-recommender",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "daniela-fintech-recommendations",
+      "prompt": "I've got my founder persona saved. What markets should I be researching?\n\nMy persona.json is at `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-0-ex-stripe-pm-fintech-depth/with_skill/run-1/outputs/persona.json` and the narrative version (persona.md) is alongside it.\n\nPlease run the founder-market-recommender skill and give me recommendations.",
+      "expected_output": "Top 3-5 markets in SMB-payments adjacencies, referencing Priya Nair / Tom DiFranco / Sarah Okwu as first-customer paths where relevant. 2-3 'avoid' markets. Embedded finance flagged cold-start. Archetype-to-market-dynamics class cited per market. Business model suggested per market. No TAM numbers without '(unverified)' caveat.",
+      "files": [],
+      "assertions": [
+        "Output report exists as markdown",
+        "Output has a top-markets section with recommendations numbered or clearly separated",
+        "Output has an avoid/cold-start markets section",
+        "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)",
+        "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)",
+        "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)",
+        "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)",
+        "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging",
+        "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+        "Output does not invent specific competitor company names that are not mentioned in the persona",
+        "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')",
+        "Output contains 'founder-idea-audit' mention as next step (handoff discipline)"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "marcus-icu-nurse-recommendations",
+      "prompt": "What markets should I go deep on?\n\nMy persona is at `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-1-icu-nurse-learning-to-code/with_skill/run-1/outputs/persona.json` (and persona.md alongside). Please use founder-market-recommender.",
+      "expected_output": "Healthcare-adjacent recommendations focused on ICU/clinical workflow (handoffs, SBAR, nurse-first products). Cold-start flagged on all buyer verticals (Marcus knows nurses not buyers). Technical gap called out in risks. Regulated market class named. Psychographic (high missionary) cited as sustaining factor. Business model likely SaaS or contract-services.",
+      "files": [],
+      "assertions": [
+        "Output report exists as markdown",
+        "Output has top-markets and avoid sections",
+        "Output references at least one ICU/clinical domain term from persona (SBAR, handoff, ICU, brain sheets, or Joint Commission)",
+        "Output explicitly flags at least one recommendation as cold-start OR surfaces Marcus's lack of buyer network as a constraint",
+        "Output names the regulated or clinical market-dynamics class at least once",
+        "Output cites Marcus's missionary psychographic evidence (the patient-death motivation or equivalent) as a sustaining factor",
+        "Output names a business model per recommendation",
+        "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+        "Output does not invent hospital or health-system customer names that are not in the persona",
+        "Output surfaces Marcus's technical gap as a risk or mitigation (co-founder, no-code, etc.)",
+        "Output's top recommendations cite specific persona evidence, not generic 'healthcare experience'",
+        "Output does not recommend markets where Marcus's credibility flags would block early sales (e.g. hospital IT procurement directly)"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "jamie-dev-tools-recommendations",
+      "prompt": "Tell me where to focus. My persona is at `C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1/eval-2-generalist-hacker-missionary-unfocused/with_skill/run-1/outputs/persona.json` (persona.md alongside). Run founder-market-recommender.",
+      "expected_output": "Developer-as-buyer recommendations (dev infra, OSS-adjacent tools, usage-based) where Jamie's network transfers. Cold-start flagged explicitly for every non-dev vertical. Reference to KubeCon talk or HN post or Solo Stack essay as the credible distribution. Missionary psychographic cited as sustaining factor. No recommendations in regulated, ops-intensive, or consumer markets without explicit 'cold-start with high friction' warning.",
+      "files": [],
+      "assertions": [
+        "Output report exists as markdown",
+        "Output has top-markets and avoid sections",
+        "Output references at least one of Jamie's specific technical or community signals (Raft, Kubernetes, KubeCon, HN, Solo Stack, CLI tool, Discord, OSS maintainer)",
+        "At least one recommendation is in a developer-as-buyer space (dev tools, infra, OSS monetisation, or similar)",
+        "Output explicitly flags any non-dev vertical recommendations as cold-start",
+        "Output's avoid/caution section flags regulated, ops-intensive, or traditional B2B verticals as poor fit given Jamie's absence of Market Edge",
+        "Output cites Jamie's missionary psychographic (no-exit mindset or 'build something people love forever') as a sustaining factor",
+        "Output names a business model per recommendation (usage-based, open-core, subscription, or other)",
+        "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+        "Output does not invent specific competitor company names not mentioned in the persona",
+        "Output's top recommendations cite specific persona evidence, not generic 'technical skills'",
+        "Output surfaces Jamie's focus/persistence credibility flag (the 'never stuck with one thing' pattern) as a risk or mitigation"
+      ]
+    }
+  ]
+}

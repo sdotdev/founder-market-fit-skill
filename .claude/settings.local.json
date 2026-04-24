@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/samue/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown/skills/skill-creator/**)",
+      "Read(//c/Users/samue/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown/skills/skill-creator/scripts/**)",
+      "Read(//c/Users/samue/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown/skills/skill-creator/eval-viewer/**)",
+      "Bash(mv \"ex-stripe-pm-fintech-depth\" \"eval-0-ex-stripe-pm-fintech-depth\")",
+      "Bash(mv \"icu-nurse-learning-to-code\" \"eval-1-icu-nurse-learning-to-code\")",
+      "Bash(mv \"generalist-hacker-missionary-unfocused\" \"eval-2-generalist-hacker-missionary-unfocused\")",
+      "Bash(mkdir -p __TRACKED_VAR__/__TRACKED_VAR__/run-1)",
+      "Bash(mv __TRACKED_VAR__/__TRACKED_VAR__/outputs __TRACKED_VAR__/__TRACKED_VAR__/run-1/outputs)",
+      "Bash(python scripts/grade_personas.py)",
+      "Bash(python -m scripts.aggregate_benchmark \"C:/Users/Public/_sites/2026/2026.11/founder-persona-interview-workspace/iteration-1\" --skill-name founder-persona-interview --skill-path \"C:/Users/Public/_sites/2026/2026.11/skills/founder-persona-interview\")",
+      "Bash(python *)"
+    ]
+  }
+}

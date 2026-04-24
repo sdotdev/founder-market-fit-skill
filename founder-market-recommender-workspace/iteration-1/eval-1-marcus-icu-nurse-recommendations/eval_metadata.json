@@ -1,0 +1,6 @@
+{
+  "eval_id": 1,
+  "eval_name": "marcus-icu-nurse-recommendations",
+  "prompt": "Marcus's persona → ICU/clinical workflow recommendations with cold-start flags for buyer markets.",
+  "assertions": []
+}

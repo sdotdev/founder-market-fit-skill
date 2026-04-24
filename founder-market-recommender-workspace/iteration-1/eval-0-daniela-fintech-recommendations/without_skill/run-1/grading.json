@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 12,
+    "failed": 0,
+    "total": 12
+  },
+  "expectations": [
+    {
+      "text": "Output report exists as markdown",
+      "passed": true,
+      "evidence": "12417 chars"
+    },
+    {
+      "text": "Output has a top-markets section with recommendations numbered or clearly separated",
+      "passed": true,
+      "evidence": "h2=6, h3=9, numbered=4"
+    },
+    {
+      "text": "Output has an avoid/cold-start markets section",
+      "passed": true,
+      "evidence": "matched: ['avoid', 'do not recommend', 'cold-start', 'cold_start']"
+    },
+    {
+      "text": "Output references at least one named warm-intro from the persona (Priya Nair, Tom DiFranco, or Sarah Okwu)",
+      "passed": true,
+      "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+    },
+    {
+      "text": "Output mentions at least one arcane domain term from the persona (chargeback, Visa VMP/VDMP, KYC, or interchange)",
+      "passed": true,
+      "evidence": "matched: ['chargeback', 'VMP', 'VDMP', 'KYC', 'interchange']"
+    },
+    {
+      "text": "Output names a market-dynamics class for recommendations (regulated, SaaS, ops-intensive, marketplace, transactional, usage-based, or consumer)",
+      "passed": true,
+      "evidence": "matched: ['regulated', 'saas', 'ops-intensive', 'transactional', 'usage-based', 'consumer']"
+    },
+    {
+      "text": "Output names a business model for recommendations (subscription, transactional, usage, marketplace, or hybrid)",
+      "passed": true,
+      "evidence": "matched: ['subscription', 'saas', 'transactional', 'usage-based', 'hybrid', 'services', 'ads']"
+    },
+    {
+      "text": "Output flags embedded finance or any non-SMB-payments vertical as cold-start, OR does not recommend it without flagging",
+      "passed": true,
+      "evidence": "matched: ['embedded finance', 'cold-start', 'cold_start']"
+    },
+    {
+      "text": "Output does not contain a specific TAM dollar figure or growth percentage without an '(unverified)' or similar caveat",
+      "passed": true,
+      "evidence": "no uncaveated market-size/TAM/CAGR claims"
+    },
+    {
+      "text": "Output does not invent specific competitor company names that are not mentioned in the persona",
+      "passed": true,
+      "evidence": "competitor-invention check deferred to human review"
+    },
+    {
+      "text": "Output's top recommendations each cite specific persona evidence (not generic claims like 'strong fintech network')",
+      "passed": true,
+      "evidence": "evidence hits: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu', 'chargeback', 'VMP', 'VDMP', 'KYC', 'interchange', 'Money 20/20', 'chargeback-ops playbook', 'SMB', 'substack', '18-month non-solicit', 'Retool']"
+    },
+    {
+      "text": "Output contains 'founder-idea-audit' mention as next step (handoff discipline)",
+      "passed": true,
+      "evidence": "matched: ['founder-idea-audit', 'idea-audit']"
+    }
+  ],
+  "load_errors": []
+}

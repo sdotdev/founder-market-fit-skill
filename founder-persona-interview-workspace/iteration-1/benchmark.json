@@ -1,0 +1,763 @@
+{
+  "metadata": {
+    "skill_name": "founder-persona-interview",
+    "skill_path": "C:/Users/Public/_sites/2026/2026.11/skills/founder-persona-interview",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-23T21:42:13Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 19,
+        "failed": 0,
+        "total": 19,
+        "time_seconds": 115.3,
+        "tokens": 63990,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "persona.json exists and is valid JSON at the expected output path",
+          "passed": true,
+          "evidence": "persona.json loaded"
+        },
+        {
+          "text": "persona.md exists at the expected output path",
+          "passed": true,
+          "evidence": "persona.md loaded (9314 chars)"
+        },
+        {
+          "text": "persona.json has schema_version set to '1.0'",
+          "passed": true,
+          "evidence": "schema_version=1.0"
+        },
+        {
+          "text": "persona.json has all required top-level keys: archetype_primary, archetype_mix, edges, network, psychographic, obsession_signals, stage_preference, constraints, pillar_scores, credibility_flags",
+          "passed": true,
+          "evidence": "all required keys present"
+        },
+        {
+          "text": "archetype_mix keys are exactly {hustler, hacker, hipster, hound} and values sum to 1.0 (within \u00b10.05)",
+          "passed": true,
+          "evidence": "keys valid, sum=1.000"
+        },
+        {
+          "text": "pillar_scores has keys {experience, insight, skill_edge, network, obsession} each 1-10 integer",
+          "passed": true,
+          "evidence": "all pillars in 1-10: {'experience': 9, 'insight': 8, 'skill_edge': 4, 'network': 8, 'obsession': 9}"
+        },
+        {
+          "text": "edges.market.strength_1_to_10 >= 8 (Daniela's arcane chargeback/KYC/interchange details earn strong Market Edge)",
+          "passed": true,
+          "evidence": "market_strength=9"
+        },
+        {
+          "text": "edges.market.depth_probe_passed is true",
+          "passed": true,
+          "evidence": "depth_probe_passed=True"
+        },
+        {
+          "text": "edges.technical.strength_1_to_10 <= 4 (Daniela's Retool + SQL self-assessment is correctly calibrated as sub-technical-edge)",
+          "passed": true,
+          "evidence": "technical_strength=3"
+        },
+        {
+          "text": "archetype_primary is either 'hustler' or 'hound' (her day-to-day work pattern was closing deals + unblocking + running the launch team)",
+          "passed": true,
+          "evidence": "archetype_primary=hustler"
+        },
+        {
+          "text": "network.warm_intros contains an entry for a SMB payments-related vertical with >= 3 named_contacts including the names Priya Nair, Tom DiFranco, and Sarah Okwu",
+          "passed": true,
+          "evidence": "vertical 'SMB payments' contains all of ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+        },
+        {
+          "text": "network.warm_intros contains at least one entry with cold_start: true (embedded finance)",
+          "passed": true,
+          "evidence": "cold_start vertical: embedded finance"
+        },
+        {
+          "text": "network.insider_markers has >= 2 entries, at least one mentioning Money 20/20 or Stripe",
+          "passed": true,
+          "evidence": "markers=['Spoke at Money 20/20 twice', 'Moderator of Stripe alumni Slack #payments channel', \"Co-author of Stripe's internal chargeback-ops playbook\", \"Quoted in Stripe's 2024 SMB report\"]"
+        },
+        {
+          "text": "obsession_signals has >= 2 entries with specificity_score >= 4 (substack + M&A spreadsheet are concrete artefacts)",
+          "passed": true,
+          "evidence": "2 of 2 signals meet specificity>=4"
+        },
+        {
+          "text": "stage_preference is '0_to_1' with evidence citing the Stripe Tax pre-launch vs optimisation-phase distinction",
+          "passed": true,
+          "evidence": "stage_preference=0_to_1"
+        },
+        {
+          "text": "pillar_scores.experience >= 8 and pillar_scores.network >= 7",
+          "passed": true,
+          "evidence": "experience=9, network=8"
+        },
+        {
+          "text": "credibility_flags count is <= 2 (this is a strong founder; over-flagging would be a failure mode)",
+          "passed": true,
+          "evidence": "flag_count=1"
+        },
+        {
+          "text": "persona.md contains the specific names 'Priya Nair', 'Tom DiFranco', 'Sarah Okwu' (network specificity preserved in narrative)",
+          "passed": true,
+          "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+        },
+        {
+          "text": "persona.md contains at least one of the arcane domain references: 'chargeback', 'Visa', 'KYC', or 'interchange'",
+          "passed": true,
+          "evidence": "matched: ['chargeback', 'Visa', 'KYC', 'interchange']"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 20,
+        "failed": 0,
+        "total": 20,
+        "time_seconds": 148.9,
+        "tokens": 65023,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "persona.json exists and is valid JSON",
+          "passed": true,
+          "evidence": "persona.json loaded"
+        },
+        {
+          "text": "persona.md exists",
+          "passed": true,
+          "evidence": "persona.md loaded (10543 chars)"
+        },
+        {
+          "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+          "passed": true,
+          "evidence": "schema_version=1.0"
+        },
+        {
+          "text": "edges.market.strength_1_to_10 >= 7 (SBAR, brain sheets, trauma-vs-cardiac ICU rounding are earned-edge arcana)",
+          "passed": true,
+          "evidence": "all required keys present"
+        },
+        {
+          "text": "edges.market.depth_probe_passed is true",
+          "passed": true,
+          "evidence": "keys valid, sum=1.000"
+        },
+        {
+          "text": "edges.technical.strength_1_to_10 <= 2 (tutorial-following, no solo MVP capability)",
+          "passed": true,
+          "evidence": "all pillars in 1-10: {'experience': 9, 'insight': 8, 'skill_edge': 2, 'network': 3, 'obsession': 10}"
+        },
+        {
+          "text": "edges.technical.depth_probe_passed is false",
+          "passed": true,
+          "evidence": "market_strength=9"
+        },
+        {
+          "text": "archetype_primary is 'hustler' OR 'hound' (charge nurse pattern is coordination + unblocking, not building or design)",
+          "passed": true,
+          "evidence": "depth_probe_passed=True"
+        },
+        {
+          "text": "network.warm_intros has at least one entry marked cold_start: true (hospital buyers)",
+          "passed": true,
+          "evidence": "technical_strength=2"
+        },
+        {
+          "text": "network.insider_markers is an empty array or has <= 1 entries (Marcus explicitly has no markers)",
+          "passed": true,
+          "evidence": "technical depth_probe_passed=False"
+        },
+        {
+          "text": "psychographic.missionary_score >= 8 (the patient-death motivation is canonical mission framing)",
+          "passed": true,
+          "evidence": "archetype_primary=hound"
+        },
+        {
+          "text": "psychographic.mercenary_score <= 4",
+          "passed": true,
+          "evidence": "cold_start vertical: hospital IT / clinical software buyers"
+        },
+        {
+          "text": "obsession_signals has at least one entry with specificity_score >= 4 (wireframes nightly + Joint Commission citation)",
+          "passed": true,
+          "evidence": "markers=[]"
+        },
+        {
+          "text": "pillar_scores.experience >= 7 (7 years ICU + charge nurse is substantial earned edge)",
+          "passed": true,
+          "evidence": "missionary=10"
+        },
+        {
+          "text": "pillar_scores.network <= 5 (he explicitly has no buyer-network)",
+          "passed": true,
+          "evidence": "mercenary=2"
+        },
+        {
+          "text": "pillar_scores.skill_edge <= 3",
+          "passed": true,
+          "evidence": "4 of 4 signals meet specificity>=4"
+        },
+        {
+          "text": "credibility_flags has >= 1 entry",
+          "passed": true,
+          "evidence": "experience=9"
+        },
+        {
+          "text": "At least one credibility_flag has dimension 'skill_edge' (technical over-claim) OR 'network' (nurse-vs-buyer distinction)",
+          "passed": true,
+          "evidence": "network_pillar=3"
+        },
+        {
+          "text": "persona.md contains at least one of the domain arcana strings: 'SBAR', 'handoff', 'ICU', or 'vasopressor'",
+          "passed": true,
+          "evidence": "skill_edge=2"
+        },
+        {
+          "text": "persona.md does NOT describe Marcus as having a strong network for purchasing decisions (no claims like 'strong hospital network')",
+          "passed": true,
+          "evidence": "flag_count=3"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 20,
+        "failed": 0,
+        "total": 20,
+        "time_seconds": 169.3,
+        "tokens": 65712,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "persona.json exists and is valid JSON",
+          "passed": true,
+          "evidence": "persona.json loaded"
+        },
+        {
+          "text": "persona.md exists",
+          "passed": true,
+          "evidence": "persona.md loaded (11377 chars)"
+        },
+        {
+          "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+          "passed": true,
+          "evidence": "schema_version=1.0"
+        },
+        {
+          "text": "edges.technical.strength_1_to_10 >= 8 (Raft implementation, K8s cluster, toy compiler are research-grade evidence)",
+          "passed": true,
+          "evidence": "all required keys present"
+        },
+        {
+          "text": "edges.technical.depth_probe_passed is true",
+          "passed": true,
+          "evidence": "keys valid, sum=1.000"
+        },
+        {
+          "text": "edges.market.strength_1_to_10 <= 3 (Jamie explicitly states no domain)",
+          "passed": true,
+          "evidence": "all pillars in 1-10: {'experience': 3, 'insight': 3, 'skill_edge': 9, 'network': 5, 'obsession': 10}"
+        },
+        {
+          "text": "edges.market.depth_probe_passed is false",
+          "passed": true,
+          "evidence": "technical_strength=9"
+        },
+        {
+          "text": "archetype_primary is 'hacker'",
+          "passed": true,
+          "evidence": "technical depth_probe_passed=True"
+        },
+        {
+          "text": "archetype_mix.hacker >= 0.45",
+          "passed": true,
+          "evidence": "market_strength=2"
+        },
+        {
+          "text": "Every entry in network.warm_intros has cold_start: true OR network.warm_intros is empty / does not cover any buyer vertical",
+          "passed": true,
+          "evidence": "market depth_probe_passed=False"
+        },
+        {
+          "text": "network.insider_markers includes references to either KubeCon or Hacker News (HN)",
+          "passed": true,
+          "evidence": "archetype_primary=hacker"
+        },
+        {
+          "text": "network.communities includes at least one entry with embeddedness 'speak' or 'moderate' (OSS maintainer, Discord moderator, KubeCon talk)",
+          "passed": true,
+          "evidence": "hacker_mix=0.6"
+        },
+        {
+          "text": "psychographic.missionary_score >= 8",
+          "passed": true,
+          "evidence": "all verticals marked cold_start or have no named contacts"
+        },
+        {
+          "text": "psychographic.mercenary_score <= 3",
+          "passed": true,
+          "evidence": "markers hit: ['KubeCon', 'HN']"
+        },
+        {
+          "text": "obsession_signals includes at least one entry with specificity_score >= 4 mentioning 'Solo Stack' OR the CLI tool",
+          "passed": true,
+          "evidence": "community Infra-engineer Discord (2K members) @ moderate"
+        },
+        {
+          "text": "stage_preference is '0_to_1' with evidence citing the 20-prototype pattern and dislike of scale phase",
+          "passed": true,
+          "evidence": "missionary=10"
+        },
+        {
+          "text": "pillar_scores.skill_edge >= 8",
+          "passed": true,
+          "evidence": "mercenary=1"
+        },
+        {
+          "text": "pillar_scores.experience <= 4",
+          "passed": true,
+          "evidence": "signals=[{'signal': \"Writing a named essay series 'The Solo Stack' for the last year on open-source infrastructure for individual developers\", 'specificity_score': 5}, {'signal': 'Building a named CLI tool that helps solo devs deploy production-grade services without a DevOps team (active, unpaid)', 'specificity_score': 5}, {'signal': 'Implemented Raft from the paper for fun; wrote a toy compiler for fun', 'specificity_score': 4}]"
+        },
+        {
+          "text": "credibility_flags has >= 1 entry with dimension 'experience' OR 'insight' (Market Edge absence)",
+          "passed": true,
+          "evidence": "stage_preference=0_to_1"
+        },
+        {
+          "text": "persona.md contains at least one of: 'Raft', 'Kubernetes', 'K8s', 'Solo Stack', or 'HN' (technical + obsession specifics preserved)",
+          "passed": true,
+          "evidence": "skill_edge=9"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.42105263157894735,
+        "passed": 8,
+        "failed": 11,
+        "total": 19,
+        "time_seconds": 129.0,
+        "tokens": 43156,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "persona.json exists and is valid JSON at the expected output path",
+          "passed": true,
+          "evidence": "persona.json loaded"
+        },
+        {
+          "text": "persona.md exists at the expected output path",
+          "passed": true,
+          "evidence": "persona.md loaded (7489 chars)"
+        },
+        {
+          "text": "persona.json has schema_version set to '1.0'",
+          "passed": false,
+          "evidence": "schema_version=None"
+        },
+        {
+          "text": "persona.json has all required top-level keys: archetype_primary, archetype_mix, edges, network, psychographic, obsession_signals, stage_preference, constraints, pillar_scores, credibility_flags",
+          "passed": false,
+          "evidence": "missing keys: ['archetype_primary', 'archetype_mix', 'psychographic', 'stage_preference', 'credibility_flags']"
+        },
+        {
+          "text": "archetype_mix keys are exactly {hustler, hacker, hipster, hound} and values sum to 1.0 (within \u00b10.05)",
+          "passed": false,
+          "evidence": "archetype_mix missing or not dict"
+        },
+        {
+          "text": "pillar_scores has keys {experience, insight, skill_edge, network, obsession} each 1-10 integer",
+          "passed": false,
+          "evidence": "pillar_scores keys: {'catalyst', 'skill_edge', 'obsession', 'experience', 'network', 'technical', 'insight'}"
+        },
+        {
+          "text": "edges.market.strength_1_to_10 >= 8 (Daniela's arcane chargeback/KYC/interchange details earn strong Market Edge)",
+          "passed": false,
+          "evidence": "market_strength=None"
+        },
+        {
+          "text": "edges.market.depth_probe_passed is true",
+          "passed": false,
+          "evidence": "depth_probe_passed=None"
+        },
+        {
+          "text": "edges.technical.strength_1_to_10 <= 4 (Daniela's Retool + SQL self-assessment is correctly calibrated as sub-technical-edge)",
+          "passed": true,
+          "evidence": "technical_strength=None"
+        },
+        {
+          "text": "archetype_primary is either 'hustler' or 'hound' (her day-to-day work pattern was closing deals + unblocking + running the launch team)",
+          "passed": false,
+          "evidence": "archetype_primary=None"
+        },
+        {
+          "text": "network.warm_intros contains an entry for a SMB payments-related vertical with >= 3 named_contacts including the names Priya Nair, Tom DiFranco, and Sarah Okwu",
+          "passed": false,
+          "evidence": "exception: AttributeError: 'str' object has no attribute 'get'"
+        },
+        {
+          "text": "network.warm_intros contains at least one entry with cold_start: true (embedded finance)",
+          "passed": false,
+          "evidence": "no cold_start entry"
+        },
+        {
+          "text": "network.insider_markers has >= 2 entries, at least one mentioning Money 20/20 or Stripe",
+          "passed": true,
+          "evidence": "markers=[\"Quoted in Stripe's 2024 SMB report\", \"Co-author of Stripe's internal chargeback-ops playbook\", '2x Money 20/20 speaker', '9-month public Substack on SMB chargebacks']"
+        },
+        {
+          "text": "obsession_signals has >= 2 entries with specificity_score >= 4 (substack + M&A spreadsheet are concrete artefacts)",
+          "passed": false,
+          "evidence": "0 of 2 signals meet specificity>=4"
+        },
+        {
+          "text": "stage_preference is '0_to_1' with evidence citing the Stripe Tax pre-launch vs optimisation-phase distinction",
+          "passed": false,
+          "evidence": "stage_preference=None"
+        },
+        {
+          "text": "pillar_scores.experience >= 8 and pillar_scores.network >= 7",
+          "passed": true,
+          "evidence": "experience=8, network=7"
+        },
+        {
+          "text": "credibility_flags count is <= 2 (this is a strong founder; over-flagging would be a failure mode)",
+          "passed": true,
+          "evidence": "flag_count=0"
+        },
+        {
+          "text": "persona.md contains the specific names 'Priya Nair', 'Tom DiFranco', 'Sarah Okwu' (network specificity preserved in narrative)",
+          "passed": true,
+          "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+        },
+        {
+          "text": "persona.md contains at least one of the arcane domain references: 'chargeback', 'Visa', 'KYC', or 'interchange'",
+          "passed": true,
+          "evidence": "matched: ['chargeback', 'Visa', 'KYC', 'interchange']"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 8,
+        "failed": 12,
+        "total": 20,
+        "time_seconds": 161.1,
+        "tokens": 44157,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "persona.json exists and is valid JSON",
+          "passed": true,
+          "evidence": "persona.json loaded"
+        },
+        {
+          "text": "persona.md exists",
+          "passed": true,
+          "evidence": "persona.md loaded (8351 chars)"
+        },
+        {
+          "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+          "passed": false,
+          "evidence": "schema_version=None"
+        },
+        {
+          "text": "edges.market.strength_1_to_10 >= 7 (SBAR, brain sheets, trauma-vs-cardiac ICU rounding are earned-edge arcana)",
+          "passed": false,
+          "evidence": "missing keys: ['archetype_primary', 'psychographic']"
+        },
+        {
+          "text": "edges.market.depth_probe_passed is true",
+          "passed": false,
+          "evidence": "archetype_mix keys {'weights', 'secondary', 'rationale', 'primary'} != {'hacker', 'hound', 'hustler', 'hipster'}"
+        },
+        {
+          "text": "edges.technical.strength_1_to_10 <= 2 (tutorial-following, no solo MVP capability)",
+          "passed": false,
+          "evidence": "pillar_scores keys: {'catalyst', 'skill_edge', 'market_edge', 'obsession', 'experience', 'composite_note', 'network', 'insight'}"
+        },
+        {
+          "text": "edges.technical.depth_probe_passed is false",
+          "passed": false,
+          "evidence": "market_strength=None"
+        },
+        {
+          "text": "archetype_primary is 'hustler' OR 'hound' (charge nurse pattern is coordination + unblocking, not building or design)",
+          "passed": false,
+          "evidence": "depth_probe_passed=None"
+        },
+        {
+          "text": "network.warm_intros has at least one entry marked cold_start: true (hospital buyers)",
+          "passed": true,
+          "evidence": "technical_strength=None"
+        },
+        {
+          "text": "network.insider_markers is an empty array or has <= 1 entries (Marcus explicitly has no markers)",
+          "passed": false,
+          "evidence": "technical depth_probe_passed=None"
+        },
+        {
+          "text": "psychographic.missionary_score >= 8 (the patient-death motivation is canonical mission framing)",
+          "passed": false,
+          "evidence": "archetype_primary=None"
+        },
+        {
+          "text": "psychographic.mercenary_score <= 4",
+          "passed": false,
+          "evidence": "no cold_start entry"
+        },
+        {
+          "text": "obsession_signals has at least one entry with specificity_score >= 4 (wireframes nightly + Joint Commission citation)",
+          "passed": true,
+          "evidence": "markers=[]"
+        },
+        {
+          "text": "pillar_scores.experience >= 7 (7 years ICU + charge nurse is substantial earned edge)",
+          "passed": false,
+          "evidence": "missionary=None"
+        },
+        {
+          "text": "pillar_scores.network <= 5 (he explicitly has no buyer-network)",
+          "passed": false,
+          "evidence": "mercenary=None"
+        },
+        {
+          "text": "pillar_scores.skill_edge <= 3",
+          "passed": false,
+          "evidence": "0 of 2 signals meet specificity>=4"
+        },
+        {
+          "text": "credibility_flags has >= 1 entry",
+          "passed": true,
+          "evidence": "experience=9"
+        },
+        {
+          "text": "At least one credibility_flag has dimension 'skill_edge' (technical over-claim) OR 'network' (nurse-vs-buyer distinction)",
+          "passed": true,
+          "evidence": "network_pillar=3"
+        },
+        {
+          "text": "persona.md contains at least one of the domain arcana strings: 'SBAR', 'handoff', 'ICU', or 'vasopressor'",
+          "passed": true,
+          "evidence": "skill_edge=2"
+        },
+        {
+          "text": "persona.md does NOT describe Marcus as having a strong network for purchasing decisions (no claims like 'strong hospital network')",
+          "passed": true,
+          "evidence": "flag_count=6"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.25,
+        "passed": 5,
+        "failed": 15,
+        "total": 20,
+        "time_seconds": 138.1,
+        "tokens": 43565,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "persona.json exists and is valid JSON",
+          "passed": true,
+          "evidence": "persona.json loaded"
+        },
+        {
+          "text": "persona.md exists",
+          "passed": true,
+          "evidence": "persona.md loaded (8999 chars)"
+        },
+        {
+          "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+          "passed": false,
+          "evidence": "schema_version=None"
+        },
+        {
+          "text": "edges.technical.strength_1_to_10 >= 8 (Raft implementation, K8s cluster, toy compiler are research-grade evidence)",
+          "passed": false,
+          "evidence": "missing keys: ['archetype_primary', 'archetype_mix', 'psychographic']"
+        },
+        {
+          "text": "edges.technical.depth_probe_passed is true",
+          "passed": false,
+          "evidence": "archetype_mix missing or not dict"
+        },
+        {
+          "text": "edges.market.strength_1_to_10 <= 3 (Jamie explicitly states no domain)",
+          "passed": false,
+          "evidence": "pillar_scores keys: {'catalyst', 'skill_edge_technical', 'obsession', 'insight_market', 'experience', 'network'}"
+        },
+        {
+          "text": "edges.market.depth_probe_passed is false",
+          "passed": false,
+          "evidence": "technical_strength=None"
+        },
+        {
+          "text": "archetype_primary is 'hacker'",
+          "passed": false,
+          "evidence": "technical depth_probe_passed=None"
+        },
+        {
+          "text": "archetype_mix.hacker >= 0.45",
+          "passed": false,
+          "evidence": "market_strength=None"
+        },
+        {
+          "text": "Every entry in network.warm_intros has cold_start: true OR network.warm_intros is empty / does not cover any buyer vertical",
+          "passed": false,
+          "evidence": "market depth_probe_passed=None"
+        },
+        {
+          "text": "network.insider_markers includes references to either KubeCon or Hacker News (HN)",
+          "passed": false,
+          "evidence": "archetype_primary=None"
+        },
+        {
+          "text": "network.communities includes at least one entry with embeddedness 'speak' or 'moderate' (OSS maintainer, Discord moderator, KubeCon talk)",
+          "passed": false,
+          "evidence": "hacker_mix=None"
+        },
+        {
+          "text": "psychographic.missionary_score >= 8",
+          "passed": true,
+          "evidence": "all verticals marked cold_start or have no named contacts"
+        },
+        {
+          "text": "psychographic.mercenary_score <= 3",
+          "passed": true,
+          "evidence": "markers hit: ['KubeCon', 'HN']"
+        },
+        {
+          "text": "obsession_signals includes at least one entry with specificity_score >= 4 mentioning 'Solo Stack' OR the CLI tool",
+          "passed": true,
+          "evidence": "community OSS project (3K stars) @ speak"
+        },
+        {
+          "text": "stage_preference is '0_to_1' with evidence citing the 20-prototype pattern and dislike of scale phase",
+          "passed": false,
+          "evidence": "missionary=None"
+        },
+        {
+          "text": "pillar_scores.skill_edge >= 8",
+          "passed": false,
+          "evidence": "mercenary=None"
+        },
+        {
+          "text": "pillar_scores.experience <= 4",
+          "passed": false,
+          "evidence": "signals={'specificity': 5, 'signals': [{'type': 'named_essay_series', 'name': 'The Solo Stack', 'duration': '~1 year', 'theme': 'open-source infrastructure that makes individual developers feel powerful'}, {'type': 'named_artifact', 'name': 'CLI tool for solo devs to deploy production-grade services without DevOps', 'status': 'in progress'}, {'type': 'anti_incentive_commitment', 'evidence': 'Would keep building unpaid indefinitely; declined three job offers that would interrupt it'}, {'type': 'multi_modal_sustained', 'evidence': 'Thread runs through OSS maintainership + writing + CLI building; coherent multi-year arc'}]}"
+        },
+        {
+          "text": "credibility_flags has >= 1 entry with dimension 'experience' OR 'insight' (Market Edge absence)",
+          "passed": false,
+          "evidence": "stage_preference={'preferred': '0_to_1', 'evidence': ['11 years of idea-to-working-prototype pattern, ~20x', 'Explicit enjoyment of the weekend prototype cycle'], 'weak_stage': '1_to_N', 'weak_stage_evidence': [\"Self-admits losing interest 'when the current one needed sales or polish or operations'\", 'Pattern of abandonment before commercial traction']}"
+        },
+        {
+          "text": "persona.md contains at least one of: 'Raft', 'Kubernetes', 'K8s', 'Solo Stack', or 'HN' (technical + obsession specifics preserved)",
+          "passed": false,
+          "evidence": "skill_edge=None"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 144.5,
+        "stddev": 27.2676,
+        "min": 115.3,
+        "max": 169.3
+      },
+      "tokens": {
+        "mean": 64908.3333,
+        "stddev": 866.7078,
+        "min": 63990,
+        "max": 65712
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.357,
+        "stddev": 0.0933,
+        "min": 0.25,
+        "max": 0.4211
+      },
+      "time_seconds": {
+        "mean": 142.7333,
+        "stddev": 16.544,
+        "min": 129.0,
+        "max": 161.1
+      },
+      "tokens": {
+        "mean": 43626.0,
+        "stddev": 503.2802,
+        "min": 43156,
+        "max": 44157
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.64",
+      "time_seconds": "+1.8",
+      "tokens": "+21282"
+    }
+  },
+  "notes": []
+}

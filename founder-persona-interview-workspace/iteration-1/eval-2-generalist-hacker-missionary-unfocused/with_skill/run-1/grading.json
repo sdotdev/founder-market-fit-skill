@@ -1,0 +1,111 @@
+{
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 20,
+    "failed": 0,
+    "total": 20
+  },
+  "expectations": [
+    {
+      "text": "persona.json exists and is valid JSON",
+      "passed": true,
+      "evidence": "persona.json loaded"
+    },
+    {
+      "text": "persona.md exists",
+      "passed": true,
+      "evidence": "persona.md loaded (11377 chars)"
+    },
+    {
+      "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+      "passed": true,
+      "evidence": "schema_version=1.0"
+    },
+    {
+      "text": "edges.technical.strength_1_to_10 >= 8 (Raft implementation, K8s cluster, toy compiler are research-grade evidence)",
+      "passed": true,
+      "evidence": "all required keys present"
+    },
+    {
+      "text": "edges.technical.depth_probe_passed is true",
+      "passed": true,
+      "evidence": "keys valid, sum=1.000"
+    },
+    {
+      "text": "edges.market.strength_1_to_10 <= 3 (Jamie explicitly states no domain)",
+      "passed": true,
+      "evidence": "all pillars in 1-10: {'experience': 3, 'insight': 3, 'skill_edge': 9, 'network': 5, 'obsession': 10}"
+    },
+    {
+      "text": "edges.market.depth_probe_passed is false",
+      "passed": true,
+      "evidence": "technical_strength=9"
+    },
+    {
+      "text": "archetype_primary is 'hacker'",
+      "passed": true,
+      "evidence": "technical depth_probe_passed=True"
+    },
+    {
+      "text": "archetype_mix.hacker >= 0.45",
+      "passed": true,
+      "evidence": "market_strength=2"
+    },
+    {
+      "text": "Every entry in network.warm_intros has cold_start: true OR network.warm_intros is empty / does not cover any buyer vertical",
+      "passed": true,
+      "evidence": "market depth_probe_passed=False"
+    },
+    {
+      "text": "network.insider_markers includes references to either KubeCon or Hacker News (HN)",
+      "passed": true,
+      "evidence": "archetype_primary=hacker"
+    },
+    {
+      "text": "network.communities includes at least one entry with embeddedness 'speak' or 'moderate' (OSS maintainer, Discord moderator, KubeCon talk)",
+      "passed": true,
+      "evidence": "hacker_mix=0.6"
+    },
+    {
+      "text": "psychographic.missionary_score >= 8",
+      "passed": true,
+      "evidence": "all verticals marked cold_start or have no named contacts"
+    },
+    {
+      "text": "psychographic.mercenary_score <= 3",
+      "passed": true,
+      "evidence": "markers hit: ['KubeCon', 'HN']"
+    },
+    {
+      "text": "obsession_signals includes at least one entry with specificity_score >= 4 mentioning 'Solo Stack' OR the CLI tool",
+      "passed": true,
+      "evidence": "community Infra-engineer Discord (2K members) @ moderate"
+    },
+    {
+      "text": "stage_preference is '0_to_1' with evidence citing the 20-prototype pattern and dislike of scale phase",
+      "passed": true,
+      "evidence": "missionary=10"
+    },
+    {
+      "text": "pillar_scores.skill_edge >= 8",
+      "passed": true,
+      "evidence": "mercenary=1"
+    },
+    {
+      "text": "pillar_scores.experience <= 4",
+      "passed": true,
+      "evidence": "signals=[{'signal': \"Writing a named essay series 'The Solo Stack' for the last year on open-source infrastructure for individual developers\", 'specificity_score': 5}, {'signal': 'Building a named CLI tool that helps solo devs deploy production-grade services without a DevOps team (active, unpaid)', 'specificity_score': 5}, {'signal': 'Implemented Raft from the paper for fun; wrote a toy compiler for fun', 'specificity_score': 4}]"
+    },
+    {
+      "text": "credibility_flags has >= 1 entry with dimension 'experience' OR 'insight' (Market Edge absence)",
+      "passed": true,
+      "evidence": "stage_preference=0_to_1"
+    },
+    {
+      "text": "persona.md contains at least one of: 'Raft', 'Kubernetes', 'K8s', 'Solo Stack', or 'HN' (technical + obsession specifics preserved)",
+      "passed": true,
+      "evidence": "skill_edge=9"
+    }
+  ],
+  "load_errors": []
+}

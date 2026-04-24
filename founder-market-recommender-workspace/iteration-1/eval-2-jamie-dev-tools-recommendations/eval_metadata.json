@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "jamie-dev-tools-recommendations",
+  "prompt": "Jamie's persona → dev-as-buyer recommendations, every non-dev vertical cold-start flagged.",
+  "assertions": []
+}

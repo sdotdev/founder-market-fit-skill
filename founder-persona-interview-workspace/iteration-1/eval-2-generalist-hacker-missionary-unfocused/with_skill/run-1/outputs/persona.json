@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0",
+  "founder_name": "Jamie Chen",
+  "interview_date": "2026-04-22",
+
+  "archetype_primary": "hacker",
+  "archetype_secondary": "hound",
+  "archetype_mix": {
+    "hustler": 0.10,
+    "hacker": 0.60,
+    "hipster": 0.10,
+    "hound": 0.20
+  },
+
+  "edges": {
+    "technical": {
+      "claim": "Strong generalist engineer across robotics, backend infra, crypto; comfortable on the boundary of what's possible for a solo builder",
+      "evidence": [
+        "Implemented Raft from the paper; read MapReduce paper",
+        "Wrote a toy compiler for fun",
+        "Built and operates a self-hosted Kubernetes cluster for side projects",
+        "47 GitHub repos, 12 self-assessed non-trivial; maintainer on a 3K-star OSS project",
+        "Self-report: 'idea over coffee to working prototype on Railway with 3 users in a weekend, done ~20 times'",
+        "Self-report: 'in 72 hours I could ship a prototype of basically any B2B SaaS idea, with auth, billing, and a passable UI'"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 9
+    },
+    "market": {
+      "claim": "Has dabbled in robotics, fintech, and social apps; self-admits no single domain",
+      "evidence": [
+        "Founder's own words: 'honestly I don't have a domain... I can't name a single arcane pain point in any of them that insiders would recognise'",
+        "11 years of engineering across 4+ companies, all from a builder seat rather than a market-participant seat"
+      ],
+      "depth_probe_passed": false,
+      "strength_1_to_10": 2,
+      "entrenchment_risk": false
+    },
+    "catalyst": {
+      "claim": "Community-level momentum (OSS maintainer, Discord moderator, viral HN post) but no fundraising, no first-hire, no lighthouse-customer close",
+      "evidence": [
+        "Maintainer on 3K-star OSS project (co-ordinates contributors)",
+        "Moderator of 2K-member infra-engineer Discord",
+        "Spoke at a KubeCon meetup (small venue)",
+        "HN #1 post on distributed-systems debugging (2 years ago)",
+        "No evidence of raising capital, hiring a team from zero, or closing a paying customer against resistance"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 4
+    }
+  },
+
+  "network": {
+    "communities": [
+      { "name": "Infra-engineer Discord (2K members)", "venue": "online", "embeddedness": "moderate" },
+      { "name": "OSS project (3K-star, as maintainer)", "venue": "online", "embeddedness": "moderate" },
+      { "name": "Dev Twitter", "venue": "online", "embeddedness": "contribute" },
+      { "name": "KubeCon meetup circuit", "venue": "offline", "embeddedness": "speak" }
+    ],
+    "warm_intros": [
+      {
+        "vertical": "healthcare",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "finance",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "legal",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "manufacturing",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "developer tools / solo-dev infra",
+        "named_contacts": [],
+        "cold_start": false,
+        "notes": "No named individuals surfaced, but 2K-member Discord + 3K-star OSS maintainer status provide a real audience surface in this adjacent-to-self vertical. Persona should treat this as the single credible early-customer pool, but flag the absence of named first-three contacts."
+      }
+    ],
+    "insider_markers": [
+      "Spoke at KubeCon meetup (once)",
+      "HN #1 post on distributed-systems debugging (2 years ago)",
+      "Maintainer on 3K-star OSS infra project",
+      "Moderator of 2K-member infra-engineer Discord",
+      "Ongoing essay series: 'The Solo Stack'"
+    ]
+  },
+
+  "psychographic": {
+    "missionary_score": 10,
+    "mercenary_score": 1,
+    "evidence": [
+      "Explicit: 'I don't want an exit. I want to build something that people love forever.'",
+      "Explicit: 'If I sold I'd start something new the next day anyway.'",
+      "Turned down three job offers in the last year because they'd stop him building",
+      "Would continue unpaid indefinitely on 'open-source infrastructure that makes individual developers feel powerful'"
+    ]
+  },
+
+  "obsession_signals": [
+    {
+      "signal": "Writing a named essay series 'The Solo Stack' for the last year on open-source infrastructure for individual developers",
+      "specificity_score": 5
+    },
+    {
+      "signal": "Building a named CLI tool that helps solo devs deploy production-grade services without a DevOps team (active, unpaid)",
+      "specificity_score": 5
+    },
+    {
+      "signal": "Implemented Raft from the paper for fun; wrote a toy compiler for fun",
+      "specificity_score": 4
+    }
+  ],
+
+  "stage_preference": "0_to_1",
+  "stage_evidence": "Self-report: ships idea-to-prototype in a weekend, has done it ~20 times, and explicitly flags that he has 'never stuck with any one thing — I've always had a new idea by the time the current one needed sales or polish or operations.' Strong 0-to-1 energy, weak 1-to-10 stamina.",
+
+  "constraints": {
+    "time_per_week_hours": 60,
+    "runway_months": 18,
+    "geography": "NYC",
+    "family": "single, no dependents",
+    "regulatory": "none",
+    "other": [
+      "Self-identified 'never stuck with anything' pattern — a discipline/focus risk, not a legal constraint, but bounds what kind of venture will actually get out of 0->1"
+    ]
+  },
+
+  "pillar_scores": {
+    "experience": 3,
+    "insight": 3,
+    "skill_edge": 9,
+    "network": 5,
+    "obsession": 10
+  },
+
+  "credibility_flags": [
+    {
+      "claim": "Has dabbled in robotics, fintech, and social apps",
+      "why_flagged": "Founder explicitly stated he cannot name a single arcane pain point in any of these verticals that insiders would recognise. Market Edge probe failed by self-report. Downstream skills should treat 'domain experience' as zero and steer toward markets where he is the user (developer tools, solo-dev infra).",
+      "dimension": "experience"
+    },
+    {
+      "claim": "Can read a paper in any of these spaces",
+      "why_flagged": "Consumption-level familiarity is not Insight. No prior-attempt-analysis, no non-obvious market thesis, and no named practitioner interviews surfaced in any vertical except his own (dev-tools). Downstream skills should require an explicit idea-maze pass before scoring Insight above baseline.",
+      "dimension": "insight"
+    },
+    {
+      "claim": "Could ship a prototype of basically any B2B SaaS idea in 72 hours with auth, billing, and a passable UI",
+      "why_flagged": "Technical capability probe passed clearly (Raft, K8s, compiler, OSS). This is not a credibility flag on skill. It IS a flag that shipping speed is being used as a substitute for market selection — the 'build anything' confidence masks the absence of a buyer and a domain. Flagging under insight, not skill_edge, because the risk is idea-selection, not execution.",
+      "dimension": "insight"
+    },
+    {
+      "claim": "Has never stuck with any one thing; always had a new idea by the time the current one needed sales or polish or operations",
+      "why_flagged": "Self-disclosed focus/persistence risk. Downstream skills should weight stage_preference '0_to_1' heavily and flag mis-fit for any idea that requires a 12+ month grind through the non-building phases (enterprise GTM, regulated markets, content moats). This is constraint-shaped, not deceit.",
+      "dimension": "obsession"
+    },
+    {
+      "claim": "I don't know anyone in any specific industry — zero warm intros in healthcare, finance, legal, or manufacturing",
+      "why_flagged": "Founder was admirably explicit about cold-start status. Not dishonesty — recording as a flag so downstream skills de-prioritise markets that require insider-sold first customers. Dev-tools / solo-dev infra is the one vertical where his community capital substitutes for warm intros; everywhere else he is starting from zero.",
+      "dimension": "network"
+    }
+  ],
+
+  "incomplete_sections": []
+}

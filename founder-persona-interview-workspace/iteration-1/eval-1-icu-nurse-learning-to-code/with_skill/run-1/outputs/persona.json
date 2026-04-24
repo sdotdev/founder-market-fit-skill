@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "founder_name": "Marcus Abel",
+  "interview_date": "2026-04-22",
+
+  "archetype_primary": "hound",
+  "archetype_secondary": "hustler",
+  "archetype_mix": {
+    "hustler": 0.30,
+    "hacker": 0.05,
+    "hipster": 0.15,
+    "hound": 0.50
+  },
+
+  "edges": {
+    "technical": {
+      "claim": "6 months of Codecademy; built a to-do app with React + Flask following a YouTube tutorial; could build an MVP with a co-founder but couldn't ship one alone in 72 hours",
+      "evidence": [
+        "Codecademy coursework for 6 months",
+        "Tutorial-followed React + Flask to-do app",
+        "Self-assessed as unable to ship a 72-hour MVP solo"
+      ],
+      "depth_probe_passed": false,
+      "strength_1_to_10": 2
+    },
+    "market": {
+      "claim": "7 years ICU nursing at UCSF, 3 as charge nurse; deep knowledge of handoff workflow failure modes across ICU subtypes",
+      "evidence": [
+        "Named arcane: SBAR reports are supposed to be 5 min but run 20 min because the EHR surfaces vitals but not narrative context (last vasopressor change, ventilator evolution, family communication status)",
+        "Named arcane: Epic Rover is functional but nurses use paper 'brain sheets' that they throw away at end of shift",
+        "Named arcane: trauma ICU runs single-provider rounding; cardiac ICU is multidisciplinary (CT surgery + cardiology + ICU fellow) with political conflict around extubation decisions",
+        "Named sentinel-event statistic: Joint Commission finds communication failures implicated in 60-70% of adverse events",
+        "Lived the problem as charge nurse coordinating 30+ COVID handoffs"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 9,
+      "entrenchment_risk": false
+    },
+    "catalyst": {
+      "claim": "Charge nurse running the floor during surge events — coordinated handoffs, mediated physician-nurse conflict, owned cross-functional relationships with bed control and pharmacy",
+      "evidence": [
+        "Coordinated 30+ patient handoffs during COVID surge",
+        "Mediated physician-nurse conflicts as charge nurse",
+        "Owned operational relationship with bed control and pharmacy",
+        "No fundraising, no startup hiring, no lighthouse customer close on record"
+      ],
+      "depth_probe_passed": true,
+      "strength_1_to_10": 5
+    }
+  },
+
+  "network": {
+    "communities": [
+      { "name": "Private ex-ICU nurse Slack groups (3 groups, ~200 people total)", "venue": "online", "embeddedness": "lurk" }
+    ],
+    "warm_intros": [
+      {
+        "vertical": "hospital IT / clinical software buyers",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "hospital administration",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "healthcare investors",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "healthcare tech operators / founders",
+        "named_contacts": [],
+        "cold_start": true
+      },
+      {
+        "vertical": "ICU floor nurses (users, not buyers)",
+        "named_contacts": [],
+        "cold_start": false,
+        "notes": "Has access to ~200 ex-ICU nurses via Slack, plus live UCSF floor relationships — but these are end-users/champions, not economic buyers."
+      }
+    ],
+    "insider_markers": []
+  },
+
+  "psychographic": {
+    "missionary_score": 10,
+    "mercenary_score": 2,
+    "evidence": [
+      "Quote: 'I'd build this even if no one paid me, because I watched a patient die from a handoff miss in 2022 and I haven't stopped thinking about it.'",
+      "Quote: 'I don't care about exit size — I care about this specific problem.'",
+      "Left stable clinical career with 6 months runway to pursue the problem",
+      "No mercenary signal — no named exit window, no size target, no comp framing"
+    ]
+  },
+
+  "obsession_signals": [
+    {
+      "signal": "Reading every paper he can find on ICU handoff errors; can cite Joint Commission sentinel event findings (60-70% of adverse events attributable to communication failures)",
+      "specificity_score": 5
+    },
+    {
+      "signal": "Sketching wireframes for a handoff tool nightly for 4 months",
+      "specificity_score": 5
+    },
+    {
+      "signal": "Bought the domain",
+      "specificity_score": 4
+    },
+    {
+      "signal": "Origin event: patient death from a handoff miss in 2022 as the concrete memory still driving the work",
+      "specificity_score": 5
+    }
+  ],
+
+  "stage_preference": "0_to_1",
+  "stage_evidence": "Left 7-year clinical career to start from zero; loves the pre-product wireframing/paper-reading phase; charge-nurse work pattern (crisis coordination, surge events) is 0-to-something problem-solving, not steady-state scale.",
+
+  "constraints": {
+    "time_per_week_hours": 45,
+    "runway_months": 6,
+    "geography": "SF Bay Area",
+    "family": "no family commitments",
+    "regulatory": "none disclosed",
+    "other": [
+      "Doing per-diem ICU shifts to pay bills — time-per-week will fluctuate with shift schedule",
+      "Short runway (6 months) is the binding constraint — needs co-founder or early revenue fast"
+    ]
+  },
+
+  "pillar_scores": {
+    "experience": 9,
+    "insight": 8,
+    "skill_edge": 2,
+    "network": 3,
+    "obsession": 10
+  },
+
+  "credibility_flags": [
+    {
+      "claim": "'I think I could build an MVP with a co-founder but I couldn't ship one alone in 72 hours'",
+      "why_flagged": "Calibrated but weak — tutorial-level React/Flask and 6 months of Codecademy do not constitute shipping capability. Technical execution depends entirely on finding a technical co-founder or contractor; downstream skills should not treat Marcus as able to prototype independently.",
+      "dimension": "skill_edge"
+    },
+    {
+      "claim": "'I know nurses' — claimed as his network",
+      "why_flagged": "Nurses are users/champions, not economic buyers of hospital software. Zero named warm intros to hospital administrators, CMIOs, CNIOs, IT decision-makers, healthcare investors, or clinical software operators. Every purchasing vertical is cold-start. Downstream skills should weight Network conservatively and treat hospital GTM as a cold-outreach effort.",
+      "dimension": "network"
+    },
+    {
+      "claim": "Embeddedness in ex-ICU nurse Slack groups (~200 people, 3 groups)",
+      "why_flagged": "Self-described as 'not active, mostly read' — lurk-level only. Useful as a user-research panel but not community capital that would move a customer decision.",
+      "dimension": "network"
+    }
+  ],
+
+  "incomplete_sections": []
+}

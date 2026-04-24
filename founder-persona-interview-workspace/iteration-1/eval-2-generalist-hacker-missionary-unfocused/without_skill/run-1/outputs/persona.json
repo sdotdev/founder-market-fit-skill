@@ -1,0 +1,201 @@
+{
+  "founder": {
+    "name": "Jamie Chen",
+    "location": "NYC",
+    "one_line_read": "Technically prolific, mission-driven generalist engineer who ships prototypes compulsively, has no vertical domain, and will likely build a loved developer tool — but needs a domain co-founder (or strict dev-infra focus) to convert technical edge into a business."
+  },
+  "archetype": {
+    "primary": "Hacker",
+    "secondary": "Hound",
+    "tertiary": "Visionary",
+    "archetype_mix": {
+      "hacker": 0.55,
+      "hound": 0.25,
+      "visionary": 0.15,
+      "hustler": 0.05
+    },
+    "rationale": "Builder-first joy (hacker) plus sustained ideological commitment to empowering solo developers (hound/missionary). Hustler traits absent — no enterprise deals, no warm vertical intros, no sales motion in 11-year track record."
+  },
+  "edges": {
+    "technical_edge": {
+      "score": 9,
+      "tier": "research-grade",
+      "evidence": [
+        "Implemented Raft consensus algorithm from paper",
+        "Wrote a toy compiler for fun",
+        "Self-hosted Kubernetes cluster for a side project",
+        "47 GitHub repos, 12 non-trivial",
+        "Maintainer of a 3K-star OSS project",
+        "Self-reports shipping B2B SaaS prototype (auth + billing + UI) in 72 hours; consistent with 20+ prior prototypes across 11 years"
+      ],
+      "depth_probe_passed": true,
+      "calibration_notes": "Verifiable via public GitHub and OSS repo; claims are if anything under-stated."
+    },
+    "market_edge": {
+      "score": 2,
+      "tier": "absent (except narrowly in dev-infra)",
+      "evidence_for": [
+        "Latent edge inside developer-infrastructure / solo-developer tooling: one-year essay series 'The Solo Stack', CLI tool in progress, OSS maintainership"
+      ],
+      "evidence_against": [
+        "Self-admits no domain across robotics, fintech, crypto, social",
+        "Could not name an arcane pain point in any vertical",
+        "No insider workflow/regulatory/pricing knowledge surfaced"
+      ],
+      "depth_probe_passed": false,
+      "credibility_flag": true,
+      "flag_reason": "Founder has no surfaced market-insider knowledge in any named vertical. Treat claims of understanding healthcare/finance/legal/manufacturing as cold until proven otherwise. The only vertical with a credible narrow edge (dev-infra) scores ~5-6 in isolation."
+    },
+    "catalyst_edge": {
+      "score": 4,
+      "tier": "moderate",
+      "evidence": [
+        "One KubeCon meetup talk",
+        "HN #1 blog post on distributed systems debugging (2 years ago)",
+        "Maintainer-level coordination on 3K-star OSS project",
+        "Moderator of 2K-member infra-engineer Discord"
+      ],
+      "gaps": [
+        "No fundraising experience",
+        "No hiring / team-management experience",
+        "No GTM / revenue motion demonstrated"
+      ]
+    }
+  },
+  "network": {
+    "communities": [
+      {
+        "name": "OSS project (3K stars)",
+        "role": "maintainer",
+        "embeddedness": "speak",
+        "size": "3000+ stars, active contributors"
+      },
+      {
+        "name": "Infra-engineer Discord",
+        "role": "moderator",
+        "embeddedness": "moderate",
+        "size": 2000
+      },
+      {
+        "name": "Dev Twitter",
+        "role": "active participant",
+        "embeddedness": "moderate",
+        "size": "unknown"
+      }
+    ],
+    "warm_intros": {
+      "developer_infrastructure": {
+        "cold_start": false,
+        "strength": "strong",
+        "channels": ["OSS contributors", "Discord members", "dev Twitter"]
+      },
+      "healthcare": { "cold_start": true },
+      "finance_fintech": { "cold_start": true, "note": "18 months at crypto exchange produced no named warm intros" },
+      "legal": { "cold_start": true },
+      "manufacturing": { "cold_start": true },
+      "any_other_enterprise_vertical": { "cold_start": true }
+    },
+    "insider_markers": [
+      "KubeCon meetup talk (single, small)",
+      "HN #1 post on distributed systems debugging (2 years ago)",
+      "OSS maintainership (3K-star repo)",
+      "Ongoing essay series 'The Solo Stack'"
+    ],
+    "shape": "Deep in one tribe (developers/infra), zero in any traditional buying vertical."
+  },
+  "motivations": {
+    "missionary_score": 10,
+    "missionary_evidence": [
+      "'I want to build something that people love forever'",
+      "Anti-exit: 'If I sold I'd start something new the next day anyway'",
+      "Turned down three good job offers in the last year to keep building",
+      "One year of unpaid exploration"
+    ],
+    "mercenary_score": 1,
+    "mercenary_evidence": [
+      "No stated exit target",
+      "No interest in acquisition or wealth outcomes",
+      "No competitive M&A tracking, no investor courtship"
+    ],
+    "scoring_note": "Missionary and mercenary are scored independently, not averaged. Extreme missionary / near-zero mercenary."
+  },
+  "obsession_signals": {
+    "specificity": 5,
+    "signals": [
+      {
+        "type": "named_essay_series",
+        "name": "The Solo Stack",
+        "duration": "~1 year",
+        "theme": "open-source infrastructure that makes individual developers feel powerful"
+      },
+      {
+        "type": "named_artifact",
+        "name": "CLI tool for solo devs to deploy production-grade services without DevOps",
+        "status": "in progress"
+      },
+      {
+        "type": "anti_incentive_commitment",
+        "evidence": "Would keep building unpaid indefinitely; declined three job offers that would interrupt it"
+      },
+      {
+        "type": "multi_modal_sustained",
+        "evidence": "Thread runs through OSS maintainership + writing + CLI building; coherent multi-year arc"
+      }
+    ]
+  },
+  "stage_preference": {
+    "preferred": "0_to_1",
+    "evidence": [
+      "11 years of idea-to-working-prototype pattern, ~20x",
+      "Explicit enjoyment of the weekend prototype cycle"
+    ],
+    "weak_stage": "1_to_N",
+    "weak_stage_evidence": [
+      "Self-admits losing interest 'when the current one needed sales or polish or operations'",
+      "Pattern of abandonment before commercial traction"
+    ]
+  },
+  "constraints": {
+    "time_per_week_hours": 60,
+    "runway_months": 18,
+    "location": "NYC",
+    "dependents": "none",
+    "partner": "none",
+    "non_compete": "none",
+    "ip_regulatory": "clean",
+    "net": "Maximally unencumbered — no external excuses for pace"
+  },
+  "pillar_scores": {
+    "experience": 3,
+    "insight_market": 3,
+    "skill_edge_technical": 9,
+    "network": 5,
+    "obsession": 10,
+    "catalyst": 4
+  },
+  "credibility_flags": [
+    {
+      "pillar": "market_edge",
+      "severity": "high",
+      "reason": "No arcane insider knowledge in any named vertical; depth probe not passed outside of developer infrastructure",
+      "mitigation": "Either constrain to dev-infra (where there is a real edge) or recruit a domain co-founder with vertical reach."
+    }
+  ],
+  "calibration_notes": [
+    "Trust level: HIGH on technical claims (verifiable via public GitHub and OSS repo), MEDIUM on network claims (dev-world claims plausible given maintainership; vertical claims non-existent by founder's own admission), LOW on any implicit market claims.",
+    "Missionary score of 10 is earned, not aspirational: three declined job offers and a year of unpaid exploration are corroborating evidence.",
+    "Central risk is not technical failure or motivation — it is idea selection and follow-through. The 20-prototype-abandonment pattern is the strongest warning signal in the profile.",
+    "Recommended mitigations: (a) timebox idea-selection to ~60 days to preserve runway, (b) bias toward ideas where 'The Solo Stack' and OSS communities are themselves the distribution engine, (c) add commercial/operational co-founder or advisor, (d) avoid ideas requiring enterprise warm-intro sales."
+  ],
+  "best_fit_bet_shapes": [
+    "Developer-tooling / infra SaaS sold bottom-up to individual developers (OSS core + paid cloud; Vercel/Supabase/Resend/PlanetScale-shaped)",
+    "Technical co-founder slot alongside a domain-expert founder in a vertical",
+    "Open-core / self-hosted-first products where technical credibility is the primary distribution lever"
+  ],
+  "worst_fit_bet_shapes": [
+    "Enterprise vertical SaaS requiring warm intros (healthcare, legal, financial services)",
+    "Regulated fintech / biotech / govtech requiring compliance intuition",
+    "Anything with sustained top-down enterprise sales as the core motion"
+  ],
+  "founder_message": "You are dangerously good at building and dangerously untethered from a market. The highest-leverage question for you right now is not what to build but whom to build it for that you can already reach. Your existing reach is developers. Build there, or find a co-founder who has reach somewhere else."
+}

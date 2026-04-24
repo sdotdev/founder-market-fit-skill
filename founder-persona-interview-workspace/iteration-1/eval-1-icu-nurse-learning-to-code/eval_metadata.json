@@ -1,0 +1,6 @@
+{
+  "eval_id": 1,
+  "eval_name": "icu-nurse-learning-to-code",
+  "prompt": "Profile Marcus Abel (ex-ICU nurse, 7 years, teaching himself to code). Strong domain (SBAR/handoff arcana, ICU types), weak technical (tutorial-level), thin network for buyers (knows nurses not buyers). Tests that skill flags weak dimensions while preserving strong ones.",
+  "assertions": []
+}

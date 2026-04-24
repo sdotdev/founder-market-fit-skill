@@ -1,0 +1,106 @@
+{
+  "summary": {
+    "pass_rate": 0.42105263157894735,
+    "passed": 8,
+    "failed": 11,
+    "total": 19
+  },
+  "expectations": [
+    {
+      "text": "persona.json exists and is valid JSON at the expected output path",
+      "passed": true,
+      "evidence": "persona.json loaded"
+    },
+    {
+      "text": "persona.md exists at the expected output path",
+      "passed": true,
+      "evidence": "persona.md loaded (7489 chars)"
+    },
+    {
+      "text": "persona.json has schema_version set to '1.0'",
+      "passed": false,
+      "evidence": "schema_version=None"
+    },
+    {
+      "text": "persona.json has all required top-level keys: archetype_primary, archetype_mix, edges, network, psychographic, obsession_signals, stage_preference, constraints, pillar_scores, credibility_flags",
+      "passed": false,
+      "evidence": "missing keys: ['archetype_primary', 'archetype_mix', 'psychographic', 'stage_preference', 'credibility_flags']"
+    },
+    {
+      "text": "archetype_mix keys are exactly {hustler, hacker, hipster, hound} and values sum to 1.0 (within \u00b10.05)",
+      "passed": false,
+      "evidence": "archetype_mix missing or not dict"
+    },
+    {
+      "text": "pillar_scores has keys {experience, insight, skill_edge, network, obsession} each 1-10 integer",
+      "passed": false,
+      "evidence": "pillar_scores keys: {'catalyst', 'skill_edge', 'obsession', 'experience', 'network', 'technical', 'insight'}"
+    },
+    {
+      "text": "edges.market.strength_1_to_10 >= 8 (Daniela's arcane chargeback/KYC/interchange details earn strong Market Edge)",
+      "passed": false,
+      "evidence": "market_strength=None"
+    },
+    {
+      "text": "edges.market.depth_probe_passed is true",
+      "passed": false,
+      "evidence": "depth_probe_passed=None"
+    },
+    {
+      "text": "edges.technical.strength_1_to_10 <= 4 (Daniela's Retool + SQL self-assessment is correctly calibrated as sub-technical-edge)",
+      "passed": true,
+      "evidence": "technical_strength=None"
+    },
+    {
+      "text": "archetype_primary is either 'hustler' or 'hound' (her day-to-day work pattern was closing deals + unblocking + running the launch team)",
+      "passed": false,
+      "evidence": "archetype_primary=None"
+    },
+    {
+      "text": "network.warm_intros contains an entry for a SMB payments-related vertical with >= 3 named_contacts including the names Priya Nair, Tom DiFranco, and Sarah Okwu",
+      "passed": false,
+      "evidence": "exception: AttributeError: 'str' object has no attribute 'get'"
+    },
+    {
+      "text": "network.warm_intros contains at least one entry with cold_start: true (embedded finance)",
+      "passed": false,
+      "evidence": "no cold_start entry"
+    },
+    {
+      "text": "network.insider_markers has >= 2 entries, at least one mentioning Money 20/20 or Stripe",
+      "passed": true,
+      "evidence": "markers=[\"Quoted in Stripe's 2024 SMB report\", \"Co-author of Stripe's internal chargeback-ops playbook\", '2x Money 20/20 speaker', '9-month public Substack on SMB chargebacks']"
+    },
+    {
+      "text": "obsession_signals has >= 2 entries with specificity_score >= 4 (substack + M&A spreadsheet are concrete artefacts)",
+      "passed": false,
+      "evidence": "0 of 2 signals meet specificity>=4"
+    },
+    {
+      "text": "stage_preference is '0_to_1' with evidence citing the Stripe Tax pre-launch vs optimisation-phase distinction",
+      "passed": false,
+      "evidence": "stage_preference=None"
+    },
+    {
+      "text": "pillar_scores.experience >= 8 and pillar_scores.network >= 7",
+      "passed": true,
+      "evidence": "experience=8, network=7"
+    },
+    {
+      "text": "credibility_flags count is <= 2 (this is a strong founder; over-flagging would be a failure mode)",
+      "passed": true,
+      "evidence": "flag_count=0"
+    },
+    {
+      "text": "persona.md contains the specific names 'Priya Nair', 'Tom DiFranco', 'Sarah Okwu' (network specificity preserved in narrative)",
+      "passed": true,
+      "evidence": "matched: ['Priya Nair', 'Tom DiFranco', 'Sarah Okwu']"
+    },
+    {
+      "text": "persona.md contains at least one of the arcane domain references: 'chargeback', 'Visa', 'KYC', or 'interchange'",
+      "passed": true,
+      "evidence": "matched: ['chargeback', 'Visa', 'KYC', 'interchange']"
+    }
+  ],
+  "load_errors": []
+}

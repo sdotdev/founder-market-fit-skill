@@ -1,0 +1,209 @@
+{
+  "founder": {
+    "name": "Daniela Reyes",
+    "location": "Bay Area, CA",
+    "summary": "Ex-Stripe senior PM (5 yrs) with deep SMB payments operator chops; led Stripe Tax SMB launch to ~$30M ARR as de-facto partner-BD / cross-functional closer. Strongest in 0-to-1 phase."
+  },
+  "archetype": {
+    "primary": "Hustler",
+    "secondary": "Hound",
+    "tertiary": "Hacker",
+    "mix": {
+      "hustler": 0.50,
+      "hound": 0.35,
+      "hacker": 0.15
+    },
+    "rationale": "Day-to-day work was BD/compliance-unblock/launch-leadership, not spec writing. Active domain-hunting via Substack and M&A tracker. Non-zero but capped technical ability."
+  },
+  "edges": {
+    "market_edge": {
+      "score": 9,
+      "depth_probe_passed": true,
+      "evidence": [
+        "Visa chargeback thresholds cited unprompted: 0.9% VMP, 1.8% VDMP, $25K/month penalty fees",
+        "SMB KYC onboarding drop-off ~38% concentrated on ownership-percentage field for co-owned LLCs",
+        "Card-present vs CNP interchange reimbursement fee gap of 15-40 bps within same MCC; named hybrid-POS arbitrage"
+      ],
+      "notes": "Arcana volunteered without prompting. Practitioner-level, not headline-level."
+    },
+    "catalyst_edge": {
+      "score": 7,
+      "evidence": [
+        "Led launch team of 7 for Stripe Tax SMB",
+        "Closed enterprise referral deals with partner banks",
+        "Ran pre-launch pilot across 40 merchants (Shopify, Amazon, WooCommerce)",
+        "Shipped from 0 to ~$30M ARR",
+        "Spoke at Money 20/20 twice; quoted in Stripe 2024 SMB report"
+      ],
+      "gaps": [
+        "No evidence of external fundraising or founder-level hiring",
+        "Intrapreneurial catalyst (Stripe brand, handed-down compliance + partner context) — not yet tested from fully cold start"
+      ]
+    },
+    "technical_edge": {
+      "score": 3,
+      "depth_probe_passed": true,
+      "self_calibrated": true,
+      "evidence": [
+        "Built Retool + SQL dispute-triage internal tool solo in ~3 weeks",
+        "Can read React"
+      ],
+      "limits": [
+        "Explicitly says she cannot ship a real MVP solo",
+        "Needs a technical co-founder or strong first engineer"
+      ]
+    },
+    "insight_edge": {
+      "score": 7,
+      "evidence": [
+        "9-month personal Substack on SMB chargeback disputes",
+        "Self-maintained M&A deal spreadsheet (SMB fintech, 2022+)",
+        "Co-authored Stripe's internal chargeback-ops playbook"
+      ],
+      "notes": "Active thesis-formation habit. No publicly named wedge yet."
+    }
+  },
+  "pillar_scores": {
+    "experience": 8,
+    "insight": 7,
+    "skill_edge": 7,
+    "network": 7,
+    "obsession": 7,
+    "catalyst": 7,
+    "technical": 3
+  },
+  "network": {
+    "warm_intros": {
+      "smb_payments": {
+        "cold_start": false,
+        "named_contacts": [
+          {
+            "name": "Priya Nair",
+            "role": "Head of Payments",
+            "company": "Earnest",
+            "response_sla": "<24h"
+          },
+          {
+            "name": "Tom DiFranco",
+            "role": "Founder",
+            "company": "LedgerLift",
+            "response_sla": "<24h",
+            "recency": "traded notes last week"
+          },
+          {
+            "name": "Sarah Okwu",
+            "role": "CFO",
+            "company": "Rhombus",
+            "response_sla": "<24h"
+          }
+        ]
+      },
+      "embedded_finance": {
+        "cold_start": true,
+        "self_flagged": true,
+        "note": "Academic knowledge only; no warm intros to BaaS / embedded issuing platforms"
+      }
+    },
+    "communities": [
+      {
+        "name": "Stripe alumni Slack #payments",
+        "embeddedness": "moderator",
+        "activity": "active"
+      },
+      {
+        "name": "Money 20/20 speaker circuit",
+        "embeddedness": "repeat_speaker",
+        "activity": "active"
+      }
+    ],
+    "insider_markers": [
+      "Quoted in Stripe's 2024 SMB report",
+      "Co-author of Stripe's internal chargeback-ops playbook",
+      "2x Money 20/20 speaker",
+      "9-month public Substack on SMB chargebacks"
+    ]
+  },
+  "motivations": {
+    "missionary_score": 5,
+    "mercenary_score": 7,
+    "composite_notes": "Not averaged. Scored independently — she's clear-eyed that she's not a lifer on any single problem (missionary moderate) but has a named exit band and timeframe (mercenary moderate-high).",
+    "exit_preference": {
+      "time_horizon_years": "5-7",
+      "valuation_band_usd": "200M-1B"
+    },
+    "unpaid_commitment_willingness": {
+      "years": 3,
+      "conditional": true,
+      "condition": "problem must be right"
+    }
+  },
+  "obsession_signals": {
+    "specificity": 5,
+    "items": [
+      {
+        "signal": "Personal Substack on SMB chargeback disputes",
+        "duration_months": 9,
+        "unpaid": true
+      },
+      {
+        "signal": "Spreadsheet of every SMB fintech M&A deal since 2022",
+        "unpaid": true,
+        "self_initiated": true
+      },
+      {
+        "signal": "Volunteers practitioner-level fee arcana unprompted"
+      }
+    ]
+  },
+  "stage_fit": {
+    "preference": "0_to_1",
+    "strength": "high",
+    "evidence": [
+      "Self-reports loving pre-launch pilot chaos (40-merchant pilot across 3 platforms)",
+      "Self-reports hating the post-$30M-ARR funnel-optimization phase"
+    ],
+    "weakness": {
+      "phase": "1_to_N scale / optimization",
+      "note": "Will likely want to hand off ops by Series A/B; surface to co-founder early"
+    }
+  },
+  "constraints": {
+    "hours_per_week": 50,
+    "runway_months": 14,
+    "location": "Bay Area",
+    "family": "partner + 1 child under 5",
+    "legal": [
+      {
+        "type": "non_solicit",
+        "scope": "Stripe customers",
+        "duration_months": 18,
+        "impact": "Limits fastest-path GTM to ex-Stripe merchants; forces inbound/content, partner-channel, non-Stripe SMBs, or wait-out"
+      }
+    ]
+  },
+  "calibration_notes": {
+    "credibility_flags": [],
+    "minor_notes": [
+      "Catalyst Edge is intrapreneurial (Stripe brand + handed-down compliance/partner context). Probe handling of fully-cold-start ambiguity — no brand, no compliance team, no warm partner intros.",
+      "Psychographic commitment is conditional ('if the problem is right'). Not yet locked on a specific wedge — factor into co-founder / investor conversations.",
+      "Technical Edge claim is well-calibrated — founder flags her own ceiling. Treat as honest self-assessment, not a flag."
+    ]
+  },
+  "best_fit_problem_shapes": [
+    "SMB payments / fintech with compliance or partner-bank heavy wedges",
+    "Fragmented SMB long-tail products (Shopify/Amazon/Woo pilot pattern)",
+    "Chargeback, dispute, KYC, or interchange-optimization products leveraging arcana moat",
+    "GTM paths that reach first customers via Stripe alumni / Money 20/20 / #payments Slack — avoiding Stripe merchant list for 18 months"
+  ],
+  "anti_patterns": [
+    "Pure embedded finance / BaaS where network is cold",
+    "Deep-tech / infra-heavy first 12 months",
+    "Mission-driven long-horizon categories (climate, biotech) incompatible with 5-7yr / $200M-1B frame",
+    "Scale-stage optimization roles she explicitly dislikes"
+  ],
+  "recommended_co_founder_profile": {
+    "primary_gap": "Production engineering / CTO",
+    "nice_to_have": "Scale-stage operator willing to own 1-to-N once PMF lands",
+    "rationale": "Daniela fills BD, compliance, GTM, domain, and 0-to-1 catalyst. Missing: shipping-grade technical leadership and eventual scale-ops appetite."
+  }
+}

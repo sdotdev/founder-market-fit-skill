@@ -1,0 +1,229 @@
+{
+  "founder": {
+    "name": "Marcus Abel",
+    "location": "SF Bay Area",
+    "background_summary": "7-year UCSF ICU nurse, 3 years as charge nurse. Left clinical work ~1 year ago to teach himself to code and build tooling for ICU shift-change handoffs, anchored by a 2022 patient-safety event he witnessed.",
+    "current_status": "Per-diem nursing shifts to cover bills while self-studying (Codecademy ~6 months) and designing a handoff tool.",
+    "generated_on": "2026-04-22"
+  },
+
+  "archetype_mix": {
+    "primary": "Hound",
+    "secondary": "Hustler",
+    "weights": {
+      "Hound": 0.55,
+      "Hustler": 0.30,
+      "Hacker": 0.15
+    },
+    "rationale": "Deep, narrow, years-long obsession with a specific clinical workflow failure (Hound). Charge-nurse operator experience managing cross-functional surge events shows Hustler muscle but untested outside clinical walls. Tutorial-level self-taught coding — Hacker weighting is minimal and should not be relied on for shipping."
+  },
+
+  "edges": {
+    "market_edge": {
+      "score": 9,
+      "depth_probe_passed": true,
+      "evidence": [
+        "SBAR handoffs that are supposed to be 5 min routinely run 20 min; can articulate the why (EHR doesn't surface last vasopressor change, ventilator settings evolution, family communication status).",
+        "Nurse 'brain sheet' paper workflow that exists outside the system of record and is discarded at end of shift.",
+        "Epic Rover is the incumbent mobile surface and is functional but insufficient.",
+        "Structural contrast between trauma ICU rounding (single-provider) vs cardiac ICU (multidisciplinary: CT surgery + cardiology + ICU fellow) and the political friction around extubation decisions.",
+        "Cites Joint Commission sentinel-event data: communication failures underlie ~60-70% of adverse events."
+      ],
+      "notes": "This is arcana only available via lived insider experience. Strongest dimension of the profile."
+    },
+    "technical_edge": {
+      "score": 2,
+      "depth_probe_passed": false,
+      "evidence": [
+        "6 months of Codecademy.",
+        "Built one tutorial-following React + Flask to-do app.",
+        "Self-reports he could not ship an MVP solo in 72 hours.",
+        "No prior shipped production systems, no public code portfolio, no systems design signals."
+      ],
+      "calibration_notes": [
+        "Honestly self-reported — credibility intact, capability not.",
+        "Cannot be the founding engineer. Should not try to close the gap by studying longer.",
+        "Healthcare adds integration complexity (FHIR, HL7, SMART on FHIR, Epic/Cerner APIs, HIPAA BAA, SOC2) that requires senior engineering judgment from day one."
+      ]
+    },
+    "catalyst_edge": {
+      "score": 6,
+      "evidence": [
+        "Charge nurse for 3 years at UCSF ICU — coordinated 30+ patient handoffs during COVID surge.",
+        "Mediated physician-nurse conflicts under live clinical pressure.",
+        "Owned cross-functional relationships with bed control and pharmacy.",
+        "Ran the floor during crisis events."
+      ],
+      "gaps": [
+        "No fundraising experience.",
+        "No hiring experience.",
+        "No vendor or partnership negotiation outside the hospital.",
+        "No public speaking, no conference presence, no podcast or written media.",
+        "No demonstrated ability to rally capital or external talent."
+      ],
+      "notes": "Internal clinical catalyst ability is probable and real. Founder-grade external catalyst ability is untested."
+    },
+    "experience_edge": {
+      "score": 9,
+      "evidence": [
+        "7 years in a single top-tier ICU (UCSF).",
+        "3 years in a leadership role (charge nurse).",
+        "Personally witnessed a patient death from a handoff failure in 2022 — the founding story is real, dated, and specific."
+      ]
+    },
+    "insight_edge": {
+      "score": 8,
+      "evidence": [
+        "Has independently synthesized a problem thesis (EHR fails to capture narrative handoff context) that matches the academic literature he's been reading.",
+        "Can name the incumbent tool (Epic Rover) and articulate where it stops being useful.",
+        "Distinguishes trauma vs cardiac ICU workflow structurally, not just anecdotally."
+      ]
+    }
+  },
+
+  "pillar_scores": {
+    "experience": 9,
+    "insight": 8,
+    "market_edge": 9,
+    "skill_edge": 2,
+    "catalyst": 6,
+    "network": 3,
+    "obsession": 10,
+    "composite_note": "Profile is heavily spiked on domain + obsession, deeply underweight on network and shipping capability. Classic domain-first solo founder shape that needs a technical co-founder and a GTM bridge."
+  },
+
+  "network": {
+    "communities": [
+      {
+        "name": "Ex-ICU nurses (3 private Slack groups)",
+        "size_approx": 200,
+        "embeddedness": "lurk",
+        "buyer_proximity": "low",
+        "notes": "Member but not active. Potential seed of early users or ex-clinician healthtech operator intros, but not a buyer pipeline."
+      }
+    ],
+    "warm_intros": {
+      "floor_nurses": {
+        "available": true,
+        "notes": "Strong — but not buyers of hospital software."
+      },
+      "hospital_administrators_cio_cmio_cnio": {
+        "cold_start": true
+      },
+      "nursing_leadership_vp_cno": {
+        "cold_start": true
+      },
+      "healthcare_investors": {
+        "cold_start": true
+      },
+      "healthcare_tech_operators": {
+        "cold_start": true
+      },
+      "ehr_vendors_epic_cerner_meditech": {
+        "cold_start": true
+      },
+      "health_system_procurement": {
+        "cold_start": true
+      }
+    },
+    "insider_markers": [],
+    "network_score": 3,
+    "flag": "Knows users, does not know buyers. Hospital enterprise software is one of the longest and most committee-driven B2B sales motions in the market, and Marcus has zero warm surface on that committee."
+  },
+
+  "motivations": {
+    "missionary_score": 10,
+    "mercenary_score": 2,
+    "note_not_averaged": "High missionary, very low mercenary — these are reported independently and should not be collapsed into a single value.",
+    "evidence": [
+      "Explicit founding story: patient died from a handoff miss in 2022; cannot stop thinking about it.",
+      "States he would build this unpaid.",
+      "States he does not care about exit size.",
+      "Cares about the specific problem, not category or outcome."
+    ],
+    "risks_from_profile": [
+      "May resist pivots away from the exact problem shape.",
+      "May undervalue commercial fit and underprice the product.",
+      "May have friction with VC-style growth pressure."
+    ]
+  },
+
+  "obsession_signals": {
+    "specificity": 5,
+    "signals": [
+      "9+ months reading ICU handoff-error literature; can cite Joint Commission sentinel event findings from memory.",
+      "4 months of nightly wireframing.",
+      "Purchased the product domain.",
+      "Left a stable UCSF career to pursue this.",
+      "Reads problem literature without being asked or assigned."
+    ]
+  },
+
+  "stage_preference": {
+    "preferred_stage": "0_to_1",
+    "evidence": [
+      "Charge-nurse temperament is crisis coordination, not steady-state optimization.",
+      "Obsession is pre-product and pre-validation.",
+      "Technical and commercial gaps make any scaling-stage context a poor fit.",
+      "No stated appetite for building or managing a large team."
+    ]
+  },
+
+  "constraints": {
+    "time_per_week_hours": "40-50",
+    "runway_months": 6,
+    "runway_flag": "TIGHT — shorter than a single hospital procurement cycle (typically 9-18 months). First 8-10 weeks of runway are decisive for co-founder, design partner, and fundraising.",
+    "geography": "SF Bay Area",
+    "family": "No dependents",
+    "legal": "No non-competes, no regulatory flags",
+    "employment": "Per-diem nursing to cover living expenses"
+  },
+
+  "credibility_flags": [
+    {
+      "area": "technical_edge",
+      "severity": "high",
+      "flag": "Self-claim to 'build an MVP with a co-founder' is plausible as a product-minded collaborator but not as a shipping engineer. Tutorial-level React/Flask will not survive healthcare integration and compliance work.",
+      "recommended_mitigation": "Find a senior full-stack co-founder with regulated-industry or healthcare background. Do not close this gap by continuing to self-study."
+    },
+    {
+      "area": "network",
+      "severity": "high",
+      "flag": "Knows users (floor nurses), does not know buyers (CMIO, CNIO, CIO, nursing VPs, procurement, health system innovation leads, healthcare investors).",
+      "recommended_mitigation": "Publish publicly on ICU handoff failure to generate inbound; use ex-ICU-nurse Slack to source ex-clinician healthtech operator intros; attend AMIA / HIMSS nursing informatics events to build CNIO surface."
+    },
+    {
+      "area": "insider_markers",
+      "severity": "moderate",
+      "flag": "No talks, no publications, no public writing. No external proof of expertise beyond the interview itself.",
+      "recommended_mitigation": "6 months of consistent public writing plus one design-partner pilot would close most of this."
+    },
+    {
+      "area": "catalyst_external",
+      "severity": "moderate",
+      "flag": "Charge-nurse operator ability is real internally. Founder-grade external catalyst (fundraising, hiring, partnerships, BD) is unobserved.",
+      "recommended_mitigation": "First external test: land one formal design-partner ICU unit and one pre-seed check. Both are forcing functions for external catalyst skill."
+    },
+    {
+      "area": "emotional_anchor",
+      "severity": "low",
+      "flag": "Building from grief is a real engine, but watch for rigidity about solution shape (e.g. standalone app vs Epic-embedded module). Ensure ability to hear disconfirming buyer feedback.",
+      "recommended_mitigation": "Design-partner feedback loop every 2 weeks; explicit written hypothesis log so the solution shape is allowed to change while the problem stays fixed."
+    },
+    {
+      "area": "runway_vs_sales_cycle",
+      "severity": "high",
+      "flag": "6-month personal runway is shorter than a hospital procurement cycle. Cannot self-fund to a paid contract.",
+      "recommended_mitigation": "Pre-seed raise ($500k-$1.5M) on the strength of domain + co-founder + design-partner LOI within the first ~60 days."
+    }
+  ],
+
+  "calibration_notes": [
+    "Founder was honest about technical limits; self-awareness is high and should be rewarded in evaluation, not penalized as weakness.",
+    "Market-edge arcana is dense enough that a subject-matter-expert interviewer would likely confirm insider status within minutes.",
+    "Missionary and mercenary are reported independently, not averaged.",
+    "Profile is highly coachable on network and insider-markers; profile is not coachable on technical edge within a useful timeframe — this must be co-founded."
+  ],
+
+  "shape_one_liner": "Domain-first mission-driven solo founder with elite insider market edge and elite obsession, but low shipping capability and no buyer network — needs a senior technical co-founder and a GTM bridge into hospital buying committees before the 6-month runway burns."
+}

@@ -1,0 +1,111 @@
+{
+  "summary": {
+    "pass_rate": 0.25,
+    "passed": 5,
+    "failed": 15,
+    "total": 20
+  },
+  "expectations": [
+    {
+      "text": "persona.json exists and is valid JSON",
+      "passed": true,
+      "evidence": "persona.json loaded"
+    },
+    {
+      "text": "persona.md exists",
+      "passed": true,
+      "evidence": "persona.md loaded (8999 chars)"
+    },
+    {
+      "text": "persona.json schema_version is '1.0' and all required top-level keys are present",
+      "passed": false,
+      "evidence": "schema_version=None"
+    },
+    {
+      "text": "edges.technical.strength_1_to_10 >= 8 (Raft implementation, K8s cluster, toy compiler are research-grade evidence)",
+      "passed": false,
+      "evidence": "missing keys: ['archetype_primary', 'archetype_mix', 'psychographic']"
+    },
+    {
+      "text": "edges.technical.depth_probe_passed is true",
+      "passed": false,
+      "evidence": "archetype_mix missing or not dict"
+    },
+    {
+      "text": "edges.market.strength_1_to_10 <= 3 (Jamie explicitly states no domain)",
+      "passed": false,
+      "evidence": "pillar_scores keys: {'catalyst', 'skill_edge_technical', 'obsession', 'insight_market', 'experience', 'network'}"
+    },
+    {
+      "text": "edges.market.depth_probe_passed is false",
+      "passed": false,
+      "evidence": "technical_strength=None"
+    },
+    {
+      "text": "archetype_primary is 'hacker'",
+      "passed": false,
+      "evidence": "technical depth_probe_passed=None"
+    },
+    {
+      "text": "archetype_mix.hacker >= 0.45",
+      "passed": false,
+      "evidence": "market_strength=None"
+    },
+    {
+      "text": "Every entry in network.warm_intros has cold_start: true OR network.warm_intros is empty / does not cover any buyer vertical",
+      "passed": false,
+      "evidence": "market depth_probe_passed=None"
+    },
+    {
+      "text": "network.insider_markers includes references to either KubeCon or Hacker News (HN)",
+      "passed": false,
+      "evidence": "archetype_primary=None"
+    },
+    {
+      "text": "network.communities includes at least one entry with embeddedness 'speak' or 'moderate' (OSS maintainer, Discord moderator, KubeCon talk)",
+      "passed": false,
+      "evidence": "hacker_mix=None"
+    },
+    {
+      "text": "psychographic.missionary_score >= 8",
+      "passed": true,
+      "evidence": "all verticals marked cold_start or have no named contacts"
+    },
+    {
+      "text": "psychographic.mercenary_score <= 3",
+      "passed": true,
+      "evidence": "markers hit: ['KubeCon', 'HN']"
+    },
+    {
+      "text": "obsession_signals includes at least one entry with specificity_score >= 4 mentioning 'Solo Stack' OR the CLI tool",
+      "passed": true,
+      "evidence": "community OSS project (3K stars) @ speak"
+    },
+    {
+      "text": "stage_preference is '0_to_1' with evidence citing the 20-prototype pattern and dislike of scale phase",
+      "passed": false,
+      "evidence": "missionary=None"
+    },
+    {
+      "text": "pillar_scores.skill_edge >= 8",
+      "passed": false,
+      "evidence": "mercenary=None"
+    },
+    {
+      "text": "pillar_scores.experience <= 4",
+      "passed": false,
+      "evidence": "signals={'specificity': 5, 'signals': [{'type': 'named_essay_series', 'name': 'The Solo Stack', 'duration': '~1 year', 'theme': 'open-source infrastructure that makes individual developers feel powerful'}, {'type': 'named_artifact', 'name': 'CLI tool for solo devs to deploy production-grade services without DevOps', 'status': 'in progress'}, {'type': 'anti_incentive_commitment', 'evidence': 'Would keep building unpaid indefinitely; declined three job offers that would interrupt it'}, {'type': 'multi_modal_sustained', 'evidence': 'Thread runs through OSS maintainership + writing + CLI building; coherent multi-year arc'}]}"
+    },
+    {
+      "text": "credibility_flags has >= 1 entry with dimension 'experience' OR 'insight' (Market Edge absence)",
+      "passed": false,
+      "evidence": "stage_preference={'preferred': '0_to_1', 'evidence': ['11 years of idea-to-working-prototype pattern, ~20x', 'Explicit enjoyment of the weekend prototype cycle'], 'weak_stage': '1_to_N', 'weak_stage_evidence': [\"Self-admits losing interest 'when the current one needed sales or polish or operations'\", 'Pattern of abandonment before commercial traction']}"
+    },
+    {
+      "text": "persona.md contains at least one of: 'Raft', 'Kubernetes', 'K8s', 'Solo Stack', or 'HN' (technical + obsession specifics preserved)",
+      "passed": false,
+      "evidence": "skill_edge=None"
+    }
+  ],
+  "load_errors": []
+}

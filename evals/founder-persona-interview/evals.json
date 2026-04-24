@@ -1,0 +1,91 @@
+{
+  "skill_name": "founder-persona-interview",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "ex-stripe-pm-fintech-depth",
+      "prompt": "I'd like you to profile me as a founder using the founder-persona-interview skill. I'll write out my full background below as if I were telling you everything in a single pitch. Please produce persona.md and persona.json in ./persona/.\n\n---\n\nI'm Daniela Reyes. I spent 5 years on Stripe's SMB payments team, the last two as a senior PM leading the launch of Stripe Tax to SMBs. Before that I did a year at Deloitte consulting.\n\nCareer pattern: on paper I was a PM but day-to-day I mostly closed enterprise referral deals with partner banks, unblocked legal/compliance on state tax filings across 40+ states, and ran the launch team of 7 people. I hated the week-to-week operator phase after Tax hit $30M ARR and we were optimising funnels. I loved the 0-to-1 chaos before that — the pre-launch pilot with 40 merchants across Shopify, Amazon, and WooCommerce.\n\nOn domain: I can tell you that chargeback ratios above 0.9% put you in Visa's Monitoring Program and at 1.8% you hit VDMP which costs $25K/month in fees. I can tell you that SMB KYC drop-off on payment onboarding hovers around 38% and most of it is on the 'ownership percentage' field where co-owned LLCs get confused. The arcane one: Visa interchange reimbursement fees on card-present vs card-not-present for the same MCC differ by 15-40bps which you can actually arbitrage if you run a hybrid POS.\n\nOn tech: I'm not a production engineer. I built a Retool + SQL internal tool at Stripe to triage chargeback disputes — took me about 3 weeks. I can read React but I'd need help shipping a real MVP.\n\nOn network: specifically in SMB payments, if I needed a first customer tomorrow I'd call Priya Nair (head of payments at Earnest), Tom DiFranco (founder of LedgerLift), and Sarah Okwu (CFO at Rhombus). All three would respond within a day — Tom and I traded notes last week. In embedded finance I know the terrain academically but don't have warm intros. I'm a moderator in the Stripe alumni Slack #payments channel and I've spoken at Money 20/20 twice. I co-authored Stripe's internal chargeback-ops playbook and was quoted in Stripe's 2024 SMB report.\n\nOn obsession: I've been writing a personal substack on SMB chargeback disputes for 9 months. I maintain a spreadsheet of every SMB fintech M&A deal since 2022. Not because anyone asked.\n\nOn psychographics: I'd build this for 3 years unpaid only if the problem was right — I'm not a save-the-world type. I want a 5-7 year exit window, probably $200M-1B range.\n\nConstraints: 50 hours a week, 14 months runway, Bay Area, partner + one kid under 5, 18-month non-solicit on Stripe customers.\n\nPlease produce the persona artefacts.",
+      "expected_output": "High-earned-edge persona with minimal credibility flags. Strong Market Edge, calibrated Technical Edge, strong Catalyst Edge, Hustler-primary archetype, named warm intros in SMB payments + cold start on embedded finance, high specificity obsession signals, mixed missionary/mercenary.",
+      "files": [],
+      "assertions": [
+        "persona.json exists and is valid JSON at the expected output path",
+        "persona.md exists at the expected output path",
+        "persona.json has schema_version set to '1.0'",
+        "persona.json has all required top-level keys: archetype_primary, archetype_mix, edges, network, psychographic, obsession_signals, stage_preference, constraints, pillar_scores, credibility_flags",
+        "archetype_mix keys are exactly {hustler, hacker, hipster, hound} and values sum to 1.0 (within ±0.05)",
+        "pillar_scores has keys {experience, insight, skill_edge, network, obsession} each 1-10 integer",
+        "edges.market.strength_1_to_10 >= 8 (Daniela's arcane chargeback/KYC/interchange details earn strong Market Edge)",
+        "edges.market.depth_probe_passed is true",
+        "edges.technical.strength_1_to_10 <= 4 (Daniela's Retool + SQL self-assessment is correctly calibrated as sub-technical-edge)",
+        "archetype_primary is either 'hustler' or 'hound' (her day-to-day work pattern was closing deals + unblocking + running the launch team)",
+        "network.warm_intros contains an entry for a SMB payments-related vertical with >= 3 named_contacts including the names Priya Nair, Tom DiFranco, and Sarah Okwu",
+        "network.warm_intros contains at least one entry with cold_start: true (embedded finance)",
+        "network.insider_markers has >= 2 entries, at least one mentioning Money 20/20 or Stripe",
+        "obsession_signals has >= 2 entries with specificity_score >= 4 (substack + M&A spreadsheet are concrete artefacts)",
+        "stage_preference is '0_to_1' with evidence citing the Stripe Tax pre-launch vs optimisation-phase distinction",
+        "pillar_scores.experience >= 8 and pillar_scores.network >= 7",
+        "credibility_flags count is <= 2 (this is a strong founder; over-flagging would be a failure mode)",
+        "persona.md contains the specific names 'Priya Nair', 'Tom DiFranco', 'Sarah Okwu' (network specificity preserved in narrative)",
+        "persona.md contains at least one of the arcane domain references: 'chargeback', 'Visa', 'KYC', or 'interchange'"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "icu-nurse-learning-to-code",
+      "prompt": "Please run the founder-persona-interview skill on me. Here's my full self-description — write persona.md and persona.json to ./persona/.\n\n---\n\nI'm Marcus Abel. I was an ICU nurse at UCSF for 7 years, the last 3 as a charge nurse. I left last year to teach myself to code and explore building something for healthcare.\n\nCareer pattern: ICU shift work, 12-hour rotations, managing staffing crises. As charge nurse I ran the floor during surge events — coordinated 30+ patient handoffs during COVID, mediated physician-nurse conflicts, owned the relationship with bed control and pharmacy. I loved the problem-solving intensity but it was breaking me physically.\n\nOn domain: in ICU nursing, the single worst workflow is the handoff at shift change — SBAR reports are supposed to be 5 minutes and they're routinely 20 because the EHR doesn't surface the things that matter (last vasopressor change, ventilator settings evolution, family communication status). Epic Rover is functional but most nurses use paper 'brain sheets' that they throw away at end of shift because the EHR captures vitals but not narrative context. I can tell you the difference between how trauma ICUs and cardiac ICUs structure their rounding — trauma is single-provider, cardiac runs multidisciplinary with cardiothoracic surgery + cardiology + ICU fellow and the politics get nasty around extubation decisions.\n\nOn tech: I've been doing Codecademy for 6 months. I built a to-do app with React and a Flask backend following a YouTube tutorial. I think I could build an MVP with a co-founder but I couldn't ship one alone in 72 hours.\n\nOn network: I know nurses. I'm in three private Slack groups of ex-ICU nurses who left clinical work — probably 200 people total. I'm not active in them, mostly read. I don't know any hospital administrators, healthcare investors, or healthcare tech people. If I needed a first customer at a hospital I'd have to cold-outreach — I know floor nurses but they don't buy software.\n\nOn insider markers: I don't have any. I haven't published or spoken. I was a strong charge nurse but that's invisible outside the unit.\n\nOn obsession: I've been reading every paper I can find on ICU handoff errors — I can name the Joint Commission sentinel event report findings on communication failures causing adverse events (it's 60-70% of them). I've been sketching wireframes for a handoff tool nightly for 4 months. I bought the domain.\n\nOn psychographics: I'd build this even if no one paid me, because I watched a patient die from a handoff miss in 2022 and I haven't stopped thinking about it. I don't care about exit size — I care about this specific problem.\n\nConstraints: 40-50 hrs a week available (I'm doing per-diem shifts to pay bills), 6 months runway on savings, SF Bay Area, no family commitments, no regulatory issues.",
+      "expected_output": "Mixed-fit persona: strong Market Edge (ICU handoff arcana), weak Technical Edge (tutorial-level), thin buyer network (knows nurses not buyers), high missionary, low mercenary, high specificity obsession. Credibility flags on Technical AND Network (Marcus knows users not buyers).",
+      "files": [],
+      "assertions": [
+        "persona.json exists and is valid JSON",
+        "persona.md exists",
+        "persona.json schema_version is '1.0' and all required top-level keys are present",
+        "edges.market.strength_1_to_10 >= 7 (SBAR, brain sheets, trauma-vs-cardiac ICU rounding are earned-edge arcana)",
+        "edges.market.depth_probe_passed is true",
+        "edges.technical.strength_1_to_10 <= 2 (tutorial-following, no solo MVP capability)",
+        "edges.technical.depth_probe_passed is false",
+        "archetype_primary is 'hustler' OR 'hound' (charge nurse pattern is coordination + unblocking, not building or design)",
+        "network.warm_intros has at least one entry marked cold_start: true (hospital buyers)",
+        "network.insider_markers is an empty array or has <= 1 entries (Marcus explicitly has no markers)",
+        "psychographic.missionary_score >= 8 (the patient-death motivation is canonical mission framing)",
+        "psychographic.mercenary_score <= 4",
+        "obsession_signals has at least one entry with specificity_score >= 4 (wireframes nightly + Joint Commission citation)",
+        "pillar_scores.experience >= 7 (7 years ICU + charge nurse is substantial earned edge)",
+        "pillar_scores.network <= 5 (he explicitly has no buyer-network)",
+        "pillar_scores.skill_edge <= 3",
+        "credibility_flags has >= 1 entry",
+        "At least one credibility_flag has dimension 'skill_edge' (technical over-claim) OR 'network' (nurse-vs-buyer distinction)",
+        "persona.md contains at least one of the domain arcana strings: 'SBAR', 'handoff', 'ICU', or 'vasopressor'",
+        "persona.md does NOT describe Marcus as having a strong network for purchasing decisions (no claims like 'strong hospital network')"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "generalist-hacker-missionary-unfocused",
+      "prompt": "Profile me with the founder-persona-interview skill. Output to ./persona/.\n\n---\n\nI'm Jamie Chen. I've been a software engineer for 11 years across a bunch of companies — 3 years at a robotics startup, 2 years at a mid-stage SaaS company on backend infra, 18 months at a crypto exchange, and the rest was consulting and side projects. I'm currently taking a year off to explore what to build.\n\nCareer pattern: I ship things. I can go from 'idea over coffee' to 'working prototype on Railway with 3 users' in a weekend. I've done it maybe 20 times across my career. The problem is I've never stuck with any one thing — I've always had a new idea by the time the current one needed sales or polish or operations.\n\nOn domain: honestly I don't have a domain. I've dabbled in robotics, fintech, and social apps. I know the stacks and can read a paper in any of these spaces, but I can't name a single arcane pain point in any of them that insiders would recognise. I've been a builder, not a market participant.\n\nOn tech: strong. Built a self-hosted Kubernetes cluster for a side project, wrote a toy compiler for fun, have read the MapReduce paper and the Raft paper and actually implemented Raft. My GitHub has 47 repos, 12 of which I'd call non-trivial. If you gave me 72 hours I could ship a prototype of basically any B2B SaaS idea, probably with auth, billing, and a passable UI.\n\nOn network: I'm in dev Twitter and contribute to two open-source projects (one of them has 3K stars, I'm a maintainer). I'm a moderator in a 2K-member Discord for infra engineers. But I don't know anyone in any specific industry — if I needed a first paying customer in healthcare or finance or legal or manufacturing, I have zero warm intros.\n\nOn insider markers: I've spoken at a small infra-engineering conference (KubeCon meetup) once. I have a blog post that went to #1 on HN two years ago about distributed systems debugging. That's it.\n\nOn obsession: I'm genuinely obsessed with the idea of open-source infrastructure that makes individual developers feel powerful. I've been writing an essay series on this for a year — 'The Solo Stack' — and building a CLI tool that helps solo devs deploy production-grade services without a DevOps team. I'd keep doing this unpaid indefinitely.\n\nOn psychographics: I don't want an exit. I want to build something that people love forever. If I sold I'd start something new the next day anyway. I've turned down three good job offers in the last year because they'd stop me building.\n\nConstraints: 60 hrs a week, 18 months runway, NYC, single, no dependents, no non-competes.",
+      "expected_output": "Classic 'strong technical, no domain' persona. High Technical Edge (research-grade), absent Market Edge (his own admission), Hacker-primary archetype, strong OSS/dev network but zero buyer verticals, pure missionary, high specificity obsession (named essay series + CLI). Should flag Market Edge as credibility gap.",
+      "files": [],
+      "assertions": [
+        "persona.json exists and is valid JSON",
+        "persona.md exists",
+        "persona.json schema_version is '1.0' and all required top-level keys are present",
+        "edges.technical.strength_1_to_10 >= 8 (Raft implementation, K8s cluster, toy compiler are research-grade evidence)",
+        "edges.technical.depth_probe_passed is true",
+        "edges.market.strength_1_to_10 <= 3 (Jamie explicitly states no domain)",
+        "edges.market.depth_probe_passed is false",
+        "archetype_primary is 'hacker'",
+        "archetype_mix.hacker >= 0.45",
+        "Every entry in network.warm_intros has cold_start: true OR network.warm_intros is empty / does not cover any buyer vertical",
+        "network.insider_markers includes references to either KubeCon or Hacker News (HN)",
+        "network.communities includes at least one entry with embeddedness 'speak' or 'moderate' (OSS maintainer, Discord moderator, KubeCon talk)",
+        "psychographic.missionary_score >= 8",
+        "psychographic.mercenary_score <= 3",
+        "obsession_signals includes at least one entry with specificity_score >= 4 mentioning 'Solo Stack' OR the CLI tool",
+        "stage_preference is '0_to_1' with evidence citing the 20-prototype pattern and dislike of scale phase",
+        "pillar_scores.skill_edge >= 8",
+        "pillar_scores.experience <= 4",
+        "credibility_flags has >= 1 entry with dimension 'experience' OR 'insight' (Market Edge absence)",
+        "persona.md contains at least one of: 'Raft', 'Kubernetes', 'K8s', 'Solo Stack', or 'HN' (technical + obsession specifics preserved)"
+      ]
+    }
+  ]
+}
