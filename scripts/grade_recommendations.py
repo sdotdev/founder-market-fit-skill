@@ -16,7 +16,7 @@ import re
 from pathlib import Path
 
 
-REPO = Path("C:/Users/Public/_sites/2026/2026.11")
+REPO = Path(__file__).resolve().parent.parent
 EVALS_FILE = REPO / "evals" / "founder-market-recommender" / "evals.json"
 WORKSPACE = REPO / "founder-market-recommender-workspace" / "iteration-1"
 
