@@ -196,18 +196,17 @@ git clone https://github.com/your-repo/2026.11
 cd 2026.11
 ```
 
-### 2. Place skills in Claude Code
+### 2. Load skills in Claude Code
 
-The `skills/` directory is already structured for Claude Code's plugin system. Each skill folder contains a `SKILL.md` that Claude Code loads automatically.
+The `skills/` directory is already structured for Claude Code's plugin system. Each skill folder contains a `SKILL.md` file that Claude Code automatically detects and loads.
 
-If you're installing into an existing Claude Code setup, copy each skill folder into your Claude Code skills directory:
+**In Claude Code (claude.ai/code):**
+1. Open this repository in Claude Code
+2. Skills are automatically discovered from the `skills/` directory
+3. Trigger a skill by typing its description (e.g., "Profile me as a founder")
 
-```bash
-cp -r skills/founder-persona-interview ~/.claude/plugins/<your-plugin>/skills/
-cp -r skills/founder-market-recommender ~/.claude/plugins/<your-plugin>/skills/
-cp -r skills/founder-idea-audit ~/.claude/plugins/<your-plugin>/skills/
-cp -r skills/founder-ideation ~/.claude/plugins/<your-plugin>/skills/
-```
+**For IDE extensions or local setups:**
+If installing skills into an existing Claude Code setup, copy each skill folder into your Claude Code skills directory (path varies by platform — typically `~/.claude/plugins/<your-plugin>/skills/` on Unix or `%APPDATA%\.claude\plugins\<your-plugin>\skills\` on Windows).
 
 ### 3. Set up the TrustMRR API key (for `founder-ideation` only)
 
@@ -264,17 +263,25 @@ Find me validated startup ideas in fintech using my persona.
 ## File layout
 
 ```
-.
-├── research/
-│   └── main.md                          # Founder-Market Fit theory (primary source)
-├── skills/
+founder-market-fit-skill/
+├── CLAUDE.md                              # Developer guide (this is for AI assistants)
+├── README.md                              # User guide (this file)
+├── task-progress.md                       # Work tracking
+│
+├── research/                              # Founder-Market Fit theory
+│   ├── main.md                            # Primary theoretical framework
+│   ├── founder-archetypes-frameworks.md
+│   ├── founder-market-fit-assessment-frameworks.md
+│   └── founder-startup-matching.md
+│
+├── skills/                                # Skill implementations
 │   ├── founder-persona-interview/
-│   │   ├── SKILL.md
-│   │   ├── references/
-│   │   │   ├── persona-schema.md        # persona.json contract (v1.0)
-│   │   │   ├── credibility-theater-detection.md
+│   │   ├── SKILL.md                       # Loaded by Claude Code
+│   │   ├── references/                    # Knowledge files
+│   │   │   ├── persona-schema.md          # JSON contract (v1.0)
 │   │   │   ├── archetype-probes.md
 │   │   │   ├── edge-interview-playbook.md
+│   │   │   ├── credibility-theater-detection.md
 │   │   │   └── network-mapping-playbook.md
 │   │   └── assets/
 │   │       └── persona-template.md
@@ -299,27 +306,45 @@ Find me validated startup ideas in fintech using my persona.
 │   └── founder-ideation/
 │       ├── SKILL.md
 │       ├── scripts/
-│       │   ├── fetch_ideas.py           # TrustMRR API client
-│       │   └── setup_env.py             # API key setup + validation
+│       │   ├── fetch_ideas.py             # TrustMRR API client
+│       │   └── setup_env.py               # API key setup + validation
 │       ├── references/
 │       │   ├── marketing-channel-matrix.md
 │       │   └── prd-template.md
 │       └── assets/
 │           └── ideation-report-template.md
-├── evals/
-│   ├── founder-persona-interview/evals.json
-│   ├── founder-market-recommender/evals.json
-│   └── founder-idea-audit/evals.json
-└── scripts/
-    ├── grade_personas.py
-    └── grade_recommendations.py
+│
+├── evals/                                 # Evaluation test cases
+│   ├── founder-persona-interview/
+│   │   └── evals.json                     # Test assertions (COMPLETED)
+│   ├── founder-market-recommender/
+│   │   └── evals.json                     # Test assertions (COMPLETED)
+│   └── founder-idea-audit/
+│       └── evals.json                     # Test assertions (IN PROGRESS)
+│
+├── *-workspace/                           # Eval runs and benchmarks
+│   ├── founder-persona-interview-workspace/
+│   │   └── iteration-1/                   # Test results for current iteration
+│   │       ├── eval-0-*/run-1/outputs/    # Generated persona outputs
+│   │       ├── eval-1-*/run-1/outputs/
+│   │       ├── eval-2-*/run-1/outputs/
+│   │       ├── benchmark.json             # Summary results
+│   │       └── review.html                # Human-readable report
+│   └── founder-market-recommender-workspace/
+│       └── iteration-1/
+│           ├── eval-*/run-1/outputs/
+│           └── benchmark.json
+│
+└── scripts/                               # Grading + evaluation
+    ├── grade_personas.py                  # Scores founder-persona-interview outputs
+    └── grade_recommendations.py           # Scores founder-market-recommender outputs
 ```
 
 ---
 
 ## Running evals
 
-Each skill has a grading script that scores outputs against structured assertions:
+Completed skills have grading scripts that score outputs against structured assertions:
 
 ```bash
 python scripts/grade_personas.py
@@ -327,6 +352,8 @@ python scripts/grade_recommendations.py
 ```
 
 Grading reads from `evals/<skill>/evals.json` and writes `grading.json` + `benchmark.json` into each workspace directory. See `CLAUDE.md` for the full eval output structure.
+
+**Note**: Evals for `founder-idea-audit` are currently in progress. Check `task-progress.md` for current status.
 
 ---
 
